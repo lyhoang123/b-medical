@@ -8,6 +8,11 @@
   justify-content: space-between;
 }
 
+.header__box {
+  display: flex;
+  border-radius: 8px;
+}
+
 .fieldset__title {
   color: #d30126;
   margin: 12px;

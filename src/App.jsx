@@ -2,7 +2,9 @@ import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React, Web3ReactProvider } from "@web3-react/core";
 import { Routes } from "components/route/Routes";
 import { useEagerConnect, useInactiveListener } from "connectors/hooks";
-import Register from "pages/Register";
+import AdminPage from "pages/AdminPage";
+import NFTDetail from "pages/NFTDetail";
+import ProductField from "pages/ProductField";
 import { useEffect, useState } from "react";
 
 function getLibrary(provider) {
@@ -30,8 +32,8 @@ function App() {
 export default function () {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      {/* <App /> */}
-      <Register />
+      <App />
+     
     </Web3ReactProvider>
   );
 }

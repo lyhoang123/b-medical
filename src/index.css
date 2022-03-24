@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Exo:400,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto");
 
 * {
   margin: 0px;
@@ -7,7 +7,7 @@
 
 body {
   margin: 0;
-  font-family: "Exo", sans-serif;
+  font-family: "Roboto", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

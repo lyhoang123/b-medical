@@ -27,16 +27,16 @@ const Register = () => {
   return (
     <Container maxW="1200px" bg={"white"} centerContent>
       <Box>
-        <HStack bg="#382e87" h="20px" maxW="1200px">
+        <HStack bg="#382e87" h="40px" maxW="1200px" className="header__box">
           <HStack>
-            <Center>
+            <Box>
               <Text cursor={"pointer"} onClick={() => console.log("Click")}>
                 Trang chủ/
               </Text>
               <Text cursor={"pointer"} onClick={() => console.log("Click")}>
                 Danh mục
               </Text>
-            </Center>
+            </Box>
           </HStack>
         </HStack>
         <Link color={"#003265"}>
@@ -217,7 +217,7 @@ const Register = () => {
 
           {/* box thong tin doanh nghiep */}
 
-          <Box w="100%">
+          <Box w="100%" mt="12px">
             <fieldset className="fieldset__box">
               <legend className="fieldset__title">
                 <b>Thông tin doanh nghiệp</b>
@@ -379,8 +379,8 @@ const Register = () => {
                           <Center display={"flex"} flexDirection={"column"}>
                             <FormLabel htmlFor="certificate">
                               <b className="input__title">
-                                Fax Nhập Fax Giấy chứng nhận đăng ký kinh doanh
-                                (hoặc đăng ký doanh nghiệp) số:
+                                Giấy chứng nhận đăng ký kinh doanh (hoặc đăng ký
+                                doanh nghiệp) số:
                               </b>
                             </FormLabel>
                             <Input
@@ -460,7 +460,7 @@ const Register = () => {
                         </FormLabel>
                         <Button
                           colorScheme={"gray.200"}
-                          border={"1px solid #dedede"}
+                          border={"1px solid rgb(152 152 152)"}
                           h="30px"
                           w="99px"
                           p="0 15px"
@@ -476,49 +476,51 @@ const Register = () => {
             </fieldset>
           </Box>
         </Box>
-        <Box>
+
+        <Box mt="18px">
           <Box>
             <Text color="#333333" fontSize={"14px"}>
-              <b>
+              <b lineHeight={"18px"}>
                 Tổ chức, cá nhân thực hiện công khai giá phải chịu trách nhiệm
                 đảm bảo tính hợp lệ, chính xác của thông tin và phạm vi công
                 khai theo đúng chỉ định của Chủ sở hữu trang thiết bị y tế hoặc
                 Chủ sở hữu số lưu hành trang thiết bị y tế.
               </b>
             </Text>
-            <Checkbox iconColor="gray" color="#333333" defaultChecked>
+            <Checkbox iconColor="gray" color="#333333" defaultChecked mt="14px">
               Tôi đã đọc, hiểu rõ trách nhiệm và cam kết thực hiện.
             </Checkbox>
-            <Box mt={"5px"}>
+            <Box mt={"8px"}>
               <Button
                 bgColor={"#2c4897"}
                 p="0 15px"
                 borderRadius={"10px"}
                 size="sm"
-                mr={"10px"}
+                mr={"16px"}
               >
-                <Image src={RegisterIcon} alt="" boxSize={"20px"} mr="6px" />
-                Đăng ký
+                <Image src={RegisterIcon} alt="" boxSize={"20px"} mr="8px" />
+                <p style={{ color: "#fff" }}> Đăng Ký </p>
               </Button>
               <Button
                 bgColor={"white"}
                 borderRadius={"10px"}
-                border={"1px solid #dedede"}
+                border={"1px solid rgb(152 152 152)"}
                 color="black !important"
                 size="sm"
               >
                 <Image src={CancelIcon} alt="" boxSize={"20px"} mr="6px" />
-                Button
+                <p>Huỷ Bỏ</p>
               </Button>
             </Box>
-            <Text fontWeight={700} color={"black"} mt={"5px"}>
-              Ghi chú: Những trường thông tin có dấu{" "}
+            <Text
+              fontWeight={700}
+              color={"black"}
+              mt={"8px"}
+              fontSize="14px"
+              pb="60px"
+            >
+              <span>Ghi chú: Những trường thông tin có dấu </span>
               <span style={{ color: "red" }}>*</span> là bắt buộc
-            </Text>
-            <Text color={"red"}>
-              Sau khi bộ phận Quản trị xác thực thông tin doanh nghiệp đăng ký
-              tài khoản, hệ thống sẽ gửi mật khẩu vào tài khoản email và sử dụng
-              mã số thuế làm tài khoản đăng nhập của bạn
             </Text>
           </Box>
         </Box>

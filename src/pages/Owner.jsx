@@ -8,23 +8,23 @@ import {
   Center,
   GridItem,
 } from "@chakra-ui/react";
-import { InfoIcon } from "@chakra-ui/icons";
+import { FaInfoCircle } from "react-icons/fa";
 import { useActiveWeb3React } from "hooks/useActiveWeb3React";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getOwners } from "utils/callContract";
+import "../styles/Home.css";
 
 const NFTList = () => {
   return (
     <GridItem
       w="100%"
-      h="496px"
       bg="transparent"
       border="1px"
-      borderRadius={"5px"}
-      borderColor={"gray.200"}
+      borderRadius={"6px"}
+      borderColor={"gray.400"}
       p={"14px"}
     >
       <Link to="/nft/1">
@@ -35,7 +35,7 @@ const NFTList = () => {
             </Box>
           </Center>
           <Box>
-            <Text color={"#1890ff"}>
+            <Text color={"#1890ff"} mb={"8px"}>
               <b>Máy xét nghiệm sinh hóa tự động - BS-360E</b>
             </Text>
             <Text color={"gray.500"} fontSize={"14px"}>
@@ -58,12 +58,14 @@ const NFTList = () => {
             <Button
               border="1px"
               borderColor={"9dc2ff"}
-              bgColor={"teal.200"}
               colorScheme="teal"
-              leftIcon={<InfoIcon />}
+              leftIcon={<FaInfoCircle />}
               variant="solid"
+              fontSize={"14px"}
+              display={"block"}
+              mt="8px"
             >
-              Chi tiết thiết bị
+              Thông tin chi tiết
             </Button>
           </Box>
         </VStack>
@@ -113,16 +115,8 @@ const Owner = () => {
   }, [account, library]);
 
   return (
-    <Box>
-      <Grid
-        bg="white"
-        maxW="1200px"
-        borderRadius={"8px"}
-        m={"109px 109px 30px 109px"}
-        p={"9px"}
-        templateColumns="repeat(4, 1fr)"
-        gap={6}
-      >
+    <Box className="box__container">
+      <Grid bg="white" templateColumns="repeat(4, 1fr)" gap={6}>
         <NFTList />
         <NFTList />
         <NFTList />

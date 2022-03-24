@@ -1,0 +1,145 @@
+.box__header {
+  background-color: #382e87;
+  height: 62px;
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  border-radius: 6px;
+  align-items: center;
+  margin-top: 16px;
+  padding: 0 12px;
+  color: red;
+}
+.header__link {
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.header__space {
+  color: #fff;
+  margin: 0 8px;
+}
+
+.header__looking {
+  background: linear-gradient(
+    41.51deg,
+    #fe8803 -0.1%,
+    #fed603 101.9%
+  ) !important;
+  border-radius: 24px !important;
+}
+
+.box__container {
+  background-color: #fff;
+  width: 80%;
+  margin: 0 auto;
+  padding: 8px;
+  margin-top: 34px;
+}
+
+.box__container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0 12px;
+}
+.box__container-left {
+  display: flex;
+}
+
+.box__container-left > .box__icon {
+  width: 28px;
+  height: 36px;
+  color: #382e87;
+  margin-right: 12px;
+}
+.box__container-right {
+  display: flex;
+}
+.box__button {
+  margin-right: 12px;
+  border-radius: 16px !important;
+  background: linear-gradient(
+    41.51deg,
+    #fe8803 -0.1%,
+    #fed603 101.9%
+  ) !important;
+}
+.box__title {
+  color: #000;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.box__thead {
+  text-align: left;
+  background: linear-gradient(90deg, #382e87, #2c54c8) !important;
+  height: 40px;
+  border-bottom: 1px solid #fff;
+}
+
+.box__body {
+  border: 1px solid #87cefa;
+}
+.box__table-row-even {
+  background-color: #fff;
+}
+.box__table-row-odd {
+  background-color: #efefef;
+}
+
+.box__row-left {
+  width: 40%;
+  border: 1px solid #9dd3f5 !important;
+  font-weight: 600;
+  font-size: 15px;
+}
+.box__row-right {
+  border: 1px solid #9dd3f5 !important;
+  font-size: 15px;
+}
+.box__medicine {
+  width: 80%;
+  background-color: #fff;
+  margin: 0 auto;
+  padding: 16px 12px 12px;
+}
+.box__medicine-header {
+  display: flex;
+  margin-bottom: 12px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.box__medicine-left {
+  display: flex;
+}
+.box__medicine-left > p {
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 6px;
+}
+.box__medicine-right > a {
+  color: #382e87;
+  cursor: pointer;
+}
+.box__medicine-right > a:hover {
+  text-decoration: underline;
+}
+.box__medicine-content {
+  display: flex;
+  margin-bottom: 20px;
+}
+.box__medicine-content > a {
+  margin-right: 24px;
+}
+.box__medicine-content > a:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.box__medicine-content > a:last-child {
+  margin: 0 !important;
+}
