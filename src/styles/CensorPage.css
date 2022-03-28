@@ -1,0 +1,114 @@
+#Censor {
+  width: 88%;
+  padding: 10px 10px 10px 10px;
+  background: #fff;
+  margin: 0 auto;
+}
+.Censor__box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.Censor__box:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.Censor__info {
+  flex-basis: 70%;
+  text-align: center;
+  margin-bottom: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: auto;
+  border-right: 1px solid #ccc;
+}
+.Censor__detail {
+  flex-basis: 33%;
+  text-align: left;
+  display: flex;
+}
+.Censor__text {
+  margin-right: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 20px;
+}
+.Censor__text2 {
+  margin-right: 4px;
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+.Censor__img img {
+  margin: 5px;
+  width: 200px;
+  border-radius: 7px;
+}
+.Censor__btn {
+  margin: 9px;
+  height: 30px !important;
+  width: 255px !important;
+  background-image: linear-gradient(
+    to right,
+    #16222a 0%,
+    #3a6073 51%,
+    #16222a 100%
+  ) !important;
+  color: #fff;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+.Censor__btn2 {
+  margin: 20px auto 5px;
+  text-align: center;
+}
+.Censor__btn2 a {
+  position: relative;
+  width: 100px;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0 10px;
+  padding: 10px 0;
+  border: 0.5px solid #fff;
+  border-radius: 20px;
+  z-index: 1;
+  display: flex;
+  transition: color 0.5s;
+  flex-basis: 45%;
+  align-items: center;
+}
+.Censor__btn2 button {
+  border-radius: 32px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.Censor__btn2 a:hover {
+  color: rgba(235, 237, 241, 0.836);
+}
+.Censor__accept {
+  background-color: rgb(14, 221, 66) !important;
+  border: 2px solid rgb(14, 221, 66);
+}
+.Censor__refuse {
+  background-color: rgb(233, 31, 31) !important;
+  border: 2px solid rgb(233, 31, 31);
+}
+.Censor__accept:hover {
+  color: #fff;
+}
+
+.Censor__refuse:hover {
+  color: #fff;
+}
+.Censor__list {
+  background: #efefef;
+}
+.Censor__container h1 {
+  font-size: 50px;
+  margin-bottom: 16px;
+  text-align: center;
+}
