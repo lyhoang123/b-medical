@@ -23,6 +23,7 @@
 .body__box {
   display: flex;
   margin-bottom: 12px;
+  
 }
 
 .body__box:hover {
@@ -62,7 +63,7 @@
   border: 2px solid rgb(14, 221, 66);
 }
 .button__refuse {
-  background-color: rgb(233, 31, 31) !important;
+  background-color: rgb(100, 59, 59) !important;
   border: 2px solid rgb(233, 31, 31);
 }
 .box__body-right {
@@ -79,6 +80,7 @@
   font-weight: 300;
 }
 .button__view {
+  align-items: center !important;
   height: 30px !important;
   background-image: linear-gradient(
     to right,
@@ -90,4 +92,3 @@
   font-size: 14px !important;
   font-weight: 500 !important;
 }
-
