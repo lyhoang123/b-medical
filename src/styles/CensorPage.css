@@ -1,21 +1,21 @@
-#sensor {
+#Censor {
   width: 88%;
   padding: 10px 10px 10px 10px;
   background: #fff;
   margin: 0 auto;
 }
-.sensor__box {
+.Censor__box {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.sensor__box:hover {
+.Censor__box:hover {
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
-.sensor__info {
+.Censor__info {
   flex-basis: 70%;
   text-align: center;
   margin-bottom: 2px;
@@ -25,29 +25,29 @@
   margin: auto;
   border-right: 1px solid #ccc;
 }
-.sensor__detail {
+.Censor__detail {
   flex-basis: 33%;
   text-align: left;
   display: flex;
 }
-.sensor__text {
+.Censor__text {
   margin-right: 4px;
   font-size: 15px;
   font-weight: 600;
   margin-top: 20px;
 }
-.sensor__text2 {
+.Censor__text2 {
   margin-right: 4px;
   font-size: 15px;
   margin-top: 20px;
 }
 
-.sensor__img img {
+.Censor__img img {
   margin: 5px;
   width: 200px;
   border-radius: 7px;
 }
-.sensor__btn {
+.Censor__btn {
   margin: 9px;
   height: 30px !important;
   width: 255px !important;
@@ -61,11 +61,11 @@
   font-size: 14px !important;
   font-weight: 500 !important;
 }
-.sensor__btn2 {
+.Censor__btn2 {
   margin: 20px auto 5px;
   text-align: center;
 }
-.sensor__btn2 a {
+.Censor__btn2 a {
   position: relative;
   width: 100px;
   text-decoration: none;
@@ -80,34 +80,34 @@
   flex-basis: 45%;
   align-items: center;
 }
-.sensor__btn2 button {
+.Censor__btn2 button {
   border-radius: 32px;
   font-size: 14px;
   font-weight: 300;
 }
 
-.sensor__btn2 a:hover {
+.Censor__btn2 a:hover {
   color: rgba(235, 237, 241, 0.836);
 }
-.sensor__accept {
+.Censor__accept {
   background-color: rgb(14, 221, 66) !important;
   border: 2px solid rgb(14, 221, 66);
 }
-.sensor__refuse {
+.Censor__refuse {
   background-color: rgb(233, 31, 31) !important;
   border: 2px solid rgb(233, 31, 31);
 }
-.sensor__accept:hover {
+.Censor__accept:hover {
   color: #fff;
 }
 
-.sensor__refuse:hover {
+.Censor__refuse:hover {
   color: #fff;
 }
-.sensor__list {
+.Censor__list {
   background: #efefef;
 }
-.sensor__container h1 {
+.Censor__container h1 {
   font-size: 50px;
   margin-bottom: 16px;
   text-align: center;

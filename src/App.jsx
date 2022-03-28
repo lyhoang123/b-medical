@@ -2,10 +2,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React, Web3ReactProvider } from '@web3-react/core';
 import { Routes } from 'components/route/Routes';
 import { useEagerConnect, useInactiveListener } from 'connectors/hooks';
-import AdminPage from 'pages/AdminPage';
-import NFTDetail from 'pages/NFTDetail';
-import ProductField from 'pages/ProductField';
-import SensorPage from 'pages/SensorPage';
+import CensorPage from 'pages/CensorPage';
 import { useEffect, useState } from 'react';
 
 function getLibrary(provider) {
@@ -35,7 +32,7 @@ export default function () {
     <Web3ReactProvider getLibrary={getLibrary}>
       {/* <App /> */}
       {/* <AdminPage /> */}
-      <SensorPage />
+      <CensorPage />
     </Web3ReactProvider>
   );
 }
