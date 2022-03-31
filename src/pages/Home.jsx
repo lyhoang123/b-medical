@@ -48,6 +48,7 @@ const Home = () => {
 
   const handleMintNFT = async () => {
     if (!account || !library) return alert("please connect wallet");
+    //connect the wallet is require
     if (!nft) return alert("please choose a nft image");
     try {
       setMinting(true);
@@ -161,7 +162,7 @@ const Home = () => {
             <Center>
               <Box>
                 <Image
-                  src="http://caodangyduochcm.edu.vn/wp-content/uploads/2019/05/thuoc-paracetamol-cong-dung-lieu-dung-va-tac-dung-phu.jpg"
+                  src="https://nhathuocngocanh.com/wp-content/uploads/2018/04/paracetamol-e1523184921509.jpg"
                   alt="Paracetamol"
                 />
               </Box>

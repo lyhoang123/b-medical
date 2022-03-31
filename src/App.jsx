@@ -3,6 +3,7 @@ import { useWeb3React, Web3ReactProvider } from "@web3-react/core";
 import { Routes } from "components/route/Routes";
 import { useEagerConnect, useInactiveListener } from "connectors/hooks";
 import CensorPage from "pages/CensorPage";
+import NotFound from "pages/NotFound";
 import { useEffect, useState } from "react";
 
 function getLibrary(provider) {
@@ -30,8 +31,7 @@ function App() {
 export default function () {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      {/* <App /> */}
-      <CensorPage />
+      <App />
     </Web3ReactProvider>
   );
 }
