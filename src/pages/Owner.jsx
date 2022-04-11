@@ -14,7 +14,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getOwners } from "utils/callContract";
+// import { getOwners } from "utils/callContract";
 import "../styles/Home.css";
 
 const NFTList = () => {
@@ -107,12 +107,12 @@ const Owner = () => {
 
   const [owners, setOwners] = useState([]);
 
-  useEffect(() => {
-    (() => {
-      if (!account || !library) return;
-      getOwners(library, account).then(setOwners).catch(console.error);
-    })();
-  }, [account, library]);
+  // useEffect(() => {
+  //   (() => {
+  //     if (!account || !library) return;
+  //     getOwners(library, account).then(setOwners).catch(console.error);
+  //   })();
+  // }, [account, library]);
 
   return (
     <Box className="box__container">

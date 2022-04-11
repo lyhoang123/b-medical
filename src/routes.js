@@ -16,27 +16,14 @@ export const routes = [
     component: Register,
     exact: true,
   },
-  {
-    path: "/:account",
-    component: Owner,
-    exact: true,
-  },
+
   {
     path: "/nft/:nftId",
     component: NFTDetail,
     exact: true,
   },
   {
-    path: "*",
-    component: NotFound,
-  },
-  {
-    path: "/nft/:nftId",
-    component: NFTDetail,
-    exact: true,
-  },
-  {
-    path: "/admin-page",
+    path: "/admin",
     component: AdminPage,
     exact: true,
   },
@@ -44,5 +31,14 @@ export const routes = [
     path: "/product-field",
     component: ProductField,
     exact: true,
+  },
+  {
+    path: "/:account",
+    component: Owner,
+    exact: true,
+  },
+  {
+    path: "*",
+    component: NotFound,
   },
 ];

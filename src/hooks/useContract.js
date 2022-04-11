@@ -2,8 +2,8 @@ import { Contract } from "@ethersproject/contracts";
 import { getAddress } from "@ethersproject/address";
 import { useWeb3React } from "@web3-react/core";
 import { useMemo } from "react";
-import NFTMarketplaceABI from "abis/NFTMarketplace.json";
-import { NFT_MARKETPLACE_ADDRESS } from "configs";
+import MedicalFactoryABI from "abis/MedicalFactory.json";
+import { MEDICAL_FACTORY_ADDRESS } from "configs";
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value) {
@@ -72,10 +72,10 @@ export async function callContract(contract, method, args, overrides = {}) {
   }
 }
 
-export async function getNFTMarketplaceContract(library, account = undefined) {
+export async function getMedicalFactoryContract(library, account = undefined) {
   return getContract(
-    NFT_MARKETPLACE_ADDRESS,
-    NFTMarketplaceABI,
+    MEDICAL_FACTORY_ADDRESS,
+    MedicalFactoryABI,
     library,
     account
   );

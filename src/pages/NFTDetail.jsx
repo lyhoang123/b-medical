@@ -23,12 +23,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaInfoCircle, FaMoneyBillAlt } from "react-icons/fa";
 import { BsCartPlusFill, BsCalendarPlusFill } from "react-icons/bs";
-import {
-  buyOrderNFT,
-  cancelOrderNFT,
-  getNftById,
-  orderNFT,
-} from "utils/callContract";
 import "../styles/Home.css";
 
 const NFTList = () => {
@@ -96,64 +90,64 @@ const NFTDetail = () => {
   const [submitting, setSubmitting] = useState(false);
   const [price, setPrice] = useState("");
 
-  useEffect(() => {
-    (() => {
-      if (!library) return;
-      getNftById(library, nftId)
-        .then((res) => res && setNftInfo(res))
-        .catch(console.log);
-    })();
-  }, [library, nftId]);
+  // useEffect(() => {
+  //   (() => {
+  //     if (!library) return;
+  //     getNftById(library, nftId)
+  //       .then((res) => res && setNftInfo(res))
+  //       .catch(console.log);
+  //   })();
+  // }, [library, nftId]);
 
-  const handleOrderNFT = async () => {
-    if (!library || !account) return alert("please connect wallet");
-    if (!price || isNaN(price)) return alert("enter sell price");
-    try {
-      setSubmitting(true);
-      await orderNFT(library, account, nftId, price);
-      alert("order success");
-      setSubmitting(false);
-    } catch (error) {
-      console.error(error);
-      if (error.data?.message) {
-        alert(error.data.message);
-      }
-      setSubmitting(false);
-    }
-  };
+  // const handleOrderNFT = async () => {
+  //   if (!library || !account) return alert("please connect wallet");
+  //   if (!price || isNaN(price)) return alert("enter sell price");
+  //   try {
+  //     setSubmitting(true);
+  //     await orderNFT(library, account, nftId, price);
+  //     alert("order success");
+  //     setSubmitting(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //     if (error.data?.message) {
+  //       alert(error.data.message);
+  //     }
+  //     setSubmitting(false);
+  //   }
+  // };
 
-  const handleCancelOrderNFT = async () => {
-    if (!library || !account) return alert("please connect wallet");
-    try {
-      setSubmitting(true);
-      await cancelOrderNFT(library, account, nftId);
-      alert("cancel order success");
-      setSubmitting(false);
-    } catch (error) {
-      console.error(error);
-      if (error.data?.message) {
-        alert(error.data.message);
-      }
-      setSubmitting(false);
-    }
-  };
+  // const handleCancelOrderNFT = async () => {
+  //   if (!library || !account) return alert("please connect wallet");
+  //   try {
+  //     setSubmitting(true);
+  //     await cancelOrderNFT(library, account, nftId);
+  //     alert("cancel order success");
+  //     setSubmitting(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //     if (error.data?.message) {
+  //       alert(error.data.message);
+  //     }
+  //     setSubmitting(false);
+  //   }
+  // };
 
-  const handleBuyOrderNFT = async (price) => {
-    if (!library || !account) return alert("please connect wallet");
-    if (!price) return;
-    try {
-      setSubmitting(true);
-      await buyOrderNFT(library, account, nftId, price);
-      alert("buy success");
-      setSubmitting(false);
-    } catch (error) {
-      console.error(error);
-      if (error.data?.message) {
-        alert(error.data.message);
-      }
-      setSubmitting(false);
-    }
-  };
+  // const handleBuyOrderNFT = async (price) => {
+  //   if (!library || !account) return alert("please connect wallet");
+  //   if (!price) return;
+  //   try {
+  //     setSubmitting(true);
+  //     await buyOrderNFT(library, account, nftId, price);
+  //     alert("buy success");
+  //     setSubmitting(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //     if (error.data?.message) {
+  //       alert(error.data.message);
+  //     }
+  //     setSubmitting(false);
+  //   }
+  // };
 
   return (
     <Box>

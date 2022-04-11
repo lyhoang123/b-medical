@@ -18,11 +18,39 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import RegisterIcon from "../assets/images/Register.png";
 import CancelIcon from "../assets/images/cancel.png";
+import { registerProvider } from "utils/callContract";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles/react-date.css";
 import "../styles/Register.css";
+import { useActiveWeb3React } from "hooks/useActiveWeb3React";
 const Register = () => {
+  const { account, library } = useActiveWeb3React();
+
   const [startDate, setStartDate] = useState(new Date());
+
+  const [providerInfo, setProviderInfo] = useState({
+    MST: "",
+    email: "",
+    representName: "",
+    representPosition: "",
+    representPhone: "",
+    representId: "",
+    businessName: "",
+    businessNameInternational: "",
+    businessAddress: "",
+    businessPhone: "",
+    businessFax: "",
+  });
+
+  const handleRegisterProvider = async () => {
+    try {
+      if (!account || !library) return alert("please connect wallet");
+      await registerProvider(library, account, providerInfo);
+      alert("register success");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Container maxW="1200px" bg={"white"} centerContent>
@@ -65,6 +93,13 @@ const Register = () => {
                         size="sm"
                         placeholder="Nhập mã số thuế"
                         _placeholder={{ color: "#ccc" }}
+                        value={providerInfo.MST}
+                        onChange={(e) =>
+                          setProviderInfo((provider) => ({
+                            ...provider,
+                            MST: e.target.value,
+                          }))
+                        }
                       />
                     </Box>
                   </Box>
@@ -83,6 +118,13 @@ const Register = () => {
                         type="email"
                         placeholder="Nhập Email"
                         _placeholder={{ color: "#ccc" }}
+                        value={providerInfo.email}
+                        onChange={(e) =>
+                          setProviderInfo((provider) => ({
+                            ...provider,
+                            email: e.target.value,
+                          }))
+                        }
                       />
                     </Box>
                   </Box>
@@ -114,6 +156,13 @@ const Register = () => {
                           size="sm"
                           _placeholder={{ color: "#dedede" }}
                           placeholder="Nhập Họ và tên"
+                          value={providerInfo.representName}
+                          onChange={(e) =>
+                            setProviderInfo((provider) => ({
+                              ...provider,
+                              representName: e.target.value,
+                            }))
+                          }
                         />
                       </Box>
                     </Box>
@@ -131,6 +180,13 @@ const Register = () => {
                           type="agent"
                           placeholder="Nhập chức vụ"
                           _placeholder={{ color: "#dedede" }}
+                          value={providerInfo.representPosition}
+                          onChange={(e) =>
+                            setProviderInfo((provider) => ({
+                              ...provider,
+                              representPosition: e.target.value,
+                            }))
+                          }
                         />
                       </Box>
                     </Box>
@@ -149,6 +205,13 @@ const Register = () => {
                           type="phone"
                           _placeholder={{ color: "#dedede" }}
                           placeholder="Nhập Số điện thoại"
+                          value={providerInfo.representPhone}
+                          onChange={(e) =>
+                            setProviderInfo((provider) => ({
+                              ...provider,
+                              representPhone: e.target.value,
+                            }))
+                          }
                         />
                       </Box>
                     </Box>
@@ -171,6 +234,13 @@ const Register = () => {
                           type="CMND"
                           _placeholder={{ color: "#dedede" }}
                           placeholder="Nhập số CMND/Hộ chiếu"
+                          value={providerInfo.representId}
+                          onChange={(e) =>
+                            setProviderInfo((provider) => ({
+                              ...provider,
+                              representId: e.target.value,
+                            }))
+                          }
                         />
                       </Box>
                     </Box>
@@ -237,6 +307,13 @@ const Register = () => {
                         type="nameCompany"
                         _placeholder={{ color: "#dedede" }}
                         placeholder="Nhập tên doanh nghiệp"
+                        value={providerInfo.businessName}
+                        onChange={(e) =>
+                          setProviderInfo((provider) => ({
+                            ...provider,
+                            businessName: e.target.value,
+                          }))
+                        }
                       />
                     </FormControl>
                   </Box>
@@ -254,6 +331,13 @@ const Register = () => {
                         type="nameNational"
                         _placeholder={{ color: "#dedede" }}
                         placeholder="Nhập tên giao dịch quốc tế"
+                        value={providerInfo.businessNameInternational}
+                        onChange={(e) =>
+                          setProviderInfo((provider) => ({
+                            ...provider,
+                            businessNameInternational: e.target.value,
+                          }))
+                        }
                       />
                     </FormControl>
                   </Box>
@@ -333,6 +417,13 @@ const Register = () => {
                         type="addressDetail"
                         _placeholder={{ color: "#dedede" }}
                         placeholder="Nhập địa chỉ chi tiết"
+                        value={providerInfo.businessAddress}
+                        onChange={(e) =>
+                          setProviderInfo((provider) => ({
+                            ...provider,
+                            businessAddress: e.target.value,
+                          }))
+                        }
                       />
                     </FormControl>
                   </Box>
@@ -351,6 +442,13 @@ const Register = () => {
                           type="phoneNumber"
                           _placeholder={{ color: "#dedede" }}
                           placeholder="Nhập điện thoại"
+                          value={providerInfo.businessPhone}
+                          onChange={(e) =>
+                            setProviderInfo((provider) => ({
+                              ...provider,
+                              businessPhone: e.target.value,
+                            }))
+                          }
                         />
                       </Box>
                     </FormControl>
@@ -366,6 +464,13 @@ const Register = () => {
                           type="fax"
                           _placeholder={{ color: "#dedede" }}
                           placeholder="Nhập Fax"
+                          value={providerInfo.businessFax}
+                          onChange={(e) =>
+                            setProviderInfo((provider) => ({
+                              ...provider,
+                              businessFax: e.target.value,
+                            }))
+                          }
                         />
                       </Box>
                     </FormControl>
@@ -497,6 +602,7 @@ const Register = () => {
                 borderRadius={"10px"}
                 size="sm"
                 mr={"16px"}
+                onClick={() => handleRegisterProvider()}
               >
                 <Image src={RegisterIcon} alt="" boxSize={"20px"} mr="8px" />
                 <p style={{ color: "#fff" }}> Đăng Ký </p>

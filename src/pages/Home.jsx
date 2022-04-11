@@ -21,7 +21,7 @@ import { BsFillMenuButtonWideFill } from "react-icons/bs";
 import { FaInfoCircle } from "react-icons/fa";
 import { GiMedicalPack, GiMedicines, GiHamburgerMenu } from "react-icons/gi";
 import { Link } from "react-router-dom";
-import { getOrdering, getOwners, mintNFT } from "utils/callContract";
+// import { getOrdering, getOwners, mintNFT } from "utils/callContract";
 import "../styles/Home.css";
 
 const Home = () => {
@@ -32,37 +32,37 @@ const Home = () => {
   const [nftOrdering, setNftOrdering] = useState([]);
   const [owners, setOwners] = useState([]);
 
-  useEffect(() => {
-    (() => {
-      if (!account || !library) return;
-      getOwners(library, account).then(setOwners).catch(console.error);
-    })();
-  }, [account, library]);
-  useEffect(() => {
-    if (!library) return;
-    getOrdering(library)
-      .then((res) => res && setNftOrdering(res))
-      .catch(console.error);
-    console.log(nftOrdering);
-  }, [library]);
+  // useEffect(() => {
+  //   (() => {
+  //     if (!account || !library) return;
+  //     getOwners(library, account).then(setOwners).catch(console.error);
+  //   })();
+  // }, [account, library]);
+  // useEffect(() => {
+  //   if (!library) return;
+  //   getOrdering(library)
+  //     .then((res) => res && setNftOrdering(res))
+  //     .catch(console.error);
+  //   console.log(nftOrdering);
+  // }, [library]);
 
-  const handleMintNFT = async () => {
-    if (!account || !library) return alert("please connect wallet");
-    //connect the wallet is require
-    if (!nft) return alert("please choose a nft image");
-    try {
-      setMinting(true);
-      await mintNFT(library, account, nft);
-      alert("mint success");
-      setMinting(false);
-    } catch (error) {
-      console.log(error);
-      setMinting(false);
-      if (error.data?.message) {
-        alert(error.data.message);
-      }
-    }
-  };
+  // const handleMintNFT = async () => {
+  //   if (!account || !library) return alert("please connect wallet");
+  //   //connect the wallet is require
+  //   if (!nft) return alert("please choose a nft image");
+  //   try {
+  //     setMinting(true);
+  //     await mintNFT(library, account, nft);
+  //     alert("mint success");
+  //     setMinting(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setMinting(false);
+  //     if (error.data?.message) {
+  //       alert(error.data.message);
+  //     }
+  //   }
+  // };
 
   const NFTList = () => {
     return (

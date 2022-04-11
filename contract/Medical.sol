@@ -101,7 +101,7 @@ library Counters {
     }
 }
 
-contract Factory is Ownable {
+contract MedicalFactory is Ownable {
     // agents
     enum ROLE {
         CENSOR,
@@ -110,7 +110,9 @@ contract Factory is Ownable {
     }
     mapping(address => mapping(ROLE => bool)) public roles;
     mapping(ROLE => address[]) public agents;
-    mapping(address => string) agentInfos;
+    mapping(address => string) public agentInfos;
+    mapping(address => bool) public providerVerified;
+
     enum PRODUCT_STATUS {
         PENDING,
         APPROVED,
@@ -149,8 +151,14 @@ contract Factory is Ownable {
         _;
     }
     
-    modifier onlyProvider {
+    modifier onlyProvider(address provider) {
+        require(roles[provider][ROLE.PROVIDER], "ROLE: UNAUTHORIZED");
+        _;
+    }
+
+    modifier onlyProviderVerified {
         require(roles[_msgSender()][ROLE.PROVIDER], "ROLE: UNAUTHORIZED");
+        require(providerVerified[_msgSender()], "ROLE: PROVIDER_NOT_VERIFIED");
         _;
     }
 
@@ -160,10 +168,22 @@ contract Factory is Ownable {
     }
 
     function addAgent(address account, ROLE role, string memory url) external onlyOwner {
-        require(!roles[account][role], "AGENT: ALREADY_ADDED");
+        require(!roles[account][role], "AGENT: ALREADY_ADDED_WITH_ADDRESS");
         roles[account][role] = true;
         agents[role].push(account);
         agentInfos[account] = url;
+    }
+
+     function registerProvider(address provider, string memory url) external {
+        ROLE role = ROLE.PROVIDER;
+        require(!roles[provider][role], "AGENT: ALREADY_ADDED_WITH_ADDRESS");
+        roles[provider][role] = true;
+        agentInfos[provider] = url;
+    }
+
+    function approveProvider(address provider) external onlyOwner onlyProvider(_msgSender()) {
+       providerVerified[provider] = true;
+       agents[ROLE.PROVIDER].push(provider);
     }
 
     function getAgents(ROLE role) external view returns(address[] memory) {
@@ -182,7 +202,7 @@ contract Factory is Ownable {
     }
 
     // register product
-    function enterProduct(string memory info, uint256 quantity) external onlyProvider {
+    function enterProduct(string memory info, uint256 quantity) external onlyProviderVerified {
         products[id] = pid;
         productInfos[pid] = info;
         productOwners[id] = _msgSender();
@@ -194,7 +214,7 @@ contract Factory is Ownable {
 
     // approve product
     function approveOrRejectProduct(uint256 _id, bool approve) external onlyCensor {
-        require(productStatuses[_id] == PRODUCT_STATUS.PENDING, "PRODUCT: NEED A PENDING PRODUCT");
+        require(productStatuses[_id] == PRODUCT_STATUS.PENDING, "PRODUCT: APPROVED_PRODUCT");
         require(!decisionStatuses[_id][_msgSender()], "CENSOR: DECIDED");
         decisionStatuses[_id][_msgSender()] = true;
         if(approve) {
