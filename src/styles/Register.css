@@ -11,6 +11,10 @@
 .header__box {
   display: flex;
   border-radius: 8px;
+  align-items: center;
+}
+.header__box > a:hover {
+  text-decoration: none;
 }
 
 .fieldset__title {

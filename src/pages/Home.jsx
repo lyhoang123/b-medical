@@ -1,4 +1,4 @@
-import { CloseIcon, EmailIcon, SearchIcon } from "@chakra-ui/icons";
+import { CloseIcon, EmailIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -14,15 +14,15 @@ import {
   Select,
   Text,
   VStack,
-} from "@chakra-ui/react";
-import { useActiveWeb3React } from "hooks/useActiveWeb3React";
-import React, { useEffect, useState } from "react";
-import { BsFillMenuButtonWideFill } from "react-icons/bs";
-import { FaInfoCircle } from "react-icons/fa";
-import { GiMedicalPack, GiMedicines, GiHamburgerMenu } from "react-icons/gi";
-import { Link } from "react-router-dom";
+} from '@chakra-ui/react';
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
+import React, { useEffect, useState } from 'react';
+import { BsFillMenuButtonWideFill } from 'react-icons/bs';
+import { FaInfoCircle } from 'react-icons/fa';
+import { GiMedicalPack, GiMedicines, GiHamburgerMenu } from 'react-icons/gi';
+import { Link } from 'react-router-dom';
 // import { getOrdering, getOwners, mintNFT } from "utils/callContract";
-import "../styles/Home.css";
+import '../styles/Home.css';
 
 const Home = () => {
   const { account, library } = useActiveWeb3React();
@@ -67,49 +67,42 @@ const Home = () => {
   const NFTList = () => {
     return (
       <Link to="/nft/1">
-        <GridItem
-          w="100%"
-          bg="transparent"
-          border="1px"
-          borderRadius={"6px"}
-          borderColor={"gray.400"}
-          p={"14px"}
-        >
+        <GridItem w="100%" bg="transparent" border="1px" borderRadius={'6px'} borderColor={'gray.400'} p={'14px'}>
           <VStack>
             <Center>
-              <Box boxSize={"180px"}>
+              <Box boxSize={'180px'}>
                 <Image src="https://bit.ly/dan-abramov" alt="Dan Abramov" />
               </Box>
             </Center>
             <Box>
-              <Text color={"#1890ff"} mb={"8px"}>
+              <Text color={'#1890ff'} mb={'8px'}>
                 <b>Máy xét nghiệm sinh hóa tự động - BS-360E</b>
               </Text>
-              <Text color={"gray.500"} fontSize={"14px"}>
+              <Text color={'gray.500'} fontSize={'14px'}>
                 <b>Model</b>: BS-360E
               </Text>
-              <Text color={"gray.500"} fontSize={"14px"}>
+              <Text color={'gray.500'} fontSize={'14px'}>
                 <b>HSX</b>: Shenzhen Mindray Bio-Medical Electronics Co., Ltd.
               </Text>
-              <Text color={"gray.500"} fontSize={"14px"}>
+              <Text color={'gray.500'} fontSize={'14px'}>
                 <b>Công ty</b>: Công ty TNHH Vạn Niên
               </Text>
-              <Text color={"red.500"} fontSize={"24px"}>
+              <Text color={'red.500'} fontSize={'24px'}>
                 <b>
                   530.000.000<sup>VND</sup>
                 </b>
               </Text>
-              <Text color={"black"} fontSize={"14px"}>
+              <Text color={'black'} fontSize={'14px'}>
                 (Giá đã bao gồm VAT)
               </Text>
               <Button
                 border="1px"
-                borderColor={"9dc2ff"}
+                borderColor={'9dc2ff'}
                 colorScheme="teal"
                 leftIcon={<FaInfoCircle />}
                 variant="solid"
-                fontSize={"14px"}
-                display={"block"}
+                fontSize={'14px'}
+                display={'block'}
                 mt="8px"
               >
                 Thông tin chi tiết
@@ -122,42 +115,35 @@ const Home = () => {
   };
   const property = [
     {
-      imageUrl: "https://bit.ly/2Z4KKcF",
-      imageAlt: "Rear view of modern home with pool",
+      imageUrl: 'https://bit.ly/2Z4KKcF',
+      imageAlt: 'Rear view of modern home with pool',
     },
     {
-      imageUrl: "https://bit.ly/2Z4KKcF",
-      imageAlt: "Rear view of modern home with pool",
+      imageUrl: 'https://bit.ly/2Z4KKcF',
+      imageAlt: 'Rear view of modern home with pool',
     },
     {
-      imageUrl: "https://bit.ly/2Z4KKcF",
-      imageAlt: "Rear view of modern home with pool",
+      imageUrl: 'https://bit.ly/2Z4KKcF',
+      imageAlt: 'Rear view of modern home with pool',
     },
     {
-      imageUrl: "https://bit.ly/2Z4KKcF",
-      imageAlt: "Rear view of modern home with pool",
+      imageUrl: 'https://bit.ly/2Z4KKcF',
+      imageAlt: 'Rear view of modern home with pool',
     },
     {
-      imageUrl: "https://bit.ly/2Z4KKcF",
-      imageAlt: "Rear view of modern home with pool",
+      imageUrl: 'https://bit.ly/2Z4KKcF',
+      imageAlt: 'Rear view of modern home with pool',
     },
     {
-      imageUrl: "https://bit.ly/2Z4KKcF",
-      imageAlt: "Rear view of modern home with pool",
+      imageUrl: 'https://bit.ly/2Z4KKcF',
+      imageAlt: 'Rear view of modern home with pool',
     },
   ];
 
   const MedicinePopular = () => {
     return (
       <Link to="/nft/1">
-        <GridItem
-          w="100%"
-          bg="transparent"
-          border="1px"
-          borderRadius={"6px"}
-          borderColor={"gray.400"}
-          p={"14px"}
-        >
+        <GridItem w="100%" bg="transparent" border="1px" borderRadius={'6px'} borderColor={'gray.400'} p={'14px'}>
           <VStack>
             <Center>
               <Box>
@@ -168,7 +154,7 @@ const Home = () => {
               </Box>
             </Center>
             <Box>
-              <Text color={"#1890ff"} mb={"8px"}>
+              <Text color={'#1890ff'} mb={'8px'}>
                 <b>Thuốc Paracetamol</b>
               </Text>
             </Box>
@@ -181,14 +167,7 @@ const Home = () => {
   const EquipmentPopular = () => {
     return (
       <Link to="/nft/1">
-        <GridItem
-          w="100%"
-          bg="transparent"
-          border="1px"
-          borderRadius={"6px"}
-          borderColor={"gray.400"}
-          p={"14px"}
-        >
+        <GridItem w="100%" bg="transparent" border="1px" borderRadius={'6px'} borderColor={'gray.400'} p={'14px'}>
           <VStack>
             <Center>
               <Box>
@@ -199,7 +178,7 @@ const Home = () => {
               </Box>
             </Center>
             <Box>
-              <Text color={"#1890ff"} mb={"8px"}>
+              <Text color={'#1890ff'} mb={'8px'}>
                 <b>Kit test nhanh Covid-19 qua mũi Humasis (1 cái)</b>
               </Text>
             </Box>
@@ -213,58 +192,44 @@ const Home = () => {
   return (
     <Box>
       {/* HEADER */}
-      <HStack mb={"34px"}>
+      <HStack mb={'34px'}>
         <Box className="box__header">
           <Center>
-            <Text cursor={"pointer"} onClick={() => console.log("Click")}>
+            <Link to="/" cursor={'pointer'} onClick={() => console.log('Click')}>
               <p className="header__link">Trang chủ</p>
-            </Text>
+            </Link>
+
             <span className="header__space">/</span>
-            <Text cursor={"pointer"} onClick={() => console.log("Click")}>
-              <p className="header__link">Danh mục</p>
-            </Text>
-            <span className="header__space">/</span>
-            <Text cursor={"pointer"} onClick={() => console.log("Click")}>
+            <Link to="/register" cursor={'pointer'}>
               <p className="header__link">Đăng ký thành viên</p>
-            </Text>
-          </Center>
-          <Center>
-            <Link>
-              <Button
-                leftIcon={<EmailIcon />}
-                colorScheme="teal"
-                variant="solid"
-                borderRadius={"30px"}
-                bgColor={"red.500"}
-                whiteSpace={"nowrap"}
-                lineHeight={"1.5"}
-              >
-                Tra cứu y tế YPTT phòng chống dịch Covid
-              </Button>
+            </Link>
+
+            <span className="header__space">/</span>
+            <Link to="/product-field" cursor={'pointer'} onClick={() => console.log('Click')}>
+              <p className="header__link">Cung cấp thông tin sản phẩm</p>
+            </Link>
+
+            <span className="header__space">/</span>
+            <Link to="/:account" cursor={'pointer'} onClick={() => console.log('Click')}>
+              <p className="header__link">Sản phẩm đã mua</p>
             </Link>
           </Center>
-          <Center bgColor={"white"} borderRadius={"5px"}>
+
+          <Center bgColor={'white'} borderRadius={'5px'}>
             <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-                children={<SearchIcon color="gray.300" />}
-              />
+              <InputLeftElement pointerEvents="none" children={<SearchIcon color="gray.300" />} />
               <Input
                 type="tel"
-                color={"black"}
-                height={"40px"}
-                _placeholder={{ color: "gray.200" }}
+                color={'black'}
+                height={'40px'}
+                _placeholder={{ color: 'gray.200' }}
                 placeholder="Tìm kiếm"
               />
               <InputRightElement children={<CloseIcon color="gray.300" />} />
             </InputGroup>
           </Center>
           <Box>
-            <Button
-              className="header__looking"
-              colorScheme="teal"
-              variant="solid"
-            >
+            <Button className="header__looking" colorScheme="teal" variant="solid">
               Tìm kiếm nâng cao
             </Button>
           </Box>
@@ -272,11 +237,11 @@ const Home = () => {
       </HStack>
 
       {/* THUOC  */}
-      <Box mb={"34px"}>
+      <Box mb={'34px'}>
         <Box className="box__medicine">
           <Box className="box__medicine-header">
             <Box className="box__medicine-left">
-              <GiHamburgerMenu color="#382e87" fontSize={"26px"} />
+              <GiHamburgerMenu color="#382e87" fontSize={'26px'} />
               <Text>Thuốc ( Có thể bạn đang tìm ) </Text>
             </Box>
             <Box className="box__medicine-right">
@@ -294,11 +259,11 @@ const Home = () => {
       </Box>
 
       {/* BOX THIET BI */}
-      <Box mb={"34px"}>
+      <Box mb={'34px'}>
         <Box className="box__medicine">
           <Box className="box__medicine-header">
             <Box className="box__medicine-left">
-              <GiHamburgerMenu color="#382e87" fontSize={"26px"} />
+              <GiHamburgerMenu color="#382e87" fontSize={'26px'} />
               <Text>Thiết bị y tế ( Có thể bạn đang tìm ) </Text>
             </Box>
             <Box className="box__medicine-right">
@@ -320,9 +285,7 @@ const Home = () => {
         <Box className="box__container-header">
           <Box className="box__container-left">
             <BsFillMenuButtonWideFill className="box__icon" />
-            <Text className="box__title">
-              Các trang thiết bị y tế, thuốc hiện có
-            </Text>
+            <Text className="box__title">Các trang thiết bị y tế, thuốc hiện có</Text>
           </Box>
           <Box className="box__container-right">
             <Button className="box__button" leftIcon={<GiMedicalPack />}>
@@ -337,7 +300,7 @@ const Home = () => {
               className="input__field"
               size="sm"
               placeholder="Lọc Theo ..."
-              width={"30%"}
+              width={'30%'}
               height="40px"
             >
               <option value="option1">Option 1</option>

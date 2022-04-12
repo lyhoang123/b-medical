@@ -1,107 +1,91 @@
-import {
-  Box,
-  Grid,
-  Image,
-  VStack,
-  Text,
-  Button,
-  Center,
-  GridItem,
-} from "@chakra-ui/react";
-import { FaInfoCircle } from "react-icons/fa";
-import { useActiveWeb3React } from "hooks/useActiveWeb3React";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Box, Grid, Image, VStack, Text, Button, Center, GridItem } from '@chakra-ui/react';
+import { BsCartCheck } from 'react-icons/bs';
+import { AiOutlineCheck } from 'react-icons/ai';
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+
+import Owner from '../styles/Owner.css';
 // import { getOwners } from "utils/callContract";
-import "../styles/Home.css";
+import '../styles/Home.css';
 
 const NFTList = () => {
   return (
-    <GridItem
-      w="100%"
-      bg="transparent"
-      border="1px"
-      borderRadius={"6px"}
-      borderColor={"gray.400"}
-      p={"14px"}
-    >
+    <Box w="100%" mt={'12px'} bg="transparent" border="1px" borderRadius={'4px'} borderColor={'gray.400'} p={'14px'}>
       <Link to="/nft/1">
-        <VStack>
-          <Center>
-            <Box boxSize={"180px"}>
-              <Image src="https://bit.ly/dan-abramov" alt="Dan Abramov" />
-            </Box>
-          </Center>
-          <Box>
-            <Text color={"#1890ff"} mb={"8px"}>
-              <b>Máy xét nghiệm sinh hóa tự động - BS-360E</b>
-            </Text>
-            <Text color={"gray.500"} fontSize={"14px"}>
-              <b>Model</b>: BS-360E
-            </Text>
-            <Text color={"gray.500"} fontSize={"14px"}>
-              <b>HSX</b>: Shenzhen Mindray Bio-Medical Electronics Co., Ltd.
-            </Text>
-            <Text color={"gray.500"} fontSize={"14px"}>
-              <b>Công ty</b>: Công ty TNHH Vạn Niên
-            </Text>
-            <Text color={"red.500"} fontSize={"24px"}>
-              <b>
-                530.000.000<sup>VND</sup>
-              </b>
-            </Text>
-            <Text color={"black"} fontSize={"14px"}>
-              (Giá đã bao gồm VAT)
-            </Text>
-            <Button
-              border="1px"
-              borderColor={"9dc2ff"}
-              colorScheme="teal"
-              leftIcon={<FaInfoCircle />}
-              variant="solid"
-              fontSize={"14px"}
-              display={"block"}
-              mt="8px"
-            >
-              Thông tin chi tiết
-            </Button>
+        <Box className="header__purchased">
+          <Box className="company__purchased">
+            <Text fontWeight={'600'}>Đơn vị bán</Text>
+            <span>:</span>
+            <Text>Công ty trách nhiệm hữu hạn A</Text>
           </Box>
-        </VStack>
+          <Text className="product__status">
+            <AiOutlineCheck />
+            Đã mua
+          </Text>
+        </Box>
+        <Box className="product__purchased">
+          <Box boxSize={'148px'}>
+            <Image src="https://bit.ly/dan-abramov" alt="Dan Abramov"></Image>
+          </Box>
+          <Box marginLeft={'8px'} className="product__content">
+            <Text className="product__name">Kit test nhanh Covid-19 qua mũi Humasis (1 cái)</Text>
+            <Box className="product__type">
+              <Text>Phân loại hàng</Text>
+              <span>:</span>
+              <Text>Thiết bị y tế</Text>
+            </Box>
+            <Box className="product__quantity">
+              <Text>Số Lượng </Text>
+              <span>:</span>
+              <Text>2</Text>
+            </Box>
+          </Box>
+          <Box className="product__price">
+            <Text>150.000</Text>
+          </Box>
+        </Box>
+        <Box className="product__footer">
+          <Button>Mua lại</Button>
+          <Button>
+            <Link to="/nft/1">Chi tiết đơn hàng</Link>
+          </Button>
+        </Box>
       </Link>
-    </GridItem>
+    </Box>
   );
 };
 
 const property = [
   {
-    imageUrl: "https://bit.ly/2Z4KKcF",
-    imageAlt: "Rear view of modern home with pool",
+    imageUrl: 'https://bit.ly/2Z4KKcF',
+    imageAlt: 'Rear view of modern home with pool',
   },
   {
-    imageUrl: "https://bit.ly/2Z4KKcF",
-    imageAlt: "Rear view of modern home with pool",
+    imageUrl: 'https://bit.ly/2Z4KKcF',
+    imageAlt: 'Rear view of modern home with pool',
   },
   {
-    imageUrl: "https://bit.ly/2Z4KKcF",
-    imageAlt: "Rear view of modern home with pool",
+    imageUrl: 'https://bit.ly/2Z4KKcF',
+    imageAlt: 'Rear view of modern home with pool',
   },
   {
-    imageUrl: "https://bit.ly/2Z4KKcF",
-    imageAlt: "Rear view of modern home with pool",
+    imageUrl: 'https://bit.ly/2Z4KKcF',
+    imageAlt: 'Rear view of modern home with pool',
   },
   {
-    imageUrl: "https://bit.ly/2Z4KKcF",
-    imageAlt: "Rear view of modern home with pool",
+    imageUrl: 'https://bit.ly/2Z4KKcF',
+    imageAlt: 'Rear view of modern home with pool',
   },
   {
-    imageUrl: "https://bit.ly/2Z4KKcF",
-    imageAlt: "Rear view of modern home with pool",
+    imageUrl: 'https://bit.ly/2Z4KKcF',
+    imageAlt: 'Rear view of modern home with pool',
   },
 ];
 
-const Owner = () => {
+const OwnerPage = () => {
   const { account } = useParams();
   const { library } = useActiveWeb3React();
 
@@ -115,19 +99,28 @@ const Owner = () => {
   // }, [account, library]);
 
   return (
-    <Box className="box__container">
-      <Grid bg="white" templateColumns="repeat(4, 1fr)" gap={6}>
-        <NFTList />
-        <NFTList />
-        <NFTList />
-        <NFTList />
-        <NFTList />
-        <NFTList />
-        <NFTList />
-        <NFTList />
-      </Grid>
+    <Box className="box__container" mt={'24px'}>
+      <Box className="owner__content">
+        <Box className="content-left">
+          <Box className="content-left__icon">
+            <BsCartCheck />
+            <Text>Đơn Mua Đã Mua</Text>
+          </Box>
+        </Box>
+        <Box className="content-right" bg="white">
+          <Text>Danh Sách Những Đơn Hàng đã mua</Text>
+          <NFTList />
+          <NFTList />
+          <NFTList />
+          <NFTList />
+          <NFTList />
+          <NFTList />
+          <NFTList />
+          <NFTList />
+        </Box>
+      </Box>
     </Box>
   );
 };
 
-export default Owner;
+export default OwnerPage;

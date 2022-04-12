@@ -1,44 +1,49 @@
-import Home from "pages/Home";
-import NFTDetail from "pages/NFTDetail";
-import NotFound from "pages/NotFound";
-import Owner from "pages/Owner";
-import Register from "pages/Register";
-import AdminPage from "pages/AdminPage";
-import ProductField from "pages/ProductField";
+import Home from 'pages/Home';
+import NFTDetail from 'pages/NFTDetail';
+import NotFound from 'pages/NotFound';
+import Owner from 'pages/Owner';
+import Register from 'pages/Register';
+import AdminPage from 'pages/AdminPage';
+import ProductField from 'pages/ProductField';
+import CensorPage from 'pages/CensorPage';
 export const routes = [
   {
-    path: "/",
+    path: '/',
     component: Home,
     exact: true,
   },
   {
-    path: "/register",
+    path: '/register',
     component: Register,
     exact: true,
   },
-
   {
-    path: "/nft/:nftId",
+    path: '/censorPage',
+    component: CensorPage,
+    exact: true,
+  },
+  {
+    path: '/nft/:nftId',
     component: NFTDetail,
     exact: true,
   },
   {
-    path: "/admin",
+    path: '/admin',
     component: AdminPage,
     exact: true,
   },
   {
-    path: "/product-field",
+    path: '/product-field',
     component: ProductField,
     exact: true,
   },
   {
-    path: "/:account",
+    path: '/:account',
     component: Owner,
     exact: true,
   },
   {
-    path: "*",
+    path: '*',
     component: NotFound,
   },
 ];
