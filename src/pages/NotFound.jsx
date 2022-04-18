@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Box, Button, Text } from "@chakra-ui/react";
-import "../styles/NotFound.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Box, Button, Link, Text } from '@chakra-ui/react';
+import '../styles/NotFound.css';
 
 NotFound.propTypes = {};
 
@@ -16,7 +16,9 @@ function NotFound(props) {
           <Text>4</Text>
         </h1>
         <h4>we are sorry, but the page you request was not found</h4>
-        <Button className="btn-home">Trang Chủ</Button>
+        <Button className="btn-home">
+          <Link to="/">Trang Chủ</Link>
+        </Button>
       </Box>
     </Box>
   );

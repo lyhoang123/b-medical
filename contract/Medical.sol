@@ -120,6 +120,7 @@ contract MedicalFactory is Ownable {
     }
 
     // products
+    string[] infos;
     uint256 id; // allways increase foeach new mint (from 0)
     uint256 pid; // allways increase foeach enterProduct (from 0)
     // id => pid
@@ -127,7 +128,7 @@ contract MedicalFactory is Ownable {
     // id => bool (is sold in marketplace)
     mapping(uint256 => bool) isSoldMarketplace;
     // pid =>  string(metadata ipfs url)
-    mapping(uint256 => string) productInfos;
+    mapping(uint256 => string) public productInfos;
     // id => owner
     mapping(uint256 => address) productOwners;
     // address => id[]
@@ -205,6 +206,7 @@ contract MedicalFactory is Ownable {
     function enterProduct(string memory info, uint256 quantity) external onlyProviderVerified {
         products[id] = pid;
         productInfos[pid] = info;
+        infos.push(info);
         productOwners[id] = _msgSender();
         ownerProducts[_msgSender()].push(id);
         ownerQuantityProducts[id] = quantity;
@@ -232,7 +234,16 @@ contract MedicalFactory is Ownable {
         }
     }
 
-    // get all products is sold in marketplace
+     // get all products in marketplace
+    function getProductsInMarketplace() external view returns(string[] memory) {
+        string[] memory productsList= new string[](id);
+        for(uint256 i=0; i<id; i++) {
+            productsList[i] = infos[i];
+        }
+        return productsList;
+    }
+    
+     // get all products is sold in marketplace
     function getProductsSoldMarketplace() external view returns(uint256[] memory) {
         uint256[] memory ids = new uint256[](id);
         uint256 count = 0;
@@ -246,7 +257,7 @@ contract MedicalFactory is Ownable {
     }
 
     // buy product from marketplace
-    function buyMarketplace(uint256 _id, uint256 _quantity) external {
+    function buyMarketplace(uint256 _id, uint256 _quantity) internal {
         require(isSoldMarketplace[_id], "PRODUCT: NOT_SOLD");
         require(ownerQuantityProducts[_id] < _quantity, "PRODUCT: NOT_ENOUGH_QUANTITY");
         products[id] = pid;
@@ -260,6 +271,17 @@ contract MedicalFactory is Ownable {
         if(ownerQuantityProducts[_id] == 0) {
             isSoldMarketplace[_id] = false;
         }
+    }
+    //Buy product 
+    function buyProduct(uint256 _price, uint256 _id, uint256 _quantity) public payable {
+        // Check balance
+        require(_msgSender() != address(0));
+        require((_price * _quantity) <= _msgSender().balance,  "Lack of payment");      
+        // Transfer payment
+        payable(address(this)).transfer(_price * _quantity);
+        //buyMarketplace
+        buyMarketplace(_id, _quantity);
+
     }
 
     // re-sell in marketplace by distributor
