@@ -575,7 +575,7 @@ const Register = () => {
         <Box mt="18px">
           <Box>
             <Text color="#333333" fontSize={'14px'}>
-              <b lineHeight={'18px'}>
+              <b lineheight={'18px'}>
                 Tổ chức, cá nhân thực hiện công khai giá phải chịu trách nhiệm đảm bảo tính hợp lệ, chính xác của thông
                 tin và phạm vi công khai theo đúng chỉ định của Chủ sở hữu trang thiết bị y tế hoặc Chủ sở hữu số lưu
                 hành trang thiết bị y tế.

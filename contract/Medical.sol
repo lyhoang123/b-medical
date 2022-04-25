@@ -120,29 +120,36 @@ contract MedicalFactory is Ownable {
     }
 
     // products
-    string[] infos;
-    uint256 id; // allways increase foeach new mint (from 0)
-    uint256 pid; // allways increase foeach enterProduct (from 0)
+    string[] public infos;
+    uint256 public id; // allways increase foeach new mint (from 0)
+    uint256 public pid; // allways increase foeach enterProduct (from 0)
     // id => pid
-    mapping(uint256 => uint256) products;
+    mapping(uint256 => uint256) public products;
     // id => bool (is sold in marketplace)
-    mapping(uint256 => bool) isSoldMarketplace;
+    mapping(uint256 => bool) public isSoldMarketplace;
     // pid =>  string(metadata ipfs url)
     mapping(uint256 => string) public productInfos;
     // id => owner
-    mapping(uint256 => address) productOwners;
+    mapping(uint256 => address) public productOwners;
     // address => id[]
-    mapping(address => uint256[]) ownerProducts;
+    mapping(address => uint256[]) public ownerProducts;
     // id => quantity of product
-    mapping(uint256 => uint256) ownerQuantityProducts;
+    mapping(uint256 => uint256) public ownerQuantityProducts;
     // id => status
-    mapping(uint256 => PRODUCT_STATUS) productStatuses;
+    mapping(uint256 => PRODUCT_STATUS) public productStatuses;
     // id => uint(number approved)
-    mapping(uint256 => uint) approvedQuantity;
+    mapping(uint256 => uint) public approvedQuantity;
     // id => uint(number of rejected)
-    mapping(uint256 => uint) rejectedQuantity;
+    mapping(uint256 => uint) public rejectedQuantity;
     // id => censor => bool
-    mapping(uint256 => mapping(address => bool)) decisionStatuses;
+    mapping(uint256 => mapping(address => bool)) public decisionStatuses;
+
+    constructor() {
+        _addAgent(_msgSender(), ROLE.CENSOR, "");
+        _addAgent(_msgSender(), ROLE.PROVIDER, "");
+        providerVerified[_msgSender()] = true;
+        agents[ROLE.PROVIDER].push(_msgSender());
+    }
 
     // events
     event Transfer(uint256 id, uint256 pid, uint256 newId, address oldOwner, address newOwner, uint256 timestamp);
@@ -168,11 +175,15 @@ contract MedicalFactory is Ownable {
         _;
     }
 
-    function addAgent(address account, ROLE role, string memory url) external onlyOwner {
-        require(!roles[account][role], "AGENT: ALREADY_ADDED_WITH_ADDRESS");
+     function _addAgent(address account, ROLE role, string memory url) private {
         roles[account][role] = true;
         agents[role].push(account);
         agentInfos[account] = url;
+    }
+
+    function addAgent(address account, ROLE role, string memory url) external onlyOwner {
+        require(!roles[account][role], "AGENT: ALREADY_ADDED_WITH_ADDRESS");
+        _addAgent(account, role, url);
     }
 
      function registerProvider(address provider, string memory url) external {

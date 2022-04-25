@@ -6,49 +6,22 @@ import { ButtonGroup, IconButton, Image, Input } from '@chakra-ui/react';
 import { connectors } from 'connectors';
 import { useWallet } from 'connectors/hooks';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FaGithub, FaLinkedin, FaTwitter, FaFacebook, FaReact } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import LogoHeader from '../../assets/images/logo.png';
 import LogoFooter from '../../assets/images/logo1.PNG';
+import { injected } from 'connectors';
 
 export const Layout = ({ children }) => {
   const { account } = useActiveWeb3React();
   const { connect } = useWallet();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleConnect = useCallback(() => connect(injected), [connect, injected]);
 
   return (
     // Header
     <Box minH="100vh" bg="gray.200">
-      <Modal size="sm" isOpen={isOpen && !account} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Connect Wallet</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Grid templateColumns="repeat(2, 1fr)" gap="12">
-              {connectors.map((c, idx) => (
-                <VStack
-                  key={idx}
-                  cursor="pointer"
-                  p="4"
-                  borderRadius="md"
-                  _hover={{
-                    bg: 'gray.300',
-                  }}
-                  onClick={() => connect(c.connector)}
-                >
-                  <Box h="12">{c.icon}</Box>
-                  <Text as="b" textAlign="center">
-                    {c.name}
-                  </Text>
-                </VStack>
-              ))}
-            </Grid>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-
       <HStack h="91" w="100" background={'white'}>
         <Box width={'100%'} margin="0 auto" display="flex" alignItems={'center'} justifyContent="space-around">
           <Link to="/">
@@ -72,7 +45,7 @@ export const Layout = ({ children }) => {
             </Link>
           ) : (
             // <Button   colorScheme="purple">{account}</Button>
-            <Button align="left" colorScheme="purple" onClick={onOpen}>
+            <Button align="left" colorScheme="purple" onClick={handleConnect}>
               Connect wallet
             </Button>
           )}

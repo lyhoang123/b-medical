@@ -21,8 +21,13 @@ import '../styles/Register.css';
 import '../styles/react-date.css';
 import { AiOutlineLogin } from 'react-icons/ai';
 import axios from 'axios';
+import { uploadIPFS } from 'services/upload-ipfs';
+import { enterProduct } from 'utils/callContract';
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 
 const ProductField = () => {
+  const { library, account } = useActiveWeb3React();
+
   const [dateManufacture, setDateManufacture] = useState(new Date());
   const [dateExpiration, setDateExpiration] = useState(new Date());
   const [productInfo, setProductInfo] = useState({
@@ -65,37 +70,14 @@ const ProductField = () => {
   };
 
   const handleOnSubmit = async (e) => {
-    var formData = new FormData();
-    var imagefile = productImage;
-
-    if (!imagefile) {
+    if (!productImage) {
       window.alert('Please choose file again');
       return;
     }
-
-    formData.append('image', imagefile);
-    const response = await axios.post('http://localhost:8000/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    if (!response.data?.url) {
-      window.alert('upload not successfuly :((');
-      return;
-    }
-    const productImageURL = response.data.url;
-    console.log('upload success:', productImageURL);
-
-    console.log(productInfo);
-    let result = await axios.post(
-      'http://localhost:8000/product',
-      { ...productInfo, productUrl: productImageURL },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const { quantity } = productInfo;
+    if (!quantity) return alert('product quantity is required');
+    const uploadedImage = await uploadIPFS(productImage, true);
+    let result = await enterProduct(library, account, { ...productInfo, image: uploadedImage }, quantity);
     console.log(result);
     if (result) {
       alert('you have successfully register product ');
@@ -506,8 +488,10 @@ const ProductField = () => {
           </fieldset>
         </Box>
 
-        <Box>
-          <Button onClick={() => handleOnSubmit()}> Đăng sản phẩm </Button>
+        <Box pb="4">
+          <Button onClick={() => handleOnSubmit()} colorScheme="blue">
+            Đăng sản phẩm{' '}
+          </Button>
         </Box>
       </Box>
     </Container>

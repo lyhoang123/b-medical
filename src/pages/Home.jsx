@@ -213,7 +213,7 @@ const Home = () => {
     console.log(result);
   };
   useEffect(() => {
-    getData();
+    // getData(); TODO
   }, []);
 
   return (
