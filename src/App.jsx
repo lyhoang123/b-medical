@@ -1,12 +1,12 @@
+import { Spinner } from '@chakra-ui/react';
 import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React, Web3ReactProvider } from '@web3-react/core';
 import { Routes } from 'components/route/Routes';
 import { useEagerConnect, useInactiveListener } from 'connectors/hooks';
-import AdminPage from 'pages/AdminPage';
-import CensorPage from 'pages/CensorPage';
-import NotFound from 'pages/NotFound';
-import ProductField from 'pages/ProductField';
+import Login from 'pages/auth/Login';
+import RegisterAccount from 'pages/auth/RegisterAccount';
 import Register from 'pages/Register';
+
 import { useEffect, useState } from 'react';
 
 function getLibrary(provider) {
@@ -34,6 +34,7 @@ function App() {
 export default function () {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
+      {/* <Spinner size="xl" /> */}
       <App />
     </Web3ReactProvider>
   );

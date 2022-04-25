@@ -128,6 +128,7 @@ const CensorList = (props) => {
             <Button
               className="Censor__refuse"
               leftIcon={<AiFillCloseCircle color="white" fontSize={'20px'} fontWeight="700" />}
+              onClick={handleCancelClick}
             >
               Từ chối
             </Button>

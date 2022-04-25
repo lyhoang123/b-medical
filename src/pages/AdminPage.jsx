@@ -1,4 +1,4 @@
-import { Box, Button, Image, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Image, Skeleton, Stack, Text, useDisclosure, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineFileSearch } from 'react-icons/ai';
 import {
@@ -16,6 +16,8 @@ import { boolean } from 'yup';
 AdminPage.propTypes = {};
 
 const CompanyList = (props) => {
+  const toast = useToast();
+
   const handleCancelClick = async () => {
     let result = await fetch(`http://localhost:8000/user/${props.walletAddress}`, {
       method: 'delete',
@@ -25,8 +27,24 @@ const CompanyList = (props) => {
     });
     result = await result.json();
     if (result) {
-      alert('Delete Successfully ');
+      toast({
+        position: 'top-right',
+        title: 'Reject registration form successfully.',
+        description: 'Reject registration form successfully. ',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
       props.getData();
+    } else {
+      toast({
+        position: 'top-right',
+        title: 'Fail ! Try Again.',
+        description: 'Fail ! Try Again. ',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -158,6 +176,8 @@ function AdminPage(props) {
     },
   ]);
 
+  const [Loading, setLoading] = useState(true);
+
   const getData = async (e) => {
     let result = await fetch('http://localhost:8000/user/provider/getall', {
       method: 'get',
@@ -167,34 +187,44 @@ function AdminPage(props) {
     });
     result = await result.json();
     setData(result.provider);
-    console.log(result);
   };
 
   useEffect(() => {
     getData();
+    setLoading(false);
   }, []);
 
   return (
     <Box w="100%">
       <Box className="box__container">
         <Text className="container__header">Danh Sách Doanh Nghiệp Đăng Ký</Text>
-        {data.map((e) => {
-          return (
-            <CompanyList
-              businessName={e.businessName}
-              taxcode={e.taxcode}
-              email={e.email}
-              walletAddress={e.walletAddress}
-              representName={e.representName}
-              representPhone={e.representPhone}
-              representPosition={e.representPosition}
-              businessFax={e.businessFax}
-              businessNameInternational={e.businessNameInternational}
-              certificateUrl={e.certificateUrl}
-              getData={getData}
-            />
-          );
-        })}
+        {Loading ? (
+          <Stack>
+            <Skeleton height="20px" />
+            <Skeleton height="20px" />
+            <Skeleton height="20px" />
+          </Stack>
+        ) : (
+          <Box>
+            {data.map((e) => {
+              return (
+                <CompanyList
+                  businessName={e.businessName}
+                  taxcode={e.taxcode}
+                  email={e.email}
+                  walletAddress={e.walletAddress}
+                  representName={e.representName}
+                  representPhone={e.representPhone}
+                  representPosition={e.representPosition}
+                  businessFax={e.businessFax}
+                  businessNameInternational={e.businessNameInternational}
+                  certificateUrl={e.certificateUrl}
+                  getData={getData}
+                />
+              );
+            })}
+          </Box>
+        )}
       </Box>
     </Box>
   );

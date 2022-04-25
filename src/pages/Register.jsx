@@ -1,33 +1,34 @@
 import {
   Box,
-  VStack,
-  HStack,
-  Text,
-  Center,
-  Input,
+  Button,
+  Checkbox,
+  Container,
   FormControl,
   FormLabel,
-  Link,
-  Checkbox,
-  Select,
-  Button,
+  HStack,
   Image,
-  Container,
+  Input,
+  Link,
+  Progress,
+  Text,
+  useToast,
+  VStack,
 } from '@chakra-ui/react';
+import axios from 'axios';
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
-import RegisterIcon from '../assets/images/Register.png';
-import CancelIcon from '../assets/images/cancel.png';
-import { registerProvider } from 'utils/callContract';
 import 'react-datepicker/dist/react-datepicker.css';
+import { AiOutlineLogin } from 'react-icons/ai';
+import CancelIcon from '../assets/images/cancel.png';
+import RegisterIcon from '../assets/images/Register.png';
 import '../styles/react-date.css';
 import '../styles/Register.css';
-import { AiOutlineLogin } from 'react-icons/ai';
-import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
-import axios from 'axios';
 
 const Register = () => {
   const { account, library } = useActiveWeb3React();
+
+  const toast = useToast();
 
   const [startDate, setStartDate] = useState(new Date());
 
@@ -68,9 +69,17 @@ const Register = () => {
     var imagefile = avatar;
 
     if (!imagefile) {
-      window.alert('Please choose file again');
+      toast({
+        position: 'top-right',
+        title: 'Please choose file again.',
+        description: 'Please choose file again.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
       return;
     }
+    setLoading(true);
 
     formData.append('image', imagefile);
     const response = await axios.post('http://localhost:8000/upload', formData, {
@@ -85,47 +94,78 @@ const Register = () => {
     const avatarUrl = response.data.url;
     console.log('upload success:', avatarUrl);
 
-    let result = await axios.post(
-      'http://localhost:8000/user/provider',
-      { ...providerInfo, certificateUrl: avatarUrl },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    setTimeout(async () => {
+      let result = await axios.post(
+        'http://localhost:8000/user/provider',
+        { ...providerInfo, certificateUrl: avatarUrl },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      setLoading(false);
+      if (result) {
+        toast({
+          position: 'top-right',
+          title: 'Submission of Registration Successfully.',
+          description: 'Submission of Registration Successfully.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+        setProviderInfo({
+          taxcode: '',
+          email: '',
+          representName: '',
+          representPosition: '',
+          representPhone: '',
+          representId: '',
+          daterange: '',
+          issuedby: '',
+          businessName: '',
+          businessNameInternational: '',
+          businessAddress: '',
+          businessPhone: '',
+          businessFax: '',
+          walletAddress: '',
+          certificateUrl: '',
+        });
+      } else {
+        toast({
+          position: 'top-right',
+          title: 'Please try again .',
+          description: 'Please try again.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
       }
-    );
-    console.log(result);
-    if (result) {
-      alert('you have successfully register become provider ');
-      setProviderInfo({
-        taxcode: '',
-        email: '',
-        representName: '',
-        representPosition: '',
-        representPhone: '',
-        representId: '',
-        daterange: '',
-        issuedby: '',
-        businessName: '',
-        businessNameInternational: '',
-        businessAddress: '',
-        businessPhone: '',
-        businessFax: '',
-        walletAddress: '',
-        certificateUrl: '',
-      });
-    }
+    }, 2000);
   };
 
-  // const handleRegisterProvider = async () => {
-  //   try {
-  //     if (!account || !library) return alert('please connect wallet');
-  //     await registerProvider(library, account, providerInfo);
-  //     alert('register success');
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const handleCancelClick = (e) => {
+    setProviderInfo({
+      taxcode: '',
+      email: '',
+      representName: '',
+      representPosition: '',
+      representPhone: '',
+      representId: '',
+      daterange: '',
+      issuedby: '',
+      businessName: '',
+      businessNameInternational: '',
+      businessAddress: '',
+      businessPhone: '',
+      businessFax: '',
+      walletAddress: '',
+      certificateUrl: '',
+    });
+    setAvatar('');
+  };
+
+  const [loading, setLoading] = useState(false);
 
   return (
     <Container maxW="1200px" bg={'white'} centerContent>
@@ -544,6 +584,9 @@ const Register = () => {
             <Checkbox iconColor="gray" color="#333333" defaultChecked mt="14px">
               Tôi đã đọc, hiểu rõ trách nhiệm và cam kết thực hiện.
             </Checkbox>
+
+            {loading && <Progress size="xs" isIndeterminate h={'12px'} borderRadius={'12px'} />}
+
             <Box mt={'8px'}>
               <Button
                 bgColor={'#2c4897'}
@@ -562,6 +605,7 @@ const Register = () => {
                 border={'1px solid rgb(152 152 152)'}
                 color="black !important"
                 size="sm"
+                onClick={handleCancelClick}
               >
                 <Image src={CancelIcon} alt="" boxSize={'20px'} mr="6px" />
                 <p>Huỷ Bỏ</p>
