@@ -3,34 +3,26 @@ import React, { useEffect, useState } from 'react';
 import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineFileSearch } from 'react-icons/ai';
 import '../styles/CensorPage.css';
 import axios from 'axios';
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
+import { approveOrRejectProduct, getProductsPending } from 'utils/callContract';
 
 CensorPage.propTypes = {};
 
 const CensorList = (props) => {
-  const handleApprovedClick = async () => {
-    let result = await fetch(`http://localhost:8000/product/${props.id}`, {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    result = await result.json();
-    if (result) {
-      console.log(result);
-    }
-  };
+  const { account, library } = useActiveWeb3React();
 
-  const handleCancelClick = async () => {
-    let result = await fetch('', {
-      method: 'delete',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    result = await result.json();
-    if (result) {
-      alert('Delete Successfully ');
-      props.getData();
+  const [reviewing, setReviewing] = useState(false);
+
+  const handleApproveOrRejectProduct = async (approve = true) => {
+    try {
+      setReviewing(true);
+      await approveOrRejectProduct(library, account, props.id, approve);
+      props.setRefresh((pre) => !pre);
+      setReviewing(false);
+      alert('review success');
+    } catch (error) {
+      setReviewing(false);
+      console.error(error);
     }
   };
 
@@ -121,14 +113,16 @@ const CensorList = (props) => {
             <Button
               className="Censor__accept"
               leftIcon={<AiFillCheckCircle color="white" fontSize={'20px'} fontWeight="700" />}
-              onClick={handleApprovedClick}
+              onClick={() => handleApproveOrRejectProduct(true)}
+              isLoading={reviewing}
             >
               Đồng ý
             </Button>
             <Button
               className="Censor__refuse"
               leftIcon={<AiFillCloseCircle color="white" fontSize={'20px'} fontWeight="700" />}
-              onClick={handleCancelClick}
+              onClick={() => handleApproveOrRejectProduct(false)}
+              isLoading={reviewing}
             >
               Từ chối
             </Button>
@@ -140,41 +134,15 @@ const CensorList = (props) => {
 };
 
 function CensorPage(props) {
-  const [data, setData] = useState([
-    {
-      productType: '',
-      productName: '',
-      unit: '',
-      price: '',
-      manufacturer: '',
-      countryOfManufacture: '',
-      yearOfManufacture: '',
-      dateOfManufacture: '',
-      expirationDate: '',
-      NameOfBusinessAnnouncingPrice: '',
-      contactPhoneNumber: '',
-      businessAddress: '',
-      quantity: '',
-      productUrl: '',
-      generalInfo: '',
-      userManual: '',
-    },
-  ]);
+  const { library } = useActiveWeb3React();
 
-  const getData = async (e) => {
-    let result = await fetch('http://localhost:8000/product/getproduct/getall', {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    result = await result.json();
-    setData(result.product);
-    console.log(result);
-  };
+  const [pendingProducts, setPendingProducts] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  console.log(pendingProducts);
+
   useEffect(() => {
-    getData();
-  }, []);
+    library && getProductsPending(library).then(setPendingProducts).catch(console.error);
+  }, [library, refresh]);
 
   return (
     <Box w="100%">
@@ -182,10 +150,12 @@ function CensorPage(props) {
         <Box className="Censor__container">
           <h1>Thông tin sản phẩm</h1>
         </Box>
-        {data.map((e) => {
+        {pendingProducts.map((e, idx) => {
           return (
             <CensorList
-              id={e._id}
+              key={idx}
+              setRefresh={setRefresh}
+              id={e.id}
               productType={e.productType}
               productName={e.productName}
               unit={e.unit}
@@ -202,7 +172,7 @@ function CensorPage(props) {
               productUrl={e.productUrl}
               generalInfo={e.generalInfo}
               userManual={e.userManual}
-              getData={getData}
+              // getData={getData}
             />
           );
         })}

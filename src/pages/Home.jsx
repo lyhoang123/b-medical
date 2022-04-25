@@ -21,200 +21,70 @@ import { BsFillMenuButtonWideFill } from 'react-icons/bs';
 import { FaInfoCircle } from 'react-icons/fa';
 import { GiMedicalPack, GiMedicines, GiHamburgerMenu } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
+import { getProductsSoldMarketplace } from 'utils/callContract';
 // import { getOrdering, getOwners, mintNFT } from "utils/callContract";
 import '../styles/Home.css';
 
-const Home = () => {
-  const { account, library } = useActiveWeb3React();
-
-  const [nft, setNFT] = useState();
-  const [minting, setMinting] = useState(false);
-  const [nftOrdering, setNftOrdering] = useState([]);
-  const [owners, setOwners] = useState([]);
-
-  // useEffect(() => {
-  //   (() => {
-  //     if (!account || !library) return;
-  //     getOwners(library, account).then(setOwners).catch(console.error);
-  //   })();
-  // }, [account, library]);
-  // useEffect(() => {
-  //   if (!library) return;
-  //   getOrdering(library)
-  //     .then((res) => res && setNftOrdering(res))
-  //     .catch(console.error);
-  //   console.log(nftOrdering);
-  // }, [library]);
-
-  // const handleMintNFT = async () => {
-  //   if (!account || !library) return alert("please connect wallet");
-  //   //connect the wallet is require
-  //   if (!nft) return alert("please choose a nft image");
-  //   try {
-  //     setMinting(true);
-  //     await mintNFT(library, account, nft);
-  //     alert("mint success");
-  //     setMinting(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //     setMinting(false);
-  //     if (error.data?.message) {
-  //       alert(error.data.message);
-  //     }
-  //   }
-  // };
-
-  const NFTList = (props) => {
-    return (
-      // <Link to="/nft/1">
-      //   <GridItem w="100%" bg="transparent" border="1px" borderRadius={'6px'} borderColor={'gray.400'} p={'14px'}>
-      //     <VStack>
-      //       <Center>
-      //         <Box boxSize={'180px'}>
-      //           <Image src={props.productUrl} />
-      //         </Box>
-      //       </Center>
-      //       <Box>
-      //         <Text color={'#1890ff'} mb={'8px'}>
-      //           <b>{props.productName}</b>
-      //         </Text>
-      //         <Text color={'gray.500'} fontSize={'14px'}>
-      //           <b>Loại</b>: {props.productType}
-      //         </Text>
-      //         <Text color={'gray.500'} fontSize={'14px'}>
-      //           <b>HSX</b>: {props.manufacturer}
-      //         </Text>
-      //         <Text color={'gray.500'} fontSize={'14px'}>
-      //           <b>Công ty</b>: {props.NameOfBusinessAnnouncingPrice}
-      //         </Text>
-      //         <Text color={'red.500'} fontSize={'24px'}>
-      //           <b>
-      //             {props.price}
-      //             <sup>VND</sup>
-      //           </b>
-      //         </Text>
-      //         <Text color={'black'} fontSize={'14px'}>
-      //           (Giá đã bao gồm VAT)
-      //         </Text>
-      //         <Button
-      //           border="1px"
-      //           borderColor={'9dc2ff'}
-      //           colorScheme="teal"
-      //           leftIcon={<FaInfoCircle />}
-      //           variant="solid"
-      //           fontSize={'14px'}
-      //           display={'block'}
-      //           mt="8px"
-      //         >
-      //           Thông tin chi tiết
-      //         </Button>
-      //       </Box>
-      //     </VStack>
-      //   </GridItem>
-      // </Link>
-
-      <Link to="/nft/1">
-        <GridItem w="100%" bg="transparent" border="1px" borderRadius={'6px'} borderColor={'gray.400'} p={'14px'}>
-          <VStack>
-            <Center>
-              <Box boxSize={'180px'}>
-                <Image src="https://bit.ly/dan-abramov" alt="Dan Abramov" />
-              </Box>
-            </Center>
-            <Box>
-              <Text color={'#1890ff'} mb={'8px'}>
-                <b>Máy xét nghiệm sinh hóa tự động - BS-360E</b>
-              </Text>
-              <Text color={'gray.500'} fontSize={'14px'}>
-                <b>Model</b>: BS-360E
-              </Text>
-              <Text color={'gray.500'} fontSize={'14px'}>
-                <b>HSX</b>: Shenzhen Mindray Bio-Medical Electronics Co., Ltd.
-              </Text>
-              <Text color={'gray.500'} fontSize={'14px'}>
-                <b>Công ty</b>: Công ty TNHH Vạn Niên
-              </Text>
-              <Text color={'red.500'} fontSize={'24px'}>
-                <b>
-                  530.000.000<sup>VND</sup>
-                </b>
-              </Text>
-              <Text color={'black'} fontSize={'14px'}>
-                (Giá đã bao gồm VAT)
-              </Text>
-              <Button
-                border="1px"
-                borderColor={'9dc2ff'}
-                colorScheme="teal"
-                leftIcon={<FaInfoCircle />}
-                variant="solid"
-                fontSize={'14px'}
-                display={'block'}
-                mt="8px"
-              >
-                Thông tin chi tiết
-              </Button>
+const NFTList = ({ product }) => {
+  console.log(product);
+  return (
+    <Link to={`/nft/${product.id.toString()}`}>
+      <GridItem w="100%" bg="transparent" border="1px" borderRadius={'6px'} borderColor={'gray.400'} p={'14px'}>
+        <VStack>
+          <Center>
+            <Box boxSize={'180px'}>
+              <Image src={product.image} alt="image" />
             </Box>
-          </VStack>
-        </GridItem>
-      </Link>
-    );
-  };
-  const property = [
-    {
-      imageUrl: 'https://bit.ly/2Z4KKcF',
-      imageAlt: 'Rear view of modern home with pool',
-    },
-    {
-      imageUrl: 'https://bit.ly/2Z4KKcF',
-      imageAlt: 'Rear view of modern home with pool',
-    },
-    {
-      imageUrl: 'https://bit.ly/2Z4KKcF',
-      imageAlt: 'Rear view of modern home with pool',
-    },
-    {
-      imageUrl: 'https://bit.ly/2Z4KKcF',
-      imageAlt: 'Rear view of modern home with pool',
-    },
-    {
-      imageUrl: 'https://bit.ly/2Z4KKcF',
-      imageAlt: 'Rear view of modern home with pool',
-    },
-    {
-      imageUrl: 'https://bit.ly/2Z4KKcF',
-      imageAlt: 'Rear view of modern home with pool',
-    },
-  ];
+          </Center>
+          <Box>
+            <Text color={'#1890ff'} mb={'8px'}>
+              <b>{product.productName}</b>
+            </Text>
+            <Text color={'gray.500'} fontSize={'14px'}>
+              <b>Model</b>: BS-360E
+            </Text>
+            <Text color={'gray.500'} fontSize={'14px'}>
+              <b>HSX</b>: {product.manufacturer}
+            </Text>
+            <Text color={'gray.500'} fontSize={'14px'}>
+              <b>Công ty</b>: {product.NameOfBusinessAnnouncingPrice}
+            </Text>
+            <Text color={'red.500'} fontSize={'24px'}>
+              <b>
+                Giá: {product.price}
+                <sup>{product.unit}</sup>
+              </b>
+            </Text>
+            <Text color={'black'} fontSize={'14px'}>
+              (Giá đã bao gồm VAT)
+            </Text>
+            <Button
+              border="1px"
+              borderColor={'9dc2ff'}
+              colorScheme="teal"
+              leftIcon={<FaInfoCircle />}
+              variant="solid"
+              fontSize={'14px'}
+              display={'block'}
+              mt="8px"
+            >
+              Thông tin chi tiết
+            </Button>
+          </Box>
+        </VStack>
+      </GridItem>
+    </Link>
+  );
+};
 
-  // HOME- content
+const Home = () => {
+  const { library } = useActiveWeb3React();
 
-  const [data, setData] = useState([
-    {
-      productType: '',
-      productName: '',
-      price: '',
-      manufacturer: '',
-      NameOfBusinessAnnouncingPrice: '',
-      quantity: '',
-      productUrl: '',
-    },
-  ]);
+  const [products, setProducts] = useState([]);
 
-  const getData = async (e) => {
-    let result = await fetch('http://localhost:8000/product/getproduct/getall', {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    result = await result.json();
-    setData(result.product);
-    console.log(result);
-  };
   useEffect(() => {
-    // getData(); TODO
-  }, []);
+    library && getProductsSoldMarketplace(library).then(setProducts).catch(console.error);
+  }, [library]);
 
   return (
     <Box>
@@ -309,14 +179,9 @@ const Home = () => {
         })} */}
 
         <Grid bg="white" templateColumns="repeat(4, 1fr)" gap={6}>
-          <NFTList />
-          <NFTList />
-          <NFTList />
-          <NFTList />
-          <NFTList />
-          <NFTList />
-          <NFTList />
-          <NFTList />
+          {products.map((p, idx) => (
+            <NFTList key={idx} product={p} />
+          ))}
         </Grid>
       </Box>
     </Box>

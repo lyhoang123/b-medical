@@ -48,6 +48,7 @@ const ProductField = () => {
     userManual: '',
   });
   const [productImage, setProductImage] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleOnChangeDateManufacture = (date) => {
     setDateManufacture(date);
@@ -76,28 +77,35 @@ const ProductField = () => {
     }
     const { quantity } = productInfo;
     if (!quantity) return alert('product quantity is required');
-    const uploadedImage = await uploadIPFS(productImage, true);
-    let result = await enterProduct(library, account, { ...productInfo, image: uploadedImage }, quantity);
-    console.log(result);
-    if (result) {
-      alert('you have successfully register product ');
-      setProductInfo({
-        productType: '',
-        productName: '',
-        unit: '',
-        price: '',
-        manufacturer: '',
-        countryOfManufacture: '',
-        dateOfManufacture: '',
-        expirationDate: '',
-        NameOfBusinessAnnouncingPrice: '',
-        contactPhoneNumber: '',
-        businessAddress: '',
-        quantity: '',
-        productUrl: '',
-        generalInfo: '',
-        userManual: '',
-      });
+    try {
+      setSubmitting(true);
+      const uploadedImage = await uploadIPFS(productImage, true);
+      let result = await enterProduct(library, account, { ...productInfo, image: uploadedImage }, quantity);
+      setSubmitting(false);
+      console.log(result);
+      if (result) {
+        alert('you have successfully register product ');
+        setProductInfo({
+          productType: '',
+          productName: '',
+          unit: '',
+          price: '',
+          manufacturer: '',
+          countryOfManufacture: '',
+          dateOfManufacture: '',
+          expirationDate: '',
+          NameOfBusinessAnnouncingPrice: '',
+          contactPhoneNumber: '',
+          businessAddress: '',
+          quantity: '',
+          productUrl: '',
+          generalInfo: '',
+          userManual: '',
+        });
+      }
+    } catch (error) {
+      setSubmitting(false);
+      console.log(error);
     }
   };
   return (
@@ -489,7 +497,7 @@ const ProductField = () => {
         </Box>
 
         <Box pb="4">
-          <Button onClick={() => handleOnSubmit()} colorScheme="blue">
+          <Button onClick={() => handleOnSubmit()} colorScheme="blue" isLoading={submitting}>
             Đăng sản phẩm{' '}
           </Button>
         </Box>

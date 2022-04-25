@@ -125,6 +125,7 @@ contract MedicalFactory is Ownable {
     uint256 public pid; // allways increase foeach enterProduct (from 0)
     // id => pid
     mapping(uint256 => uint256) public products;
+    mapping(uint256 => string) public _products;
     // id => bool (is sold in marketplace)
     mapping(uint256 => bool) public isSoldMarketplace;
     // pid =>  string(metadata ipfs url)
@@ -216,6 +217,7 @@ contract MedicalFactory is Ownable {
     // register product
     function enterProduct(string memory info, uint256 quantity) external onlyProviderVerified {
         products[id] = pid;
+        _products[id] = info;
         productInfos[pid] = info;
         infos.push(info);
         productOwners[id] = _msgSender();
@@ -245,23 +247,43 @@ contract MedicalFactory is Ownable {
         }
     }
 
-     // get all products in marketplace
-    function getProductsInMarketplace() external view returns(string[] memory) {
-        string[] memory productsList= new string[](id);
-        for(uint256 i=0; i<id; i++) {
-            productsList[i] = infos[i];
-        }
-        return productsList;
-    }
-    
-     // get all products is sold in marketplace
-    function getProductsSoldMarketplace() external view returns(uint256[] memory) {
-        uint256[] memory ids = new uint256[](id);
+        // get all products is pending to review
+    function getProductsPending() external view returns(uint256[] memory) {
         uint256 count = 0;
         for(uint256 i=0; i<id; i++) {
-            if(isSoldMarketplace[i]) {
-                ids[count] = i;
+            if(!isSoldMarketplace[i] && productStatuses[i] == PRODUCT_STATUS.PENDING) {
+                // ids[count] = i;
                 count++;
+            }
+        }
+        if(count == 0) return new uint256[](0);
+        uint256[] memory ids = new uint256[](count);
+        uint256 k = 0;
+        for(uint256 i=0; i<id; i++) {
+            if(!isSoldMarketplace[i] && productStatuses[i] == PRODUCT_STATUS.PENDING) {
+                ids[k] = i;
+                k++;
+            }
+        }
+        return ids;
+    }
+    
+    // get all products is sold in marketplace
+    function getProductsSoldMarketplace() external view returns(uint256[] memory) {
+        uint256 count = 0;
+        for(uint256 i=0; i<id; i++) {
+            if(isSoldMarketplace[i] && productStatuses[i] == PRODUCT_STATUS.APPROVED) {
+                // ids[count] = i;
+                count++;
+            }
+        }
+        if(count == 0) return new uint256[](0);
+        uint256[] memory ids = new uint256[](count);
+        uint256 k = 0;
+        for(uint256 i=0; i<id; i++) {
+            if(isSoldMarketplace[i] && productStatuses[i] == PRODUCT_STATUS.APPROVED) {
+                ids[k] = i;
+                k++;
             }
         }
         return ids;

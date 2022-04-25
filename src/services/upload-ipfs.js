@@ -1,7 +1,7 @@
-const { create } = require("ipfs-http-client");
+const { create } = require('ipfs-http-client');
 
 // connect to a different API
-const client = create("https://ipfs.infura.io:5001/api/v0");
+const client = create('https://ipfs.infura.io:5001/api/v0');
 
 export const uploadIPFS = async (payload, isMedia = false) => {
   let _payload = payload;
