@@ -69,3 +69,15 @@ export const getProductsSoldMarketplace = async (library) => {
     throw error;
   }
 };
+
+export const getProductDetail = async (library, id) => {
+  if (!library) throw Error('no signer or provider');
+  try {
+    const medicalContract = await getMedicalFactoryContract(library);
+    const url = await callContract(medicalContract, MEDICAL_FACTORY_METHODS._products, [id]);
+    const res = await axios.get(url);
+    return { ...res.data, id };
+  } catch (error) {
+    throw error;
+  }
+};

@@ -50,10 +50,7 @@ const NFTList = ({ product }) => {
               <b>Công ty</b>: {product.NameOfBusinessAnnouncingPrice}
             </Text>
             <Text color={'red.500'} fontSize={'24px'}>
-              <b>
-                Giá: {product.price}
-                <sup>{product.unit}</sup>
-              </b>
+              <b>Giá: {product.price}</b>
             </Text>
             <Text color={'black'} fontSize={'14px'}>
               (Giá đã bao gồm VAT)

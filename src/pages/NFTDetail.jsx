@@ -24,6 +24,7 @@ import { useParams } from 'react-router-dom';
 import { FaInfoCircle, FaMoneyBillAlt } from 'react-icons/fa';
 import { BsCartPlusFill, BsCalendarPlusFill } from 'react-icons/bs';
 import '../styles/Home.css';
+import { getProductDetail } from 'utils/callContract';
 
 const NFTList = () => {
   return (
@@ -79,18 +80,18 @@ const NFTDetail = () => {
   const { nftId } = useParams();
   const { account, library } = useActiveWeb3React();
 
-  const [nftInfo, setNftInfo] = useState();
+  const [product, setProduct] = useState();
   const [submitting, setSubmitting] = useState(false);
   const [price, setPrice] = useState('');
 
-  // useEffect(() => {
-  //   (() => {
-  //     if (!library) return;
-  //     getNftById(library, nftId)
-  //       .then((res) => res && setNftInfo(res))
-  //       .catch(console.log);
-  //   })();
-  // }, [library, nftId]);
+  useEffect(() => {
+    (() => {
+      library &&
+        getProductDetail(library, nftId)
+          .then((res) => res && setProduct(res))
+          .catch(console.log);
+    })();
+  }, [library, nftId]);
 
   // const handleOrderNFT = async () => {
   //   if (!library || !account) return alert("please connect wallet");
@@ -144,140 +145,135 @@ const NFTDetail = () => {
 
   return (
     <Box>
-      <Box className="box__container" gap={2}>
-        <Grid borderRadius={'10px'} templateColumns={'repeat(5,3fr)'} gap={2} p={'15px'}>
-          <Box w={'390px'} h={'265px'} border="1px solid #26a9e0" borderRadius={'10px'} marginRight="12px">
-            <Image src={nftInfo?.url} alt="" w={'410px'} h={'265px'} objectFit="fill" p={6} />
-          </Box>
-          <GridItem colSpan={4}>
-            <Box fontSize={'38px'} fontWeight={400} color={'black'}>
-              <Text>Lorem ipsum dolor</Text>
+      {product && (
+        <Box className="box__container" gap={2}>
+          <Grid borderRadius={'10px'} templateColumns={'repeat(5,3fr)'} gap={2} p={'15px'}>
+            <Box w={'390px'} h={'265px'} border="1px solid #26a9e0" borderRadius={'10px'} marginRight="12px">
+              <Image src={product.image} alt="" w={'410px'} h={'265px'} objectFit="fill" p={6} />
             </Box>
-            <Box
-              border="1px"
-              borderRadius={'10px'}
-              borderColor={'gray.500'}
-              h="51px"
-              w="256px"
-              display={'flex'}
-              justifyContent={'center'}
-              color={'black'}
-              fontSize={'24px'}
-              fontWeight={700}
-              p={8}
-              mb={'10px'}
-            >
-              <Center>
-                <Text color={'red'}>30.000.000 VND</Text>
-              </Center>
-            </Box>
-            <HStack borderBottom={'1px solid gray'} pb={4} mb={'15px'}>
-              <Button leftIcon={<BsCartPlusFill />} colorScheme="teal" variant="solid">
+            <GridItem colSpan={4}>
+              <Box fontSize={'38px'} fontWeight={400} color={'black'}>
+                <Text>{product.productName}</Text>
+              </Box>
+              <Box
+                border="1px"
+                borderRadius={'10px'}
+                borderColor={'gray.500'}
+                h="51px"
+                w="256px"
+                display={'flex'}
+                justifyContent={'center'}
+                color={'black'}
+                fontSize={'24px'}
+                fontWeight={700}
+                p={8}
+                mb={'10px'}
+              >
+                <Center>
+                  <Text color={'red'}>{product.price}</Text>
+                </Center>
+              </Box>
+              <HStack borderBottom={'1px solid gray'} pb={4} mb={'15px'}>
+                {/* <Button leftIcon={<BsCartPlusFill />} colorScheme="teal" variant="solid">
                 Thêm vào giỏ hàng
-              </Button>
-              <Button leftIcon={<FaMoneyBillAlt />} colorScheme="teal" variant="solid">
-                Mua ngay
-              </Button>
-            </HStack>
+              </Button> */}
+                <Button leftIcon={<FaMoneyBillAlt />} colorScheme="teal" variant="solid">
+                  Mua ngay
+                </Button>
+              </HStack>
 
-            <Box color={'black'}>
-              <Table className="box__table" variant="simple">
-                <Thead className="box__thead">
-                  <Tr>
-                    <Th color={'white'} fontSize="16px">
-                      Thông tin chính
-                    </Th>
-                    <Th></Th>
-                  </Tr>
-                </Thead>
-                <Tbody className="box__body">
-                  <Tr className="box__table-row-even">
-                    <Td className="box__row-left">Loại sản phẩm</Td>
-                    <Td className="box__row-right">Thuốc</Td>
-                  </Tr>
-                  <Tr className="box__table-row-odd">
-                    <Td className="box__row-left">Tên sản phẩm</Td>
-                    <Td className="box__row-right">Paradon</Td>
-                  </Tr>
+              <Box color={'black'}>
+                <Table className="box__table" variant="simple">
+                  <Thead className="box__thead">
+                    <Tr>
+                      <Th color={'white'} fontSize="16px">
+                        Thông tin chính
+                      </Th>
+                      <Th></Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody className="box__body">
+                    <Tr className="box__table-row-even">
+                      <Td className="box__row-left">Loại sản phẩm</Td>
+                      <Td className="box__row-right">{product.productType}</Td>
+                    </Tr>
+                    <Tr className="box__table-row-odd">
+                      <Td className="box__row-left">Tên sản phẩm</Td>
+                      <Td className="box__row-right">{product.productName}</Td>
+                    </Tr>
 
-                  <Tr className="box__table-row-odd">
-                    <Td className="box__row-left">Đơn vị tính</Td>
-                    <Td className="box__row-right">Cây</Td>
-                  </Tr>
-                  <Tr className="box__table-row-even">
-                    <Td className="box__row-left">Giá (đã bao gồm VAT)</Td>
-                    <Td className="box__row-right">7.647.500 VNĐ</Td>
-                  </Tr>
-                  <Tr className="box__table-row-even">
-                    <Td className="box__row-left">Hãng sản xuất</Td>
-                    <Td className="box__row-right">Aesculap AG</Td>
-                  </Tr>
-                  <Tr className="box__table-row-odd">
-                    <Td className="box__row-left">Nước sản xuất</Td>
-                    <Td className="box__row-right">Ba lan</Td>
-                  </Tr>
-                  <Tr className="box__table-row-even">
-                    <Td className="box__row-left">Nước sở hữu</Td>
-                    <Td className="box__row-right">Ba lan</Td>
-                  </Tr>
+                    <Tr className="box__table-row-odd">
+                      <Td className="box__row-left">Đơn vị tính</Td>
+                      <Td className="box__row-right">{product.unit}</Td>
+                    </Tr>
+                    <Tr className="box__table-row-even">
+                      <Td className="box__row-left">Giá (đã bao gồm VAT)</Td>
+                      <Td className="box__row-right">{product.price}</Td>
+                    </Tr>
+                    <Tr className="box__table-row-even">
+                      <Td className="box__row-left">Hãng sản xuất</Td>
+                      <Td className="box__row-right">{product.manufacturer}</Td>
+                    </Tr>
+                    <Tr className="box__table-row-odd">
+                      <Td className="box__row-left">Nước sản xuất</Td>
+                      <Td className="box__row-right">{product.countryOfManufacture}</Td>
+                    </Tr>
+                    {/* <Tr className="box__table-row-even">
+                      <Td className="box__row-left">Nước sở hữu</Td>
+                      <Td className="box__row-right">{product}</Td>
+                    </Tr> */}
 
-                  <Tr className="box__table-row-even">
-                    <Td className="box__row-left">Số Lượng</Td>
-                    <Td className="box__row-right">Ba lan</Td>
-                  </Tr>
-                  <Tr className="box__table-row-even">
-                    <Td className="box__row-left">Ngày sản xuất</Td>
-                    <Td className="box__row-right">2021-07-03</Td>
-                  </Tr>
-                  <Tr className="box__table-row-odd">
-                    <Td className="box__row-left">Ngày hết hạn sử dụng</Td>
-                    <Td className="box__row-right">30-06-2022</Td>
-                  </Tr>
-                  <Tr className="box__table-row-even">
-                    <Td className="box__row-left">Tên doanh nghiệp công bố giá</Td>
-                    <Td className="box__row-right">CÔNG TY TNHH B. BRAUN VIỆT NAM</Td>
-                  </Tr>
-                  <Tr className="box__table-row-odd">
-                    <Td className="box__row-left">Số điện thoại liên hệ</Td>
-                    <Td className="box__row-right">02433571616</Td>
-                  </Tr>
-                  <Tr className="box__table-row-even">
-                    <Td className="box__row-left">Địa chỉ doanh nghiệp</Td>
-                    <Td className="box__row-right">Cụm Công Nghiệp Thanh Oai</Td>
-                  </Tr>
-                </Tbody>
-                <Thead className="box__thead">
-                  <Tr>
-                    <Th color={'white'} fontSize="16px">
-                      {' '}
-                      Các yếu tố khác
-                    </Th>
-                    <Th></Th>
-                  </Tr>
-                </Thead>
-                <Tbody className="box__body">
-                  <Tr className="box__table-row-even">
-                    <Td className="box__row-left">Thông tin chung về thiết bị</Td>
-                    <Td className="box__row-right">
-                      <Text mb="5px">HÀNG MỚI 100%</Text>
-                      <Text mb="5px">Kéo phẫu thuật Mayo-Lexer Durotip TC</Text>
-                    </Td>
-                  </Tr>
+                    <Tr className="box__table-row-even">
+                      <Td className="box__row-left">Số Lượng</Td>
+                      <Td className="box__row-right">{product.quantity}</Td>
+                    </Tr>
+                    <Tr className="box__table-row-even">
+                      <Td className="box__row-left">Ngày sản xuất</Td>
+                      <Td className="box__row-right">{product.dateOfManufacture}</Td>
+                    </Tr>
+                    <Tr className="box__table-row-odd">
+                      <Td className="box__row-left">Ngày hết hạn sử dụng</Td>
+                      <Td className="box__row-right">{product.expirationDate}</Td>
+                    </Tr>
+                    <Tr className="box__table-row-even">
+                      <Td className="box__row-left">Tên doanh nghiệp công bố giá</Td>
+                      <Td className="box__row-right">{product.NameOfBusinessAnnouncingPrice}</Td>
+                    </Tr>
+                    <Tr className="box__table-row-odd">
+                      <Td className="box__row-left">Số điện thoại liên hệ</Td>
+                      <Td className="box__row-right">{product.contactPhoneNumber}</Td>
+                    </Tr>
+                    <Tr className="box__table-row-even">
+                      <Td className="box__row-left">Địa chỉ doanh nghiệp</Td>
+                      <Td className="box__row-right">{product.businessAddress}</Td>
+                    </Tr>
+                  </Tbody>
+                  <Thead className="box__thead">
+                    <Tr>
+                      <Th color={'white'} fontSize="16px">
+                        Các yếu tố khác
+                      </Th>
+                      <Th></Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody className="box__body">
+                    <Tr className="box__table-row-even">
+                      <Td className="box__row-left">Thông tin chung về thiết bị</Td>
+                      <Td className="box__row-right">{product.generalInfo}</Td>
+                    </Tr>
 
-                  <Tr className="box__table-row-odd">
-                    <Td className="box__row-left">Hướng dẫn sử dụng</Td>
-                    <Td className="box__row-right">
-                      <Text mb="5px">HÀNG MỚI 100%</Text>
-                      <Text mb="5px">Kéo phẫu thuật Mayo-Lexer Durotip TC</Text>
-                    </Td>
-                  </Tr>
-                </Tbody>
-              </Table>
-            </Box>
-          </GridItem>
-        </Grid>
-      </Box>
-      <Box className="box__container" mt={'0 !important'} padding="20px">
+                    <Tr className="box__table-row-odd">
+                      <Td className="box__row-left">Hướng dẫn sử dụng</Td>
+                      <Td className="box__row-right">{product.userManual}</Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              </Box>
+            </GridItem>
+          </Grid>
+        </Box>
+      )}
+      {/* <Box className="box__container" mt={'0 !important'} padding="20px">
         <Box className="box__container-header">
           <Box className="box__container-left">
             <BsCalendarPlusFill className="box__icon" />
@@ -299,7 +295,7 @@ const NFTDetail = () => {
           <NFTList />
           <NFTList />
         </Grid>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

@@ -43,7 +43,6 @@ const ProductField = () => {
     contactPhoneNumber: '',
     businessAddress: '',
     quantity: '',
-    productUrl: '',
     generalInfo: '',
     userManual: '',
   });
