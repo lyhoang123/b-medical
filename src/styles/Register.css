@@ -1,0 +1,40 @@
+.fieldset__box {
+  border: 1px solid #2c4897;
+  border-radius: 8px;
+  margin: 0;
+  width: 100%;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__box {
+  display: flex;
+  border-radius: 8px;
+  align-items: center;
+}
+.header__box > a:hover {
+  text-decoration: none;
+}
+
+.fieldset__title {
+  color: #d30126;
+  margin: 12px;
+}
+
+.input__title {
+  color: #2c4897;
+  font-size: 14px;
+}
+
+.input__field {
+  border: 1px;
+  border-color: rgb(190, 187, 187) !important ;
+  border-radius: 4px !important;
+  /* color: gray; */
+}
+
+.box__field {
+  padding: 0 15px 15px 15px;
+  margin-left: 15px;
+}

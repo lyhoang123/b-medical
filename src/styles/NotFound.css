@@ -1,0 +1,63 @@
+.notfound {
+  height: 100vh;
+}
+.notfound-404 {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+.notfound-404 h3 {
+  position: relative;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #262626;
+  letter-spacing: 3px;
+  padding-left: 6px;
+  margin-bottom: -85px;
+}
+.notfound h4 {
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #000;
+  margin-top: 0px;
+  margin-bottom: 25px;
+  line-height: 20px;
+}
+.notfound-404 h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 252px;
+  font-weight: 900;
+  margin: 0px;
+  display: flex;
+  color: #262626;
+  text-transform: uppercase;
+  letter-spacing: -40px;
+  margin-left: -20px;
+  height: 314px;
+}
+.notfound-404 h1 > p {
+  text-shadow: -8px 0px 0px #fff;
+}
+.btn-home {
+  background-color: #fa8bff !important;
+  background-image: linear-gradient(
+    45deg,
+    #fa8bff 0%,
+    #2bd2ff 52%,
+    #2bff88 90%
+  ) !important;
+  width: 130px !important;
+  border-radius: 50px !important;
+  color: #000;
+  font-weight: 400 !important;
+}
