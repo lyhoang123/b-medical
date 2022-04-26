@@ -32,7 +32,7 @@ const NFTList = ({ product }) => {
       <GridItem w="100%" bg="transparent" border="1px" borderRadius={'6px'} borderColor={'gray.400'} p={'14px'}>
         <VStack>
           <Center>
-            <Box h={'200px'}>
+            <Box mh={'200px'}>
               <Image src={product.image} alt="image" />
             </Box>
           </Center>

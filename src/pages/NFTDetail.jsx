@@ -1,4 +1,3 @@
-import { EmailIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -7,24 +6,21 @@ import {
   GridItem,
   HStack,
   Image,
-  Link,
-  Select,
-  Table,
+  Link, Table,
   Tbody,
   Td,
   Text,
   Th,
   Thead,
   Tr,
-  VStack,
+  VStack
 } from '@chakra-ui/react';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { FaInfoCircle, FaMoneyBillAlt } from 'react-icons/fa';
-import { BsCartPlusFill, BsCalendarPlusFill } from 'react-icons/bs';
-import '../styles/Home.css';
+import { useParams } from 'react-router-dom';
 import { getProductDetail } from 'utils/callContract';
+import '../styles/Home.css';
 
 const NFTList = () => {
   return (
@@ -143,13 +139,29 @@ const NFTDetail = () => {
   //   }
   // };
 
+  function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+  }
+
+  function formatDate(date) {
+    return [padTo2Digits(date.getDate()), padTo2Digits(date.getMonth() + 1), date.getFullYear()].join('/');
+  }
+
   return (
     <Box>
       {product && (
         <Box className="box__container" gap={2}>
           <Grid borderRadius={'10px'} templateColumns={'repeat(5,3fr)'} gap={2} p={'15px'}>
-            <Box w={'390px'} h={'265px'} border="1px solid #26a9e0" borderRadius={'10px'} marginRight="12px">
-              <Image src={product.image} alt="" w={'410px'} h={'265px'} objectFit="fill" p={6} />
+            <Box w={'390px'} marginRight="12px">
+              <Image
+                src={product.image}
+                border="1px solid #26a9e0"
+                borderRadius={'10px'}
+                alt=""
+                w={'410px'}
+                objectFit="fill"
+                p={6}
+              />
             </Box>
             <GridItem colSpan={4}>
               <Box fontSize={'38px'} fontWeight={400} color={'black'}>
@@ -231,11 +243,11 @@ const NFTDetail = () => {
                     </Tr>
                     <Tr className="box__table-row-even">
                       <Td className="box__row-left">Ngày sản xuất</Td>
-                      <Td className="box__row-right">{product.dateOfManufacture}</Td>
+                      <Td className="box__row-right">{formatDate(new Date(product.dateOfManufacture))}</Td>
                     </Tr>
                     <Tr className="box__table-row-odd">
                       <Td className="box__row-left">Ngày hết hạn sử dụng</Td>
-                      <Td className="box__row-right">{product.expirationDate}</Td>
+                      <Td className="box__row-right">{formatDate(new Date(product.expirationDate))}</Td>
                     </Tr>
                     <Tr className="box__table-row-even">
                       <Td className="box__row-left">Tên doanh nghiệp công bố giá</Td>
