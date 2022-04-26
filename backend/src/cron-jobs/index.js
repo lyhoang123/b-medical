@@ -4,7 +4,7 @@ const { BigNumber } = require('@ethersproject/bignumber');
 const BlockModel = require('../projects/block.model');
 const WhitelistModel = require('../projects/whitelist.model');
 const BuyModel = require('../projects/buy.model');
-const { getWeb3, getWeb3Wss } = require('../utils/web3Provider');
+const { getWeb3 } = require('../utils/web3Provider');
 const { envVars } = require('../config');
 const LaunchpadABI = require('../abis/Launchpad.json');
 
@@ -20,21 +20,22 @@ const buyQueue = new Queue('buy-queue', {
 
 buyQueue.process(async function (job) {
   try {
-    const { pid, sender: account, amountA: amount } = job.data;
-    const whitelistExists = await WhitelistModel.findOne({ pid, account });
-    if (!whitelistExists) return Promise.resolve(true);
-    const oldAllocation = whitelistExists.allocation ?? '0';
-    const newAllocation = BigNumber.from(oldAllocation).add(
-      BigNumber.from(amount),
-    );
-    await WhitelistModel.findOneAndUpdate(
-      { pid, account },
-      {
-        allocation: newAllocation.toString(),
-      },
-    );
+    console.log(job.data);
+    // const { pid, sender: account, amountA: amount } = job.data;
+    // const whitelistExists = await WhitelistModel.findOne({ pid, account });
+    // if (!whitelistExists) return Promise.resolve(true);
+    // const oldAllocation = whitelistExists.allocation ?? '0';
+    // const newAllocation = BigNumber.from(oldAllocation).add(
+    //   BigNumber.from(amount),
+    // );
+    // await WhitelistModel.findOneAndUpdate(
+    //   { pid, account },
+    //   {
+    //     allocation: newAllocation.toString(),
+    //   },
+    // );
 
-    return Promise.resolve(true);
+    // return Promise.resolve(true);
   } catch (error) {
     Promise.reject(error);
   }
@@ -45,32 +46,15 @@ global.cronRunning = false;
 const maxBlockGetPast = 1000;
 
 const getPastEvents = new CronJob(
-  '*/30 * * * * *',
+  '* * * * * *',
   async () => {
     if (global.cronRunning) return;
     global.cronRunning = true;
     try {
       const web3 = getWeb3();
-      const [latestBlock, pastBlock] = await Promise.all([
-        web3.eth.getBlockNumber(),
-        BlockModel.findOne({ type: 'LAUNCHPAD_EVENTS' }),
-      ]);
-      const launchpadContract = new web3.eth.Contract(
-        LaunchpadABI,
-        envVars.LAUNCHPAD_ADDRESS,
-      );
-      let fromBlock = +envVars.LAUNCHPAD_DEPLOYED_BLOCK;
-      if (
-        typeof pastBlock?.latestBlock !== 'undefined' &&
-        pastBlock.latestBlock > +envVars.LAUNCHPAD_DEPLOYED_BLOCK
-      ) {
-        fromBlock = pastBlock.latestBlock;
-      }
-      _getPastEvents(
-        launchpadContract,
-        latestBlock,
-        +envVars.LAUNCHPAD_DEPLOYED_BLOCK,
-      );
+      const latestBlock = await web3.eth.getBlockNumber();
+      const launchpadContract = new web3.eth.Contract(LaunchpadABI, envVars.LAUNCHPAD_ADDRESS);
+      _getPastEvents(launchpadContract, latestBlock, +envVars.LAUNCHPAD_DEPLOYED_BLOCK);
     } catch (error) {
       console.log('ERROR getPastEvents: ', error);
       global.cronRunning = false;
@@ -78,35 +62,33 @@ const getPastEvents = new CronJob(
   },
   null,
   true,
-  'America/Los_Angeles',
+  'America/Los_Angeles'
 );
 
 const _getPastEvents = async (contract, latestBlock, fromBlock) => {
+  console.log(latestBlock, fromBlock);
   try {
     if (fromBlock >= latestBlock) {
       global.cronRunning = false;
       return;
     }
-    const toBlock =
-      latestBlock - fromBlock > maxBlockGetPast
-        ? fromBlock + maxBlockGetPast
-        : latestBlock;
+    const toBlock = latestBlock - fromBlock > maxBlockGetPast ? fromBlock + maxBlockGetPast : latestBlock;
 
     const events = await contract.getPastEvents('allEvents', {
       fromBlock,
       toBlock: toBlock,
     });
     await Promise.all(events.map(handleEvent));
-    await BlockModel.findOneAndUpdate(
-      { type: 'LAUNCHPAD_EVENTS' },
-      {
-        type: 'LAUNCHPAD_EVENTS',
-        latestBlock: toBlock,
-      },
-      {
-        upsert: true,
-      },
-    );
+    // await BlockModel.findOneAndUpdate(
+    //   { type: 'LAUNCHPAD_EVENTS' },
+    //   {
+    //     type: 'LAUNCHPAD_EVENTS',
+    //     latestBlock: toBlock,
+    //   },
+    //   {
+    //     upsert: true,
+    //   }
+    // );
     _getPastEvents(contract, latestBlock, toBlock);
   } catch (error) {
     console.log('ERROR _getPastEvents: ', error);
@@ -116,16 +98,17 @@ const _getPastEvents = async (contract, latestBlock, fromBlock) => {
 
 const handleEvent = (event) => {
   if (!event.event) return;
-  switch (event.event) {
-    case 'Whitelisted':
-      return handleWhitelistedEvent(event);
+  console.log(event);
+  // switch (event.event) {
+  //   case 'Whitelisted':
+  //     return handleWhitelistedEvent(event);
 
-    case 'Buy':
-      return handleBuyEvent(event);
+  //   case 'Buy':
+  //     return handleBuyEvent(event);
 
-    default:
-      return;
-  }
+  //   default:
+  //     return;
+  // }
 };
 
 const handleWhitelistedEvent = async (event) => {

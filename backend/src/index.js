@@ -3,7 +3,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const express = require('express');
 const path = require('path');
-const passport = require('passport');
 const cors = require('cors');
 const morgan = require('morgan');
 const { configPassport, connectDb } = require('./config');
@@ -13,7 +12,7 @@ const cronJobs = require('./cron-jobs');
 const app = express();
 
 // connect to DB
-connectDb();
+// connectDb();
 
 // middlewares
 app.use(morgan('dev'));
@@ -22,11 +21,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(cors());
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Config passport
-configPassport(passport);
 
 // setup routes
 setupRoutes(app);

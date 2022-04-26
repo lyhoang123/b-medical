@@ -153,7 +153,7 @@ contract MedicalFactory is Ownable {
     }
 
     // events
-    event Transfer(uint256 id, uint256 pid, uint256 newId, address oldOwner, address newOwner, uint256 timestamp);
+    event Transfer(uint256 id, uint256 pid, uint256 newId, address oldOwner, address newOwner, uint256 quantity, uint256 timestamp);
 
     modifier onlyCensor {
         require(roles[_msgSender()][ROLE.CENSOR], "ROLE: UNAUTHORIZED");
@@ -237,7 +237,7 @@ contract MedicalFactory is Ownable {
             if(approvedQuantity[_id] > agents[ROLE.CENSOR].length/2) {
                 productStatuses[_id] = PRODUCT_STATUS.APPROVED;
                 isSoldMarketplace[_id] = true;
-                emit Transfer(0, products[_id], _id, address(0), productOwners[_id], block.timestamp);
+                emit Transfer(0, products[_id], _id, address(0), productOwners[_id], ownerQuantityProducts[id], block.timestamp);
             }
         } else {
             rejectedQuantity[_id]++;
@@ -293,12 +293,13 @@ contract MedicalFactory is Ownable {
     function buyMarketplace(uint256 _id, uint256 _quantity) internal {
         require(isSoldMarketplace[_id], "PRODUCT: NOT_SOLD");
         require(ownerQuantityProducts[_id] < _quantity, "PRODUCT: NOT_ENOUGH_QUANTITY");
-        products[id] = pid;
+        products[id] = products[_id];
         // productInfos[pid] = info;
         productOwners[id] = _msgSender();
         ownerProducts[_msgSender()].push(id);
         ownerQuantityProducts[id] += _quantity;
         ownerQuantityProducts[_id] -= _quantity;
+        emit Transfer(_id, products[_id], id, productOwners[_id], _msgSender(), ownerQuantityProducts[id], block.timestamp);
         id++;
         pid++;
         if(ownerQuantityProducts[_id] == 0) {
@@ -306,15 +307,10 @@ contract MedicalFactory is Ownable {
         }
     }
     //Buy product 
-    function buyProduct(uint256 _price, uint256 _id, uint256 _quantity) public payable {
+    function buyProduct(uint256 _id, uint256 _quantity) public {
         // Check balance
         require(_msgSender() != address(0));
-        require((_price * _quantity) <= _msgSender().balance,  "Lack of payment");      
-        // Transfer payment
-        payable(address(this)).transfer(_price * _quantity);
-        //buyMarketplace
         buyMarketplace(_id, _quantity);
-
     }
     //convert information
     
