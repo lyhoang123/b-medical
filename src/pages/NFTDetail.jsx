@@ -170,13 +170,15 @@ const NFTDetail = () => {
                 mb={'10px'}
               >
                 <Center>
-                  <Text color={'red'}>{product.price}</Text>
+                  <Text color={'red'}>
+                    <b>
+                      {product.price}
+                      <sup>VNĐ</sup>
+                    </b>
+                  </Text>
                 </Center>
               </Box>
               <HStack borderBottom={'1px solid gray'} pb={4} mb={'15px'}>
-                {/* <Button leftIcon={<BsCartPlusFill />} colorScheme="teal" variant="solid">
-                Thêm vào giỏ hàng
-              </Button> */}
                 <Button leftIcon={<FaMoneyBillAlt />} colorScheme="teal" variant="solid">
                   Mua ngay
                 </Button>
@@ -273,29 +275,6 @@ const NFTDetail = () => {
           </Grid>
         </Box>
       )}
-      {/* <Box className="box__container" mt={'0 !important'} padding="20px">
-        <Box className="box__container-header">
-          <Box className="box__container-left">
-            <BsCalendarPlusFill className="box__icon" />
-            <Text fontSize="20px" fontWeight={700}>
-              Các sản phẩm khác
-            </Text>
-          </Box>
-          <Box className="box__container-right">
-            <Select w="148px" border="1px solid #dedede !important" placeholder="Sắp xếp theo">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </Select>
-          </Box>
-        </Box>
-        <Grid templateColumns="repeat(4, 1fr)" gap={6}>
-          <NFTList />
-          <NFTList />
-          <NFTList />
-          <NFTList />
-        </Grid>
-      </Box> */}
     </Box>
   );
 };

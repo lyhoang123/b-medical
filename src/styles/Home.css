@@ -23,11 +23,7 @@
 }
 
 .header__looking {
-  background: linear-gradient(
-    41.51deg,
-    #fe8803 -0.1%,
-    #fed603 101.9%
-  ) !important;
+  background: linear-gradient(41.51deg, #fe8803 -0.1%, #fed603 101.9%) !important;
   border-radius: 24px !important;
 }
 
@@ -61,11 +57,7 @@
 .box__button {
   margin-right: 12px;
   border-radius: 16px !important;
-  background: linear-gradient(
-    41.51deg,
-    #fe8803 -0.1%,
-    #fed603 101.9%
-  ) !important;
+  background: linear-gradient(41.51deg, #fe8803 -0.1%, #fed603 101.9%) !important;
 }
 .box__title {
   color: #000;
@@ -136,8 +128,7 @@
   margin-right: 24px;
 }
 .box__medicine-content > a:hover {
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 .box__medicine-content > a:last-child {

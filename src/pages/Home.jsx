@@ -32,16 +32,18 @@ const NFTList = ({ product }) => {
       <GridItem w="100%" bg="transparent" border="1px" borderRadius={'6px'} borderColor={'gray.400'} p={'14px'}>
         <VStack>
           <Center>
-            <Box boxSize={'180px'}>
+            <Box h={'200px'}>
               <Image src={product.image} alt="image" />
             </Box>
           </Center>
           <Box>
             <Text color={'#1890ff'} mb={'8px'}>
-              <b>{product.productName}</b>
+              <b>
+                {product.productType} : {product.productName}
+              </b>
             </Text>
             <Text color={'gray.500'} fontSize={'14px'}>
-              <b>Model</b>: BS-360E
+              <b>Số Lượng</b>: {product.quantity}
             </Text>
             <Text color={'gray.500'} fontSize={'14px'}>
               <b>HSX</b>: {product.manufacturer}
@@ -50,7 +52,11 @@ const NFTList = ({ product }) => {
               <b>Công ty</b>: {product.NameOfBusinessAnnouncingPrice}
             </Text>
             <Text color={'red.500'} fontSize={'24px'}>
-              <b>Giá: {product.price}</b>
+              <b>
+                Giá: {product.price}
+                <span></span>
+                <sup>VNĐ</sup>
+              </b>
             </Text>
             <Text color={'black'} fontSize={'14px'}>
               (Giá đã bao gồm VAT)
@@ -86,7 +92,7 @@ const Home = () => {
   return (
     <Box>
       {/* HEADER */}
-      <HStack mb={'34px'}>
+      <HStack mb={'34px'} w={'100%'}>
         <Box className="box__header">
           <Center>
             <Link to="/" cursor={'pointer'} onClick={() => console.log('Click')}>

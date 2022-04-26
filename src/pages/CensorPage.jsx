@@ -1,4 +1,4 @@
-import { Box, Button, Image, Text } from '@chakra-ui/react';
+import { Box, Button, Image, Text, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineFileSearch } from 'react-icons/ai';
 import '../styles/CensorPage.css';
@@ -10,6 +10,7 @@ CensorPage.propTypes = {};
 
 const CensorList = (props) => {
   const { account, library } = useActiveWeb3React();
+  const toast = useToast();
 
   const [reviewing, setReviewing] = useState(false);
 
@@ -19,96 +20,124 @@ const CensorList = (props) => {
       await approveOrRejectProduct(library, account, props.id, approve);
       props.setRefresh((pre) => !pre);
       setReviewing(false);
-      alert('review success');
+      toast({
+        position: 'top-right',
+        title: 'Review Product Successfully !!!.',
+        description: 'Product will be approved/rejected. ',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (error) {
       setReviewing(false);
-      console.error(error);
+      toast({
+        position: 'top-right',
+        title: error,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
+
+  function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+  }
+
+  function formatDate(date) {
+    return [padTo2Digits(date.getDate()), padTo2Digits(date.getMonth() + 1), date.getFullYear()].join('/');
+  }
 
   return (
     <Box id="Censor">
       <Box className="Censor__box">
         <Box className="Censor__info">
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Tên sản phẩm : </b>
-            </Text>
-            <Text className="Censor__text2">{props.productName}</Text>
-          </Box>
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Loại : </b>
-            </Text>
-            <Text className="Censor__text2">{props.productType}</Text>
-          </Box>
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Đơn vị tính : </b>
-            </Text>
-            <Text className="Censor__text2">{props.unit}</Text>
-          </Box>
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Ngày sản xuất : </b>
-            </Text>
-            {/* <Text className="Censor__text2">{props.dateOfManufacture}</Text> */}
-          </Box>
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Ngày hết hạn : </b>
-            </Text>
-            {/* <Text className="Censor__text2">{props.expirationDate}</Text> */}
+          <Box className="Censor__row" w={'25%'} m={'0px 12px'}>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Tên sản phẩm: </b>
+              </Text>
+              <Text className="Censor__text2">{props.productName}</Text>
+            </Box>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Ngày sản xuất: </b>
+              </Text>
+              <Text className="Censor__text2">{formatDate(new Date(props.dateOfManufacture))}</Text>
+            </Box>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Ngày hết hạn: </b>
+              </Text>
+              <Text className="Censor__text2">{formatDate(new Date(props.expirationDate))}</Text>
+            </Box>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Đơn vị tính: </b>
+              </Text>
+              <Text className="Censor__text2">{props.unit}</Text>
+            </Box>
           </Box>
 
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Công ty sản xuất : </b>
-            </Text>
-            <Text className="Censor__text2">{props.manufacturer}</Text>
+          <Box className="Censor__row" w={'20%'} m={'0px 12px'}>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Loại: </b>
+              </Text>
+              <Text className="Censor__text2">{props.productType}</Text>
+            </Box>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Giá: </b>{' '}
+              </Text>
+              <Text className="Censor__text2">
+                {props.price}
+                <sup>VNĐ</sup>
+              </Text>
+            </Box>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Số lượng: </b>
+              </Text>
+              <Text className="Censor__text2">{props.quantity}</Text>
+            </Box>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Nước sản xuất: </b>
+              </Text>
+              <Text className="Censor__text2">{props.countryOfManufacture}</Text>
+            </Box>
           </Box>
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Giá : </b>{' '}
-            </Text>
-            <Text className="Censor__text2">
-              {props.price}
-              <sup>VNĐ</sup>
-            </Text>
-          </Box>
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Nước sản xuất : </b>
-            </Text>
-            <Text className="Censor__text2">{props.countryOfManufacture}</Text>
-          </Box>
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Tên doanh nghiệp : </b>
-            </Text>
-            <Text className="Censor__text2">{props.NameOfBusinessAnnouncingPrice}</Text>
-          </Box>
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Địa chỉ doanh nghiệp : </b>
-            </Text>
-            <Text className="Censor__text2">{props.businessAddress}</Text>
-          </Box>
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Số Điện Thoại : </b>
-            </Text>
-            <Text className="Censor__text2">{props.contactPhoneNumber}</Text>
-          </Box>
-          <Box className="Censor__detail">
-            <Text className="Censor__text">
-              <b>Số lượng : </b>
-            </Text>
-            <Text className="Censor__text2">{props.quantity}</Text>
+
+          <Box className="Censor__row" w={'55%'}>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Công ty sản xuất: </b>
+              </Text>
+              <Text className="Censor__text2">{props.manufacturer}</Text>
+            </Box>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Tên doanh nghiệp: </b>
+              </Text>
+              <Text className="Censor__text2">{props.NameOfBusinessAnnouncingPrice}</Text>
+            </Box>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Số Điện Thoại: </b>
+              </Text>
+              <Text className="Censor__text2">{props.contactPhoneNumber}</Text>
+            </Box>
+            <Box className="Censor__detail">
+              <Text className="Censor__text">
+                <b>Địa chỉ doanh nghiệp: </b>
+              </Text>
+              <Text className="Censor__text2">{props.businessAddress}</Text>
+            </Box>
           </Box>
         </Box>
         <Box className="Censor__img">
-          <Image src={props.productUrl} />
+          <Image src={props.image} />
           <Box className="Censor__btn2">
             <Button
               className="Censor__accept"
@@ -169,7 +198,7 @@ function CensorPage(props) {
               contactPhoneNumber={e.contactPhoneNumber}
               businessAddress={e.businessAddress}
               quantity={e.quantity}
-              productUrl={e.productUrl}
+              image={e.image}
               generalInfo={e.generalInfo}
               userManual={e.userManual}
               // getData={getData}
