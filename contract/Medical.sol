@@ -307,15 +307,10 @@ contract MedicalFactory is Ownable {
         }
     }
     //Buy product 
-    function buyProduct(uint256 _price, uint256 _id, uint256 _quantity) public payable {
+    function buyProduct(uint256 _id, uint256 _quantity) public {
         // Check balance
         require(_msgSender() != address(0));
-        require((_price * _quantity) <= _msgSender().balance,  "Lack of payment");      
-        // Transfer payment
-        payable(address(this)).transfer(_price * _quantity);
-        //buyMarketplace
         buyMarketplace(_id, _quantity);
-
     }
     
     // re-sell in marketplace by distributor

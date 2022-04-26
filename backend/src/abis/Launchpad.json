@@ -59,6 +59,12 @@
       {
         "indexed": false,
         "internalType": "uint256",
+        "name": "quantity",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
         "name": "timestamp",
         "type": "uint256"
       }
@@ -205,11 +211,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_price",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
         "name": "_id",
         "type": "uint256"
       },
@@ -221,7 +222,7 @@
     ],
     "name": "buyProduct",
     "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
