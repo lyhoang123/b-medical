@@ -20,6 +20,8 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { AiOutlineLogin } from 'react-icons/ai';
+import { uploadIPFS } from 'services/upload-ipfs';
+import { registerProvider } from 'utils/callContract';
 import CancelIcon from '../assets/images/cancel.png';
 import RegisterIcon from '../assets/images/Register.png';
 import '../styles/react-date.css';
@@ -65,7 +67,6 @@ const Register = () => {
   };
 
   const handleOnSubmit = async (e) => {
-    var formData = new FormData();
     var imagefile = avatar;
 
     if (!imagefile) {
@@ -80,68 +81,45 @@ const Register = () => {
       return;
     }
     setLoading(true);
-
-    formData.append('image', imagefile);
-    const response = await axios.post('http://localhost:8000/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    if (!response.data?.url) {
-      window.alert('upload not successfuly :((');
-      return;
+    const avatarUrl = await uploadIPFS(imagefile, true);
+    let result = await registerProvider(library, account, { ...providerInfo, certificateUrl: avatarUrl });
+    setLoading(false);
+    if (result) {
+      toast({
+        position: 'top-right',
+        title: 'Submission of Registration Successfully.',
+        description: 'Submission of Registration Successfully.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      setProviderInfo({
+        taxcode: '',
+        email: '',
+        representName: '',
+        representPosition: '',
+        representPhone: '',
+        representId: '',
+        daterange: '',
+        issuedby: '',
+        businessName: '',
+        businessNameInternational: '',
+        businessAddress: '',
+        businessPhone: '',
+        businessFax: '',
+        walletAddress: '',
+        certificateUrl: '',
+      });
+    } else {
+      toast({
+        position: 'top-right',
+        title: 'Please try again .',
+        description: 'Please try again.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
     }
-    const avatarUrl = response.data.url;
-    console.log('upload success:', avatarUrl);
-
-    setTimeout(async () => {
-      let result = await axios.post(
-        'http://localhost:8000/user/provider',
-        { ...providerInfo, certificateUrl: avatarUrl },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      setLoading(false);
-      if (result) {
-        toast({
-          position: 'top-right',
-          title: 'Submission of Registration Successfully.',
-          description: 'Submission of Registration Successfully.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-        setProviderInfo({
-          taxcode: '',
-          email: '',
-          representName: '',
-          representPosition: '',
-          representPhone: '',
-          representId: '',
-          daterange: '',
-          issuedby: '',
-          businessName: '',
-          businessNameInternational: '',
-          businessAddress: '',
-          businessPhone: '',
-          businessFax: '',
-          walletAddress: '',
-          certificateUrl: '',
-        });
-      } else {
-        toast({
-          position: 'top-right',
-          title: 'Please try again .',
-          description: 'Please try again.',
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        });
-      }
-    }, 2000);
   };
 
   const handleCancelClick = (e) => {

@@ -26,7 +26,6 @@ import { getProductsSoldMarketplace } from 'utils/callContract';
 import '../styles/Home.css';
 
 const NFTList = ({ product }) => {
-  console.log(product);
   return (
     <Link to={`/nft/${product.id.toString()}`}>
       <GridItem w="100%" bg="transparent" border="1px" borderRadius={'6px'} borderColor={'gray.400'} p={'14px'}>
@@ -43,7 +42,7 @@ const NFTList = ({ product }) => {
               </b>
             </Text>
             <Text color={'gray.500'} fontSize={'14px'}>
-              <b>Số Lượng</b>: {product.quantity}
+              <b>Số Lượng</b>: {product.quantity?.toString()}
             </Text>
             <Text color={'gray.500'} fontSize={'14px'}>
               <b>HSX</b>: {product.manufacturer}
@@ -81,7 +80,7 @@ const NFTList = ({ product }) => {
 };
 
 const Home = () => {
-  const { library } = useActiveWeb3React();
+  const { library, account } = useActiveWeb3React();
 
   const [products, setProducts] = useState([]);
 
@@ -95,7 +94,7 @@ const Home = () => {
       <HStack mb={'34px'} w={'100%'}>
         <Box className="box__header">
           <Center>
-            <Link to="/" cursor={'pointer'} onClick={() => console.log('Click')}>
+            <Link to="/" cursor={'pointer'}>
               <p className="header__link">Trang chủ</p>
             </Link>
 
@@ -105,12 +104,12 @@ const Home = () => {
             </Link>
 
             <span className="header__space">/</span>
-            <Link to="/product-field" cursor={'pointer'} onClick={() => console.log('Click')}>
+            <Link to="/product-field" cursor={'pointer'}>
               <p className="header__link">Cung cấp thông tin sản phẩm</p>
             </Link>
 
             <span className="header__space">/</span>
-            <Link to="/:account" cursor={'pointer'} onClick={() => console.log('Click')}>
+            <Link to={`/${account}`} cursor={'pointer'}>
               <p className="header__link">Sản phẩm đã mua</p>
             </Link>
           </Center>

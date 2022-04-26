@@ -60,9 +60,12 @@ export const getProductsSoldMarketplace = async (library) => {
     const ids = await callContract(medicalContract, MEDICAL_FACTORY_METHODS.getProductsSoldMarketplace, []);
     return Promise.all(
       ids.map(async (id) => {
-        const url = await callContract(medicalContract, MEDICAL_FACTORY_METHODS._products, [id]);
+        const [url, quantity] = await Promise.all([
+          callContract(medicalContract, MEDICAL_FACTORY_METHODS._products, [id]),
+          callContract(medicalContract, MEDICAL_FACTORY_METHODS.ownerQuantityProducts, [id]),
+        ]);
         const res = await axios.get(url);
-        return { ...res.data, id };
+        return { ...res.data, id, quantity };
       })
     );
   } catch (error) {
@@ -74,9 +77,68 @@ export const getProductDetail = async (library, id) => {
   if (!library) throw Error('no signer or provider');
   try {
     const medicalContract = await getMedicalFactoryContract(library);
-    const url = await callContract(medicalContract, MEDICAL_FACTORY_METHODS._products, [id]);
+    const [url, quantity] = await Promise.all([
+      callContract(medicalContract, MEDICAL_FACTORY_METHODS._products, [id]),
+      callContract(medicalContract, MEDICAL_FACTORY_METHODS.ownerQuantityProducts, [id]),
+    ]);
     const res = await axios.get(url);
-    return { ...res.data, id };
+    return { ...res.data, id, quantity };
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const buyMarketplace = async (library, account, id, quantity) => {
+  if (!library || !account) throw Error('no signer or provider');
+  try {
+    const medicalContract = await getMedicalFactoryContract(library, account);
+    return callContract(medicalContract, MEDICAL_FACTORY_METHODS.buyMarketplace, [id, quantity]);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getHistories = async (library, account) => {
+  if (!library || !account) throw Error('no signer or provider');
+  try {
+    const res = await axios.get(`http://localhost:5000/api/v1/transfers/${account}`);
+    // console.log(histories);
+    if (!res.data?.length) return [];
+    return Promise.all(
+      res.data.map(async (history) => {
+        const product = await getProductDetail(library, history.id);
+        return { ...history, product };
+      })
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getPendingProviders = async (library) => {
+  if (!library) throw Error('no signer or provider');
+  try {
+    const medicalContract = await getMedicalFactoryContract(library);
+    const addresses = await callContract(medicalContract, MEDICAL_FACTORY_METHODS.getPendingProviders, []);
+    console.log(addresses);
+    return Promise.all(
+      addresses.map(async (addr) => {
+        const url = await callContract(medicalContract, MEDICAL_FACTORY_METHODS.agentInfos, [addr]);
+        console.log(url);
+        const res = await axios.get(url);
+        return { ...res.data, providerAddress: addr };
+      })
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const approveProvider = async (library, account, provider, idx, approve) => {
+  if (!library || !account) throw Error('no signer or provider');
+  try {
+    const medicalContract = await getMedicalFactoryContract(library, account);
+    return callContract(medicalContract, MEDICAL_FACTORY_METHODS.approveProvider, [provider, idx, approve]);
   } catch (error) {
     throw error;
   }

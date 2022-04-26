@@ -290,7 +290,7 @@ contract MedicalFactory is Ownable {
     }
 
     // buy product from marketplace
-    function buyMarketplace(uint256 _id, uint256 _quantity) internal {
+    function buyMarketplace(uint256 _id, uint256 _quantity) external {
         require(isSoldMarketplace[_id], "PRODUCT: NOT_SOLD");
         require(ownerQuantityProducts[_id] < _quantity, "PRODUCT: NOT_ENOUGH_QUANTITY");
         products[id] = products[_id];
@@ -305,12 +305,6 @@ contract MedicalFactory is Ownable {
         if(ownerQuantityProducts[_id] == 0) {
             isSoldMarketplace[_id] = false;
         }
-    }
-    //Buy product 
-    function buyProduct(uint256 _id, uint256 _quantity) public {
-        // Check balance
-        require(_msgSender() != address(0));
-        buyMarketplace(_id, _quantity);
     }
     
     // re-sell in marketplace by distributor

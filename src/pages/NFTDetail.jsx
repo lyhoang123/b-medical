@@ -6,20 +6,27 @@ import {
   GridItem,
   HStack,
   Image,
-  Link, Table,
+  Input,
+  Link,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Table,
   Tbody,
   Td,
   Text,
   Th,
   Thead,
   Tr,
-  VStack
+  VStack,
 } from '@chakra-ui/react';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useEffect, useState } from 'react';
 import { FaInfoCircle, FaMoneyBillAlt } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
-import { getProductDetail } from 'utils/callContract';
+import { buyMarketplace, getProductDetail } from 'utils/callContract';
 import '../styles/Home.css';
 
 const NFTList = () => {
@@ -78,7 +85,7 @@ const NFTDetail = () => {
 
   const [product, setProduct] = useState();
   const [submitting, setSubmitting] = useState(false);
-  const [price, setPrice] = useState('');
+  const [amount, setAmount] = useState(1);
 
   useEffect(() => {
     (() => {
@@ -89,55 +96,22 @@ const NFTDetail = () => {
     })();
   }, [library, nftId]);
 
-  // const handleOrderNFT = async () => {
-  //   if (!library || !account) return alert("please connect wallet");
-  //   if (!price || isNaN(price)) return alert("enter sell price");
-  //   try {
-  //     setSubmitting(true);
-  //     await orderNFT(library, account, nftId, price);
-  //     alert("order success");
-  //     setSubmitting(false);
-  //   } catch (error) {
-  //     console.error(error);
-  //     if (error.data?.message) {
-  //       alert(error.data.message);
-  //     }
-  //     setSubmitting(false);
-  //   }
-  // };
-
-  // const handleCancelOrderNFT = async () => {
-  //   if (!library || !account) return alert("please connect wallet");
-  //   try {
-  //     setSubmitting(true);
-  //     await cancelOrderNFT(library, account, nftId);
-  //     alert("cancel order success");
-  //     setSubmitting(false);
-  //   } catch (error) {
-  //     console.error(error);
-  //     if (error.data?.message) {
-  //       alert(error.data.message);
-  //     }
-  //     setSubmitting(false);
-  //   }
-  // };
-
-  // const handleBuyOrderNFT = async (price) => {
-  //   if (!library || !account) return alert("please connect wallet");
-  //   if (!price) return;
-  //   try {
-  //     setSubmitting(true);
-  //     await buyOrderNFT(library, account, nftId, price);
-  //     alert("buy success");
-  //     setSubmitting(false);
-  //   } catch (error) {
-  //     console.error(error);
-  //     if (error.data?.message) {
-  //       alert(error.data.message);
-  //     }
-  //     setSubmitting(false);
-  //   }
-  // };
+  const handleBuy = async () => {
+    if (!library || !account) return alert('please connect wallet');
+    if (!amount || isNaN(amount) || +amount === 0) return alert('invalid amount');
+    try {
+      setSubmitting(true);
+      await buyMarketplace(library, account, nftId, amount);
+      alert('buy success');
+      setSubmitting(false);
+    } catch (error) {
+      console.error(error);
+      if (error.data?.message) {
+        alert(error.data.message);
+      }
+      setSubmitting(false);
+    }
+  };
 
   function padTo2Digits(num) {
     return num.toString().padStart(2, '0');
@@ -191,7 +165,22 @@ const NFTDetail = () => {
                 </Center>
               </Box>
               <HStack borderBottom={'1px solid gray'} pb={4} mb={'15px'}>
-                <Button leftIcon={<FaMoneyBillAlt />} colorScheme="teal" variant="solid">
+                <Box w="5em">
+                  <NumberInput step={1} min={1} value={amount} onChange={(value) => setAmount(value)}>
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </Box>
+                <Button
+                  leftIcon={<FaMoneyBillAlt />}
+                  colorScheme="teal"
+                  variant="solid"
+                  onClick={handleBuy}
+                  isLoading={submitting}
+                >
                   Mua ngay
                 </Button>
               </HStack>
@@ -239,7 +228,7 @@ const NFTDetail = () => {
 
                     <Tr className="box__table-row-even">
                       <Td className="box__row-left">Số Lượng</Td>
-                      <Td className="box__row-right">{product.quantity}</Td>
+                      <Td className="box__row-right">{product.quantity?.toString()}</Td>
                     </Tr>
                     <Tr className="box__table-row-even">
                       <Td className="box__row-left">Ngày sản xuất</Td>

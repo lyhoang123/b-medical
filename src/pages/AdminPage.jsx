@@ -12,39 +12,52 @@ import {
 } from '@chakra-ui/react';
 import '../styles/AdminPage.css';
 import { boolean } from 'yup';
+import { approveProvider, getPendingProviders } from 'utils/callContract';
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 
 AdminPage.propTypes = {};
 
 const CompanyList = (props) => {
+  const { account, library } = useActiveWeb3React();
   const toast = useToast();
 
-  const handleCancelClick = async () => {
-    let result = await fetch(`http://localhost:8000/user/${props.walletAddress}`, {
-      method: 'delete',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    result = await result.json();
-    if (result) {
-      toast({
-        position: 'top-right',
-        title: 'Reject registration form successfully.',
-        description: 'Reject registration form successfully. ',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      props.getData();
-    } else {
-      toast({
-        position: 'top-right',
-        title: 'Fail ! Try Again.',
-        description: 'Fail ! Try Again. ',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+  const handleApprove = async (approve = true) => {
+    try {
+      const result = await approveProvider(library, account, props.providerAddress, props.idx, approve);
+      if (result) {
+        toast({
+          position: 'top-right',
+          title: approve ? 'Approve registration form successfully.' : 'Reject registration form successfully.',
+          description: approve ? 'Approve registration form successfully.' : 'Reject registration form successfully.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+        props.setRefresh((pre) => !pre);
+      } else {
+        toast({
+          position: 'top-right',
+          title: 'Fail ! Try Again.',
+          description: 'Fail ! Try Again. ',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.data?.message) {
+        const errMessage = error.data?.message?.toString().replace('execution reverted: ', '');
+        // TODO: toast
+        errMessage &&
+          toast({
+            position: 'top-right',
+            title: errMessage,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          });
+      }
     }
   };
 
@@ -140,13 +153,14 @@ const CompanyList = (props) => {
         <Button
           className="button__accept"
           leftIcon={<AiFillCheckCircle color="white" fontSize={'20px'} fontWeight="700" />}
+          onClick={() => handleApprove(true)}
         >
           Đồng ý
         </Button>
         <Button
           className="button__refuse"
           leftIcon={<AiFillCloseCircle color="white" fontSize={'20px'} fontWeight="700" />}
-          onClick={handleCancelClick}
+          onClick={() => handleApprove(false)}
         >
           Từ chối
         </Button>
@@ -156,43 +170,22 @@ const CompanyList = (props) => {
 };
 
 function AdminPage(props) {
-  const [data, setData] = useState([
-    {
-      taxcode: '',
-      email: '',
-      representName: '',
-      representPosition: '',
-      representPhone: '',
-      representId: '',
-      daterange: '',
-      issuedby: '',
-      businessName: '',
-      businessNameInternational: '',
-      businessAddress: '',
-      businessPhone: '',
-      businessFax: '',
-      walletAddress: '',
-      certificateUrl: '',
-    },
-  ]);
+  const { account, library } = useActiveWeb3React();
+
+  const [data, setData] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   const [Loading, setLoading] = useState(true);
 
   const getData = async (e) => {
-    let result = await fetch('http://localhost:8000/user/provider/getall', {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    result = await result.json();
-    setData(result.provider);
+    let result = await getPendingProviders(library);
+    setData(result);
+    setLoading(false);
   };
 
   useEffect(() => {
-    getData();
-    setLoading(false);
-  }, []);
+    library && getData();
+  }, [library, refresh]);
 
   return (
     <Box w="100%">
@@ -206,9 +199,12 @@ function AdminPage(props) {
           </Stack>
         ) : (
           <Box>
-            {data.map((e) => {
+            {data.map((e, idx) => {
               return (
                 <CompanyList
+                  key={idx}
+                  idx={idx}
+                  providerAddress={e.providerAddress}
                   businessName={e.businessName}
                   taxcode={e.taxcode}
                   email={e.email}
@@ -219,7 +215,7 @@ function AdminPage(props) {
                   businessFax={e.businessFax}
                   businessNameInternational={e.businessNameInternational}
                   certificateUrl={e.certificateUrl}
-                  getData={getData}
+                  setRefresh={setRefresh}
                 />
               );
             })}

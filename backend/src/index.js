@@ -12,7 +12,7 @@ const cronJobs = require('./cron-jobs');
 const app = express();
 
 // connect to DB
-// connectDb();
+connectDb();
 
 // middlewares
 app.use(morgan('dev'));

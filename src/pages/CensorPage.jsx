@@ -30,13 +30,18 @@ const CensorList = (props) => {
       });
     } catch (error) {
       setReviewing(false);
-      toast({
-        position: 'top-right',
-        title: error,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+
+      if (error.data?.message) {
+        const errMessage = error.data?.message?.toString().replace('execution reverted: ', '');
+        errMessage &&
+          toast({
+            position: 'top-right',
+            title: errMessage,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          });
+      }
     }
   };
 
