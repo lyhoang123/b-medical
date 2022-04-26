@@ -1,82 +1,8 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_weth",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
     "stateMutability": "nonpayable",
     "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "pid",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amountA",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amountB",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "timestamp",
-        "type": "uint256"
-      }
-    ],
-    "name": "Buy",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "pid",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "timestamp",
-        "type": "uint256"
-      }
-    ],
-    "name": "Claim",
-    "type": "event"
   },
   {
     "anonymous": false,
@@ -101,30 +27,120 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "pid",
         "type": "uint256"
       },
       {
-        "indexed": true,
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "oldOwner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "Transfer",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "_products",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "account",
         "type": "address"
       },
       {
-        "indexed": true,
-        "internalType": "enum PreOrder.TIER",
-        "name": "tier",
+        "internalType": "enum MedicalFactory.ROLE",
+        "name": "role",
         "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "url",
+        "type": "string"
       }
     ],
-    "name": "Whitelisted",
-    "type": "event"
+    "name": "addAgent",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "inputs": [],
-    "name": "WETH",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "agentInfos",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "enum MedicalFactory.ROLE",
+        "name": "",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "agents",
     "outputs": [
       {
         "internalType": "address",
@@ -139,21 +155,16 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "poolIdx",
+        "name": "_id",
         "type": "uint256"
       },
       {
-        "internalType": "uint32",
-        "name": "_timestamp",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint16",
-        "name": "_claimPercent",
-        "type": "uint16"
+        "internalType": "bool",
+        "name": "approve",
+        "type": "bool"
       }
     ],
-    "name": "addClaimBatch",
+    "name": "approveOrRejectProduct",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -162,51 +173,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_tokenA",
+        "name": "provider",
         "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_tokenB",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_tokenAPrice",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_tokenAmountAPreOrder",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_maxTokenBCanBuy",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_startTime",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_startTimeSwapFrom",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_startTimeSwapDuration",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_startTimeClaim",
-        "type": "uint32"
       }
     ],
-    "name": "addPool",
+    "name": "approveProvider",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -215,57 +186,40 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "poolIdx",
+        "name": "",
         "type": "uint256"
-      },
-      {
-        "internalType": "address[]",
-        "name": "_addr",
-        "type": "address[]"
-      },
-      {
-        "internalType": "enum PreOrder.TIER[]",
-        "name": "_tiers",
-        "type": "uint8[]"
       }
     ],
-    "name": "addToWhitelist",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "approvedQuantity",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "poolIdx",
+        "name": "_price",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "amountB",
-        "type": "uint256"
-      }
-    ],
-    "name": "buyPreOrder",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "poolIdx",
+        "name": "_id",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "amountB",
+        "name": "_quantity",
         "type": "uint256"
       }
     ],
-    "name": "buyPreOrderWETH",
+    "name": "buyProduct",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -278,152 +232,12 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "claimBatches",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "timestamp",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint32",
-        "name": "claimPercent",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "poolIdx",
-        "type": "uint256"
-      }
-    ],
-    "name": "claimPendingToken",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
         "internalType": "address",
         "name": "",
         "type": "address"
       }
     ],
-    "name": "currentClaimBatch",
-    "outputs": [
-      {
-        "internalType": "uint8",
-        "name": "",
-        "type": "uint8"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "poolIdx",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amountA",
-        "type": "uint256"
-      }
-    ],
-    "name": "getAmountIn",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "poolIdx",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amountB",
-        "type": "uint256"
-      }
-    ],
-    "name": "getAmountOut",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "poolIdx",
-        "type": "uint256"
-      }
-    ],
-    "name": "getClaimBatches",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint32",
-            "name": "timestamp",
-            "type": "uint32"
-          },
-          {
-            "internalType": "uint32",
-            "name": "claimPercent",
-            "type": "uint32"
-          }
-        ],
-        "internalType": "struct PreOrder.ClaimBatch[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "isActivePool",
+    "name": "decisionStatuses",
     "outputs": [
       {
         "internalType": "bool",
@@ -437,17 +251,112 @@
   {
     "inputs": [
       {
+        "internalType": "string",
+        "name": "info",
+        "type": "string"
+      },
+      {
         "internalType": "uint256",
-        "name": "",
+        "name": "quantity",
         "type": "uint256"
       }
     ],
-    "name": "maxTokenBCanBuy",
+    "name": "enterProduct",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "enum MedicalFactory.ROLE",
+        "name": "role",
+        "type": "uint8"
+      }
+    ],
+    "name": "getAgents",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getProductsPending",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getProductsSoldMarketplace",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "id",
     "outputs": [
       {
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "infos",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "isSoldMarketplace",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -469,17 +378,17 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
         "internalType": "address",
         "name": "",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
-    "name": "pendingTokenAAmount",
+    "name": "ownerProducts",
     "outputs": [
       {
         "internalType": "uint256",
@@ -496,14 +405,154 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
-      },
+      }
+    ],
+    "name": "ownerQuantityProducts",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pid",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "productInfos",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "productOwners",
+    "outputs": [
       {
         "internalType": "address",
         "name": "",
         "type": "address"
       }
     ],
-    "name": "pendingTokenAAmountClaimed",
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "productStatuses",
+    "outputs": [
+      {
+        "internalType": "enum MedicalFactory.PRODUCT_STATUS",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "products",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "providerVerified",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "provider",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "url",
+        "type": "string"
+      }
+    ],
+    "name": "registerProvider",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "rejectedQuantity",
     "outputs": [
       {
         "internalType": "uint256",
@@ -524,275 +573,17 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "poolIdx",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_from",
-        "type": "uint32"
-      }
-    ],
-    "name": "setStartTimeClaim",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "poolIdx",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_from",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_duration",
-        "type": "uint32"
-      }
-    ],
-    "name": "setStartTimeSwap",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "startTime",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "startTimeClaim",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "startTimeSwap",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "from",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint32",
-        "name": "duration",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
         "internalType": "address",
         "name": "",
         "type": "address"
-      }
-    ],
-    "name": "tiers",
-    "outputs": [
+      },
       {
-        "internalType": "enum PreOrder.TIER",
+        "internalType": "enum MedicalFactory.ROLE",
         "name": "",
         "type": "uint8"
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "tokenAB",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "tokenA",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "tokenB",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "tokenAPrice",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "tokenAmountAPreOrder",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "totalAmountABought",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalPools",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "totalTokenBBought",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "whitelist",
+    "name": "roles",
     "outputs": [
       {
         "internalType": "bool",
@@ -807,11 +598,24 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "poolIdx",
+        "name": "_id",
         "type": "uint256"
       }
     ],
-    "name": "withdrawAllTokenAB",
+    "name": "sellMarketplace",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
