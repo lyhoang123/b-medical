@@ -136,7 +136,7 @@ const Home = () => {
       </HStack>
 
       {/* BOX CHUNG */}
-      <Box className="box__container">
+      <Box className="box__container-1">
         <Box className="box__container-header">
           <Box className="box__container-left">
             <BsFillMenuButtonWideFill className="box__icon" />
