@@ -12,9 +12,8 @@ import {
   Progress,
   Text,
   useToast,
-  VStack,
+  VStack
 } from '@chakra-ui/react';
-import axios from 'axios';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';

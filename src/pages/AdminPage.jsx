@@ -1,19 +1,12 @@
-import { Box, Button, Image, Skeleton, Stack, Text, useDisclosure, useToast } from '@chakra-ui/react';
+import {
+  Box, Button, Image, Modal, ModalBody,
+  ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Stack, Text, useToast
+} from '@chakra-ui/react';
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useEffect, useState } from 'react';
 import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineFileSearch } from 'react-icons/ai';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from '@chakra-ui/react';
-import '../styles/AdminPage.css';
-import { boolean } from 'yup';
 import { approveProvider, getPendingProviders } from 'utils/callContract';
-import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
+import '../styles/AdminPage.css';
 
 AdminPage.propTypes = {};
 
