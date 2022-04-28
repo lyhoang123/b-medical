@@ -6,16 +6,39 @@ import { ButtonGroup, IconButton, Image, Input } from '@chakra-ui/react';
 import { connectors } from 'connectors';
 import { useWallet } from 'connectors/hooks';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { FaGithub, FaLinkedin, FaTwitter, FaFacebook, FaReact } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import LogoHeader from '../../assets/images/logo.png';
 import LogoFooter from '../../assets/images/logo1.PNG';
 import { injected } from 'connectors';
+import { useState, useContext } from 'react';
+import { GlobalContext } from 'context/GlobalContext';
+import { getOwnerRoles } from 'utils/callContract';
 
 export const Layout = ({ children }) => {
-  const { account } = useActiveWeb3React();
+  const { account, library } = useActiveWeb3React();
   const { connect } = useWallet();
+  const { setRoles } = useContext(GlobalContext);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      if (!account || !library) return;
+      try {
+        getOwnerRoles(library, account)
+          .then((roles) => {
+            setRoles(roles);
+            setLoading(false);
+          })
+          .catch(console.error);
+      } catch (error) {
+        setLoading(false);
+        console.error(error);
+      }
+    })();
+  }, [account, library]);
 
   const handleConnect = useCallback(() => connect(injected), [connect, injected]);
 
@@ -53,17 +76,19 @@ export const Layout = ({ children }) => {
       </HStack>
 
       {/* CONTENT */}
-      <Box
-        minH="calc(100vh - 6em)"
-        px="8"
-        py="4"
-        pos="relative"
-        backgroundColor={'#e5e5e5'}
-        display={'flex'}
-        justifyContent={'center'}
-      >
-        {children}
-      </Box>
+      {!loading && (
+        <Box
+          minH="calc(100vh - 6em)"
+          px="8"
+          py="4"
+          pos="relative"
+          backgroundColor={'#e5e5e5'}
+          display={'flex'}
+          justifyContent={'center'}
+        >
+          {children}
+        </Box>
+      )}
 
       {/* FOOTER */}
       <Box w="100%" h="300px" bgColor={'#262626'} mt={'34px'}>

@@ -5,6 +5,8 @@ import '../styles/CensorPage.css';
 import axios from 'axios';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import { approveOrRejectProduct, getProductsPending } from 'utils/callContract';
+import withRole from 'hocs/withRole';
+import { ROLES } from 'configs';
 
 CensorPage.propTypes = {};
 
@@ -215,4 +217,4 @@ function CensorPage(props) {
   );
 }
 
-export default CensorPage;
+export default withRole(CensorPage, [ROLES.CENSOR]);

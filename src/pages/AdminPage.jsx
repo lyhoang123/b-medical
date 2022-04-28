@@ -1,7 +1,21 @@
 import {
-  Box, Button, Image, Modal, ModalBody,
-  ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Stack, Text, useToast
+  Box,
+  Button,
+  Image,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Skeleton,
+  Stack,
+  Text,
+  useToast,
 } from '@chakra-ui/react';
+import { ROLES_WITH_USER_ADMIN } from 'configs';
+import withRole from 'hocs/withRole';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useEffect, useState } from 'react';
 import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineFileSearch } from 'react-icons/ai';
@@ -219,4 +233,4 @@ function AdminPage(props) {
   );
 }
 
-export default AdminPage;
+export default withRole(AdminPage, [ROLES_WITH_USER_ADMIN.ADMIN]);

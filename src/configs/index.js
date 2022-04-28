@@ -16,4 +16,18 @@ export const MEDICAL_FACTORY_METHODS = {
   getProductsSoldMarketplace: 'getProductsSoldMarketplace',
   buyMarketplace: 'buyMarketplace',
   ownerQuantityProducts: 'ownerQuantityProducts',
+  roles: 'roles',
+  owner: 'owner',
+  providerVerified: 'providerVerified',
+};
+
+export const ROLES = {
+  CENSOR: 0,
+  PROVIDER: 1,
+};
+
+export const ROLES_WITH_USER_ADMIN = {
+  ...ROLES,
+  USERS: 998,
+  ADMIN: 999,
 };

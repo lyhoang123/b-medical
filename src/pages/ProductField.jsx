@@ -25,6 +25,8 @@ import axios from 'axios';
 import { uploadIPFS } from 'services/upload-ipfs';
 import { enterProduct } from 'utils/callContract';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
+import withRole from 'hocs/withRole';
+import { ROLES } from 'configs';
 
 const ProductField = (props) => {
   const { library, account } = useActiveWeb3React();
@@ -514,4 +516,4 @@ const ProductField = (props) => {
   );
 };
 
-export default ProductField;
+export default withRole(ProductField, [ROLES.PROVIDER]);
