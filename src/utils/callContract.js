@@ -155,9 +155,9 @@ export const getOwnerRoles = async (library, account) => {
       callContract(medicalContract, MEDICAL_FACTORY_METHODS.providerVerified, [account]),
     ]);
     let ownerRoles = [];
-    if (owner === account) ownerRoles = [ROLES_WITH_USER_ADMIN.ADMIN];
-    if (censor) ownerRoles = [ROLES_WITH_USER_ADMIN.CENSOR];
-    if (provider) ownerRoles = [ROLES_WITH_USER_ADMIN.PROVIDER];
+    if (owner.toLowerCase() === account.toLowerCase()) ownerRoles = [ROLES_WITH_USER_ADMIN.ADMIN];
+    if (censor) ownerRoles = [...ownerRoles, ROLES_WITH_USER_ADMIN.CENSOR];
+    if (provider) ownerRoles = [...ownerRoles, ROLES_WITH_USER_ADMIN.PROVIDER];
     return ownerRoles;
   } catch (error) {
     throw error;

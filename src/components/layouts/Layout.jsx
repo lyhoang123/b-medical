@@ -15,11 +15,14 @@ import { injected } from 'connectors';
 import { useState, useContext } from 'react';
 import { GlobalContext } from 'context/GlobalContext';
 import { getOwnerRoles } from 'utils/callContract';
+import { useHistory } from 'react-router-dom';
+import { ROLES_WITH_USER_ADMIN } from 'configs';
 
 export const Layout = ({ children }) => {
   const { account, library } = useActiveWeb3React();
   const { connect } = useWallet();
   const { setRoles } = useContext(GlobalContext);
+  const history = useHistory();
 
   const [loading, setLoading] = useState(true);
 
@@ -29,8 +32,12 @@ export const Layout = ({ children }) => {
       try {
         getOwnerRoles(library, account)
           .then((roles) => {
+            console.log(roles);
             setRoles(roles);
             setLoading(false);
+            if (roles.includes(ROLES_WITH_USER_ADMIN.ADMIN)) return history.push('/admin');
+            if (roles.includes(ROLES_WITH_USER_ADMIN.CENSOR)) return history.push('/censorPage');
+            if (roles.includes(ROLES_WITH_USER_ADMIN.PROVIDER)) return history.push('/product-field');
           })
           .catch(console.error);
       } catch (error) {
