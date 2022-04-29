@@ -31,13 +31,17 @@ export const getProductsPending = async (library) => {
   try {
     const medicalContract = await getMedicalFactoryContract(library);
     const ids = await callContract(medicalContract, MEDICAL_FACTORY_METHODS.getProductsPending, []);
-    return Promise.all(
+    console.log(ids);
+    const results = await Promise.all(
       ids.map(async (id) => {
         const url = await callContract(medicalContract, MEDICAL_FACTORY_METHODS._products, [id]);
+        console.log(url);
+        if (!url) return undefined;
         const res = await axios.get(url);
         return { ...res.data, id };
       })
     );
+    return results.filter((e) => !!e);
   } catch (error) {
     throw error;
   }
