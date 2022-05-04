@@ -17,7 +17,7 @@ const NFTList = ({ owner }) => {
 
   return (
     <Box w="100%" mt={'12px'} bg="transparent" border="1px" borderRadius={'4px'} borderColor={'gray.400'} p={'14px'}>
-      <Link to="/nft/1">
+      <Link to={`/nft/${owner.product.id.toString()}`}>
         <Box className="header__purchased">
           <Box className="company__purchased">
             <Text fontWeight={'600'}>Đơn vị bán</Text>
@@ -49,17 +49,21 @@ const NFTList = ({ owner }) => {
               <span>:</span>
               <Text>{owner.quantity}</Text>
             </Box>
+            <Box className="product__quantity">
+              <Text width={'60px'}>Thông Tin Chung </Text>
+              <span>:</span>
+              <Text>{owner.product.generalInfo}</Text>
+            </Box>
           </Box>
-          {/* <Box className="product__price">
-            <Text>150.000</Text>
-          </Box> */}
+
+          <Box className="product__price">
+            <Text>{`owner.product.price * owner.quantity`}</Text>
+          </Box>
         </Box>
-        {/* <Box className="product__footer">
+
+        <Box className="product__footer">
           <Button>Mua lại</Button>
-          <Button>
-            <Link to="/nft/1">Chi tiết đơn hàng</Link>
-          </Button>
-        </Box> */}
+        </Box>
       </Link>
     </Box>
   );

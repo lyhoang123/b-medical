@@ -10,6 +10,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Skeleton,
+  SkeletonText,
   Stack,
   Text,
   useToast,
@@ -19,8 +20,10 @@ import withRole from 'hocs/withRole';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useEffect, useState } from 'react';
 import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineFileSearch } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 import { approveProvider, getPendingProviders } from 'utils/callContract';
 import '../styles/AdminPage.css';
+import { BiArrowToRight } from 'react-icons/bi';
 
 AdminPage.propTypes = {};
 
@@ -142,12 +145,12 @@ const CompanyList = (props) => {
                 <ModalOverlay />
                 <ModalContent>
                   <ModalHeader>Giấy Phép Kinh Doanh</ModalHeader>
-                  <ModalCloseButton />
+                  <ModalCloseButton onClick={() => setImageURL(null)} />
                   <ModalBody>{imageURL && <Image src={imageURL} />}</ModalBody>
 
                   <ModalFooter>
                     <Button colorScheme="blue" mr={3} onClick={() => setImageURL(null)}>
-                      Close
+                      Đóng
                     </Button>
                   </ModalFooter>
                 </ModalContent>
@@ -176,6 +179,30 @@ const CompanyList = (props) => {
   );
 };
 
+const SkeletonCustom = () => {
+  return (
+    <Stack
+      flexDirection={'row'}
+      marginLeft={'12px'}
+      justifyContent={'space-between'}
+      padding={'12px'}
+      border={'1px solid #ccc'}
+    >
+      <Stack w={'70%'}>
+        <Skeleton height="30px" />
+        <Skeleton height="30px" />
+        <Skeleton height="30px" />
+        <Skeleton height="30px" />
+      </Stack>
+
+      <Stack w={'30%'} alignItems={'center'} justifyContent={'center'}>
+        <Skeleton height="40px" w={'120px'} borderRadius={'20px'} />
+        <Skeleton height="40px" w={'120px'} borderRadius={'20px'} />
+      </Stack>
+    </Stack>
+  );
+};
+
 function AdminPage(props) {
   const { account, library } = useActiveWeb3React();
 
@@ -197,13 +224,18 @@ function AdminPage(props) {
   return (
     <Box w="100%">
       <Box className="box__container">
-        <Text className="container__header">Danh Sách Doanh Nghiệp Đăng Ký</Text>
+        <Link to="/censorPage">
+          <Button bg={'#fff'} leftIcon={<BiArrowToRight color="black" fontSize={'20px'} fontWeight="700" />}>
+            Di chuyển tới Censor Page
+          </Button>
+        </Link>
+
+        <Text borderTop={'1px solid #ccc'} paddingTop={'6px'} className="container__header">
+          Danh Sách Doanh Nghiệp Đăng Ký
+        </Text>
+
         {Loading ? (
-          <Stack>
-            <Skeleton height="20px" />
-            <Skeleton height="20px" />
-            <Skeleton height="20px" />
-          </Stack>
+          <SkeletonCustom />
         ) : (
           <Box>
             {data.map((e, idx) => {

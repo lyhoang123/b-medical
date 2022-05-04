@@ -7,7 +7,7 @@
   text-align: center;
   font-size: 24px;
   font-weight: 600;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 .box__content-header {
   display: flex;
@@ -23,6 +23,7 @@
 .body__box {
   display: flex;
   margin-bottom: 12px;
+  border: 1px solid #ccc;
 }
 
 .body__box:hover {

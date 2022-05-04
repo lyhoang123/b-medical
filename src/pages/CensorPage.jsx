@@ -1,12 +1,16 @@
-import { Box, Button, Image, Text, useToast } from '@chakra-ui/react';
+import { Box, Button, Image, Stack, Text, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineFileSearch } from 'react-icons/ai';
+
+import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import '../styles/CensorPage.css';
 import axios from 'axios';
+
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import { approveOrRejectProduct, getProductsPending } from 'utils/callContract';
 import withRole from 'hocs/withRole';
 import { ROLES } from 'configs';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 CensorPage.propTypes = {};
 
@@ -169,49 +173,92 @@ const CensorList = (props) => {
   );
 };
 
+const SkeletonCustom = () => {
+  return (
+    <Stack
+      flexDirection={'row'}
+      marginLeft={'12px'}
+      justifyContent={'space-between'}
+      padding={'12px'}
+      border={'1px solid #ccc'}
+    >
+      <Stack w={'78%'}>
+        <SkeletonTheme color="#202020" highlightColor="#26a0da">
+          <Skeleton count={5} height={'30px'} />
+        </SkeletonTheme>
+      </Stack>
+
+      <Stack w={'22%'} alignItems={'center'} justifyContent={'center'}>
+        <SkeletonTheme color="#202020" highlightColor="#26a0da">
+          <Skeleton height="100px" width={'180px'} />
+        </SkeletonTheme>
+
+        <SkeletonTheme color="#202020" highlightColor="#26a0da">
+          <Stack className="skeleton">
+            <Skeleton count={2} height="40px" width={'80px'} borderRadius={'20px'} />
+          </Stack>
+        </SkeletonTheme>
+      </Stack>
+    </Stack>
+  );
+};
+
 function CensorPage(props) {
   const { library } = useActiveWeb3React();
 
   const [pendingProducts, setPendingProducts] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   console.log(pendingProducts);
 
+  const getData = async (e) => {
+    await getProductsPending(library).then(setPendingProducts).catch(console.error);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    library && getProductsPending(library).then(setPendingProducts).catch(console.error);
+    library && getData();
   }, [library, refresh]);
 
   return (
     <Box w="100%">
       <Box className="Censor__list">
         <Box className="Censor__container">
-          <h1>Thông tin sản phẩm</h1>
+          <Text pt={'6px'}>Thông tin sản phẩm cần phê duyệt</Text>
         </Box>
-        {pendingProducts.map((e, idx) => {
-          return (
-            <CensorList
-              key={idx}
-              setRefresh={setRefresh}
-              id={e.id}
-              productType={e.productType}
-              productName={e.productName}
-              unit={e.unit}
-              price={e.price}
-              manufacturer={e.manufacturer}
-              countryOfManufacture={e.countryOfManufacture}
-              yearOfManufacture={e.yearOfManufacture}
-              dateOfManufacture={e.dateOfManufacture}
-              expirationDate={e.expirationDate}
-              NameOfBusinessAnnouncingPrice={e.NameOfBusinessAnnouncingPrice}
-              contactPhoneNumber={e.contactPhoneNumber}
-              businessAddress={e.businessAddress}
-              quantity={e.quantity}
-              image={e.image}
-              generalInfo={e.generalInfo}
-              userManual={e.userManual}
-              // getData={getData}
-            />
-          );
-        })}
+
+        {isLoading ? (
+          <SkeletonCustom />
+        ) : (
+          <Box>
+            {pendingProducts.map((e, idx) => {
+              return (
+                <CensorList
+                  key={idx}
+                  setRefresh={setRefresh}
+                  id={e.id}
+                  productType={e.productType}
+                  productName={e.productName}
+                  unit={e.unit}
+                  price={e.price}
+                  manufacturer={e.manufacturer}
+                  countryOfManufacture={e.countryOfManufacture}
+                  yearOfManufacture={e.yearOfManufacture}
+                  dateOfManufacture={e.dateOfManufacture}
+                  expirationDate={e.expirationDate}
+                  NameOfBusinessAnnouncingPrice={e.NameOfBusinessAnnouncingPrice}
+                  contactPhoneNumber={e.contactPhoneNumber}
+                  businessAddress={e.businessAddress}
+                  quantity={e.quantity}
+                  image={e.image}
+                  generalInfo={e.generalInfo}
+                  userManual={e.userManual}
+                  // getData={getData}
+                />
+              );
+            })}
+          </Box>
+        )}
       </Box>
     </Box>
   );

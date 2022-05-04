@@ -1,7 +1,12 @@
 #Censor {
-  width: 88%;
+  width: 100%;
   padding: 10px 10px 10px 10px;
   background: #fff;
+  margin: 0 auto;
+}
+.Censor__list {
+  width: 80%;
+  background-color: #ffffff;
   margin: 0 auto;
 }
 .Censor__box {
@@ -75,10 +80,13 @@
   flex-basis: 45%;
   align-items: center;
 }
+.Censor__btn2 span {
+  margin-right: 4px;
+}
 .Censor__btn2 button {
   border-radius: 32px;
-  font-size: 14px;
-  font-weight: 300;
+  width: 100px;
+  font-weight: 600;
   margin-right: 12px;
 }
 
@@ -101,8 +109,12 @@
   color: #fff;
 }
 
-.Censor__container h1 {
-  font-size: 50px;
-  margin-bottom: 16px;
+.Censor__container {
   text-align: center;
+  font-size: 40px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.skeleton span {
+  display: inline-flex;
 }

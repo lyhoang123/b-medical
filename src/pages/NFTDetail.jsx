@@ -261,7 +261,7 @@ const NFTDetail = () => {
                   </Thead>
                   <Tbody className="box__body">
                     <Tr className="box__table-row-even">
-                      <Td className="box__row-left">Thông tin chung về thiết bị</Td>
+                      <Td className="box__row-left">Thông tin chung về {product.productType}</Td>
                       <Td className="box__row-right">{product.generalInfo}</Td>
                     </Tr>
 

@@ -22,34 +22,51 @@ import { FaInfoCircle } from 'react-icons/fa';
 import { GiMedicalPack, GiMedicines, GiHamburgerMenu } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
 import { getProductsSoldMarketplace } from 'utils/callContract';
+import { Pagination } from 'antd';
+import 'antd/dist/antd.css';
+
 // import { getOrdering, getOwners, mintNFT } from "utils/callContract";
 import '../styles/Home.css';
+
+function onShowSizeChange(current, pageSize) {
+  console.log(current, pageSize);
+}
 
 const NFTList = ({ product }) => {
   return (
     <Link to={`/nft/${product.id.toString()}`}>
-      <GridItem w="100%" bg="transparent" border="1px" borderRadius={'6px'} borderColor={'gray.400'} p={'14px'}>
+      <GridItem
+        w="100%"
+        h="490px"
+        bg="transparent"
+        border="1px"
+        borderRadius={'6px'}
+        borderColor={'gray.400'}
+        p={'14px'}
+      >
         <VStack>
           <Center>
             <Box mh={'200px'}>
-              <Image src={product.image} alt="image" />
+              <Image h={'180px'} src={product.image} alt="image" />
             </Box>
           </Center>
           <Box>
-            <Text color={'#1890ff'} mb={'8px'}>
+            <Text color={'#1890ff'} mb={'8px'} h={'40px'}>
               <b>
                 {product.productType} : {product.productName}
               </b>
             </Text>
-            <Text color={'gray.500'} fontSize={'14px'}>
-              <b>Số Lượng</b>: {product.quantity?.toString()}
-            </Text>
-            <Text color={'gray.500'} fontSize={'14px'}>
-              <b>HSX</b>: {product.manufacturer}
-            </Text>
-            <Text color={'gray.500'} fontSize={'14px'}>
-              <b>Công ty</b>: {product.NameOfBusinessAnnouncingPrice}
-            </Text>
+            <Box height={'105px'}>
+              <Text color={'gray.500'} fontSize={'14px'}>
+                <b>Số Lượng</b>: {product.quantity?.toString()}
+              </Text>
+              <Text color={'gray.500'} fontSize={'14px'}>
+                <b>HSX</b>: {product.manufacturer}
+              </Text>
+              <Text color={'gray.500'} fontSize={'14px'}>
+                <b>Công ty</b>: {product.NameOfBusinessAnnouncingPrice}
+              </Text>
+            </Box>
             <Text color={'red.500'} fontSize={'24px'}>
               <b>
                 Giá: {product.price}
@@ -79,14 +96,28 @@ const NFTList = ({ product }) => {
   );
 };
 
+const limit = 4;
+
 const Home = () => {
   const { library, account } = useActiveWeb3React();
 
   const [products, setProducts] = useState([]);
+  const [page, setPage] = useState(1);
+
+  const [currentPage, setCurrentPage] = useState([]);
 
   useEffect(() => {
     library && getProductsSoldMarketplace(library).then(setProducts).catch(console.error);
+    console.log(products);
   }, [library]);
+
+  // useEffect(() => {
+  //   if (products.length > 0) {
+  //     const start = Number(limit) * page;
+  //     const end = start + Number(limit);
+  //     setCurrentPage(products.slice(start, end));
+  //   }
+  // }, [products, page]);
 
   return (
     <Box>
@@ -134,7 +165,6 @@ const Home = () => {
           </Box>
         </Box>
       </HStack>
-
       {/* BOX CHUNG */}
       <Box className="box__container-1">
         <Box className="box__container-header">
@@ -158,33 +188,27 @@ const Home = () => {
               width={'30%'}
               height="40px"
             >
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
+              <option value="option1">Lọc Theo Giá</option>
+              <option value="option2">Lọc Theo Số Lượng</option>
             </Select>
           </Box>
         </Box>
-
-        {/* {data.map((e) => {
-          return (
-            <NFTList
-              productType={e.productType}
-              productName={e.productName}
-              price={e.price}
-              manufacturer={e.manufacturer}
-              NameOfBusinessAnnouncingPrice={e.NameOfBusinessAnnouncingPrice}
-              quantity={e.quantity}
-              productUrl={e.productUrl}
-              getData={getData}
-            />
-          );
-        })} */}
 
         <Grid bg="white" templateColumns="repeat(4, 1fr)" gap={6}>
           {products.map((p, idx) => (
             <NFTList key={idx} product={p} />
           ))}
         </Grid>
+        <Pagination
+          color="primary"
+          showSizeChanger
+          onChange={(e) => setPage(e)}
+          // count={Math.ceil(pagination.total / pagination.limit)}
+          // page={pagination.page}
+          current={page}
+          onShowSizeChange={onShowSizeChange}
+          style={{ margin: '12px ', justifyContent: 'center', display: 'flex' }}
+        />
       </Box>
     </Box>
   );

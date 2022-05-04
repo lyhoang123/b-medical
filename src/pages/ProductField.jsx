@@ -9,6 +9,7 @@ import {
   Image,
   Input,
   Link,
+  Progress,
   Select,
   Text,
   Textarea,
@@ -21,7 +22,11 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '../styles/Register.css';
 import '../styles/react-date.css';
 import { AiOutlineLogin } from 'react-icons/ai';
+import { FiUploadCloud } from 'react-icons/fi';
+import { GiCancel } from 'react-icons/gi';
+
 import axios from 'axios';
+
 import { uploadIPFS } from 'services/upload-ipfs';
 import { enterProduct } from 'utils/callContract';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
@@ -52,6 +57,7 @@ const ProductField = (props) => {
     generalInfo: '',
     userManual: '',
   });
+
   const [productImage, setProductImage] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -77,11 +83,24 @@ const ProductField = (props) => {
 
   const handleOnSubmit = async (e) => {
     if (!productImage) {
-      window.alert('Please choose file again');
-      return;
+      toast({
+        position: 'top-right',
+        title: 'Please choose Image of Product ',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
     }
     const { quantity } = productInfo;
-    if (!quantity) return alert('product quantity is required');
+    if (!quantity) {
+      toast({
+        position: 'top-right',
+        title: 'Product quantity is required, please try again ',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
     try {
       setSubmitting(true);
       const uploadedImage = await uploadIPFS(productImage, true);
@@ -92,7 +111,7 @@ const ProductField = (props) => {
         toast({
           position: 'top-right',
           title: 'Post Product Successfully !!!.',
-          description: 'Information of the product will be sent to Censor ',
+          description: 'Information of the product will be sent to Censors ',
           status: 'success',
           duration: 3000,
           isClosable: true,
@@ -114,6 +133,7 @@ const ProductField = (props) => {
           generalInfo: '',
           userManual: '',
         });
+        setProductImage('');
       }
     } catch (error) {
       setSubmitting(false);
@@ -126,6 +146,46 @@ const ProductField = (props) => {
       });
     }
   };
+
+  const handleCancelClick = (e) => {
+    try {
+      toast({
+        position: 'top-right',
+        title: 'Cancel of Register Product Successfully.',
+        description: 'Cancel of Register Product Successfully.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      setProductInfo({
+        productType: '',
+        productName: '',
+        unit: '',
+        price: '',
+        manufacturer: '',
+        countryOfManufacture: '',
+        dateOfManufacture: '',
+        expirationDate: '',
+        NameOfBusinessAnnouncingPrice: '',
+        contactPhoneNumber: '',
+        businessAddress: '',
+        quantity: '',
+        image: '',
+        generalInfo: '',
+        userManual: '',
+      });
+      setProductImage('');
+    } catch (error) {
+      toast({
+        position: 'top-right',
+        title: error,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <Container maxW="1200px" bg={'white'} centerContent>
       <Box w={'96%'}>
@@ -414,7 +474,13 @@ const ProductField = (props) => {
               </HStack>
               <HStack w="100%" mb="10px" margin={'12px 0'} justifyContent="center">
                 <Box w={'390px'} h={'265px'} border="1px solid #26a9e0" borderRadius={'10px'} marginRight="12px">
-                  <Image src={props.image} h={'100%'} alt="" objectFit="fill" p={6} />
+                  <Image
+                    src={productImage ? URL.createObjectURL(productImage) : props.image}
+                    h={'100%'}
+                    alt=""
+                    objectFit="fill"
+                    p={6}
+                  />
                 </Box>
                 <Input
                   colorScheme={'gray.200'}
@@ -466,7 +532,7 @@ const ProductField = (props) => {
                 <Box className="box__field">
                   <Box>
                     <FormLabel htmlFor="ttm">
-                      <b className="input__title">Thông tin chung về thiết bị</b>{' '}
+                      <b className="input__title">Thông tin chung về sản phẩm</b>{' '}
                       <span style={{ color: 'red' }}>*</span>
                     </FormLabel>
                     <Textarea
@@ -506,9 +572,20 @@ const ProductField = (props) => {
           </fieldset>
         </Box>
 
-        <Box pb="4" display={'flex'}>
-          <Button onClick={() => handleOnSubmit()} colorScheme="blue" isLoading={submitting} margin={' 0 auto'}>
-            Đăng sản phẩm{' '}
+        {submitting && <Progress size="xs" isIndeterminate h={'12px'} borderRadius={'12px'} marginBottom={'8px'} />}
+
+        <Box pb="4" display={'flex'} justifyContent="center">
+          <Button
+            leftIcon={<FiUploadCloud />}
+            onClick={() => handleOnSubmit()}
+            colorScheme="blue"
+            isLoading={submitting}
+            mr="8px"
+          >
+            Đăng Sản Phẩm{' '}
+          </Button>
+          <Button leftIcon={<GiCancel />} onClick={handleCancelClick} colorScheme="blue" isLoading={submitting}>
+            <p>Huỷ Bỏ</p>
           </Button>
         </Box>
       </Box>

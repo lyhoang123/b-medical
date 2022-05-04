@@ -6,8 +6,6 @@ import Register from 'pages/Register';
 import AdminPage from 'pages/AdminPage';
 import ProductField from 'pages/ProductField';
 import CensorPage from 'pages/CensorPage';
-import Login from 'pages/auth/Login';
-import RegisterAccount from 'pages/auth/RegisterAccount';
 
 export const routes = [
   {
@@ -15,16 +13,7 @@ export const routes = [
     component: Home,
     exact: true,
   },
-  {
-    path: '/login',
-    component: Login,
-    exact: true,
-  },
-  {
-    path: '/registerAccount',
-    component: RegisterAccount,
-    exact: true,
-  },
+
   {
     path: '/register',
     component: Register,
