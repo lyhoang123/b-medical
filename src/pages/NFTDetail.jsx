@@ -13,6 +13,7 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Progress,
   Table,
   Tbody,
   Td,
@@ -20,6 +21,7 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
   VStack,
 } from '@chakra-ui/react';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
@@ -82,7 +84,7 @@ const NFTList = () => {
 const NFTDetail = () => {
   const { nftId } = useParams();
   const { account, library } = useActiveWeb3React();
-
+  const toast = useToast();
   const [product, setProduct] = useState();
   const [submitting, setSubmitting] = useState(false);
   const [amount, setAmount] = useState(1);
@@ -98,18 +100,43 @@ const NFTDetail = () => {
 
   const handleBuy = async () => {
     if (!library || !account) return alert('please connect wallet');
-    if (!amount || isNaN(amount) || +amount === 0) return alert('invalid amount');
+    if (!amount || isNaN(amount) || +amount === 0)
+      return toast({
+        position: 'top-right',
+        title: 'Buy Product Fail !!!.',
+        description: 'Invalid amount !!!. ',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+
     try {
       setSubmitting(true);
       await buyMarketplace(library, account, nftId, amount);
-      alert('buy success');
+      toast({
+        position: 'top-right',
+        title: 'Buy Product Successfully !!!.',
+        description: 'Buy Product Successfully, It will be added to your purchase history. ',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      setAmount(1);
       setSubmitting(false);
     } catch (error) {
       console.error(error);
       if (error.data?.message) {
-        alert(error.data.message);
+        toast({
+          position: 'top-right',
+          title: error.data.message,
+          description: 'Buy product fail !!! Please try again . ',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
       }
       setSubmitting(false);
+      setAmount(1);
     }
   };
 
@@ -164,8 +191,16 @@ const NFTDetail = () => {
                   </Text>
                 </Center>
               </Box>
+
+              {submitting && (
+                <Progress size="xs" isIndeterminate h={'12px'} borderRadius={'12px'} marginBottom={'8px'} />
+              )}
+
               <HStack borderBottom={'1px solid gray'} pb={4} mb={'15px'}>
-                <Box w="5em">
+                <Text fontSize={'16px'} fontWeight={'600'}>
+                  Số Lượng :{' '}
+                </Text>
+                <Box w="7em">
                   <NumberInput step={1} min={1} value={amount} onChange={(value) => setAmount(value)}>
                     <NumberInputField />
                     <NumberInputStepper>
@@ -205,11 +240,11 @@ const NFTDetail = () => {
                       <Td className="box__row-right">{product.productName}</Td>
                     </Tr>
 
-                    <Tr className="box__table-row-odd">
+                    <Tr className="box__table-row-even">
                       <Td className="box__row-left">Đơn vị tính</Td>
                       <Td className="box__row-right">{product.unit}</Td>
                     </Tr>
-                    <Tr className="box__table-row-even">
+                    <Tr className="box__table-row-odd">
                       <Td className="box__row-left">Giá (đã bao gồm VAT)</Td>
                       <Td className="box__row-right">{product.price}</Td>
                     </Tr>
@@ -221,32 +256,28 @@ const NFTDetail = () => {
                       <Td className="box__row-left">Nước sản xuất</Td>
                       <Td className="box__row-right">{product.countryOfManufacture}</Td>
                     </Tr>
-                    {/* <Tr className="box__table-row-even">
-                      <Td className="box__row-left">Nước sở hữu</Td>
-                      <Td className="box__row-right">{product}</Td>
-                    </Tr> */}
 
                     <Tr className="box__table-row-even">
                       <Td className="box__row-left">Số Lượng</Td>
                       <Td className="box__row-right">{product.quantity?.toString()}</Td>
                     </Tr>
-                    <Tr className="box__table-row-even">
+                    <Tr className="box__table-row-odd">
                       <Td className="box__row-left">Ngày sản xuất</Td>
                       <Td className="box__row-right">{formatDate(new Date(product.dateOfManufacture))}</Td>
                     </Tr>
-                    <Tr className="box__table-row-odd">
+                    <Tr className="box__table-row-even">
                       <Td className="box__row-left">Ngày hết hạn sử dụng</Td>
                       <Td className="box__row-right">{formatDate(new Date(product.expirationDate))}</Td>
                     </Tr>
-                    <Tr className="box__table-row-even">
+                    <Tr className="box__table-row-odd">
                       <Td className="box__row-left">Tên doanh nghiệp công bố giá</Td>
                       <Td className="box__row-right">{product.NameOfBusinessAnnouncingPrice}</Td>
                     </Tr>
-                    <Tr className="box__table-row-odd">
+                    <Tr className="box__table-row-even">
                       <Td className="box__row-left">Số điện thoại liên hệ</Td>
                       <Td className="box__row-right">{product.contactPhoneNumber}</Td>
                     </Tr>
-                    <Tr className="box__table-row-even">
+                    <Tr className="box__table-row-odd">
                       <Td className="box__row-left">Địa chỉ doanh nghiệp</Td>
                       <Td className="box__row-right">{product.businessAddress}</Td>
                     </Tr>

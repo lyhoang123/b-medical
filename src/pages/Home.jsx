@@ -32,6 +32,8 @@ function onShowSizeChange(current, pageSize) {
   console.log(current, pageSize);
 }
 
+var nf = new Intl.NumberFormat();
+
 const NFTList = ({ product }) => {
   return (
     <Link to={`/nft/${product.id.toString()}`}>
@@ -69,7 +71,7 @@ const NFTList = ({ product }) => {
             </Box>
             <Text color={'red.500'} fontSize={'24px'}>
               <b>
-                Giá: {product.price}
+                Giá:{product.price}
                 <span></span>
                 <sup>VNĐ</sup>
               </b>
@@ -96,7 +98,7 @@ const NFTList = ({ product }) => {
   );
 };
 
-const limit = 4;
+const limit = 8;
 
 const Home = () => {
   const { library, account } = useActiveWeb3React();
@@ -106,18 +108,28 @@ const Home = () => {
 
   const [currentPage, setCurrentPage] = useState([]);
 
-  useEffect(() => {
-    library && getProductsSoldMarketplace(library).then(setProducts).catch(console.error);
-    console.log(products);
-  }, [library]);
+  const [filterType, setFilterType] = useState('all');
 
-  // useEffect(() => {
-  //   if (products.length > 0) {
-  //     const start = Number(limit) * page;
-  //     const end = start + Number(limit);
-  //     setCurrentPage(products.slice(start, end));
-  //   }
-  // }, [products, page]);
+  useEffect(() => {
+    library &&
+      getProductsSoldMarketplace(library)
+        .then((value) => {
+          if (filterType !== 'all') {
+            const newArr = value.filter((element) => element.productType === filterType);
+            setProducts(newArr);
+          } else setProducts(value);
+        })
+        .catch(console.error);
+  }, [library, filterType]);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      const start = Number(limit) * (page - 1);
+      const end = start + Number(limit);
+      setCurrentPage(products.slice(start, end));
+    }
+  }, [products, page]);
+  // console.log('currentPage', currentPage);
 
   return (
     <Box>
@@ -173,29 +185,28 @@ const Home = () => {
             <Text className="box__title">Các trang thiết bị y tế, thuốc hiện có</Text>
           </Box>
           <Box className="box__container-right">
-            <Button className="box__button" leftIcon={<GiMedicalPack />}>
+            <Button className="box__button" leftIcon={<GiMedicalPack />} onClick={() => setFilterType('Thiết bị y tế')}>
               Thiết bị y tế
             </Button>
 
-            <Button className="box__button" leftIcon={<GiMedicines />}>
+            <Button className="box__button" leftIcon={<GiMedicines />} onClick={() => setFilterType('Thuốc')}>
               Thuốc
             </Button>
-            <Select
-              id="province"
-              className="input__field"
-              size="sm"
-              placeholder="Lọc Theo ..."
-              width={'30%'}
-              height="40px"
-            >
-              <option value="option1">Lọc Theo Giá</option>
-              <option value="option2">Lọc Theo Số Lượng</option>
-            </Select>
+
+            <Button className="box__button" leftIcon={<GiMedicines />} onClick={() => setFilterType('all')}>
+              Tất cả
+            </Button>
           </Box>
         </Box>
 
-        <Grid bg="white" templateColumns="repeat(4, 1fr)" gap={6}>
+        {/* <Grid bg="white" templateColumns="repeat(4, 1fr)" gap={6}>
           {products.map((p, idx) => (
+            <NFTList key={idx} product={p} />
+          ))}
+        </Grid> */}
+
+        <Grid bg="white" templateColumns="repeat(4, 1fr)" gap={6}>
+          {currentPage.map((p, idx) => (
             <NFTList key={idx} product={p} />
           ))}
         </Grid>
@@ -203,8 +214,8 @@ const Home = () => {
           color="primary"
           showSizeChanger
           onChange={(e) => setPage(e)}
-          // count={Math.ceil(pagination.total / pagination.limit)}
-          // page={pagination.page}
+          total={products.length}
+          pageSize={limit}
           current={page}
           onShowSizeChange={onShowSizeChange}
           style={{ margin: '12px ', justifyContent: 'center', display: 'flex' }}

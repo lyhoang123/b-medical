@@ -11,6 +11,12 @@ import withRole from 'hocs/withRole';
 import { ROLES } from 'configs';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { Pagination } from 'antd';
+import 'antd/dist/antd.css';
+
+function onShowSizeChange(current, pageSize) {
+  console.log(current, pageSize);
+}
 
 CensorPage.propTypes = {};
 
@@ -203,6 +209,8 @@ const SkeletonCustom = () => {
   );
 };
 
+const limit = 5;
+
 function CensorPage(props) {
   const { library } = useActiveWeb3React();
 
@@ -210,6 +218,9 @@ function CensorPage(props) {
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   console.log(pendingProducts);
+
+  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState([]);
 
   const getData = async (e) => {
     await getProductsPending(library).then(setPendingProducts).catch(console.error);
@@ -220,18 +231,26 @@ function CensorPage(props) {
     library && getData();
   }, [library, refresh]);
 
+  useEffect(() => {
+    if (pendingProducts.length > 0) {
+      const start = Number(limit) * (page - 1);
+      const end = start + Number(limit);
+      setCurrentPage(pendingProducts.slice(start, end));
+    }
+  }, [pendingProducts, page]);
+
   return (
     <Box w="100%">
       <Box className="Censor__list">
         <Box className="Censor__container">
-          <Text pt={'6px'}>Thông tin sản phẩm cần phê duyệt</Text>
+          <Text pt={'6px'}>Thông Tin Sản Phẩm Cần Phê Duyệt</Text>
         </Box>
 
         {isLoading ? (
           <SkeletonCustom />
         ) : (
           <Box>
-            {pendingProducts.map((e, idx) => {
+            {currentPage.map((e, idx) => {
               return (
                 <CensorList
                   key={idx}
@@ -257,6 +276,16 @@ function CensorPage(props) {
                 />
               );
             })}
+            <Pagination
+              color="primary"
+              showSizeChanger
+              onChange={(e) => setPage(e)}
+              total={pendingProducts.length}
+              pageSize={limit}
+              current={page}
+              onShowSizeChange={onShowSizeChange}
+              style={{ margin: '12px ', justifyContent: 'center', display: 'flex', paddingBottom: '12px' }}
+            />
           </Box>
         )}
       </Box>

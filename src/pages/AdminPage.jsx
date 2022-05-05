@@ -37,8 +37,10 @@ const CompanyList = (props) => {
       if (result) {
         toast({
           position: 'top-right',
-          title: approve ? 'Approve registration form successfully.' : 'Reject registration form successfully.',
-          description: approve ? 'Approve registration form successfully.' : 'Reject registration form successfully.',
+          title: approve ? 'Duyệt Đơn Đăng Ký Thành Công' : 'Từ Chối Đơn Đăng Ký Thành Công.',
+          description: approve
+            ? 'Đơn Đăng Ký đã được Admin duyệt, họ sẽ trở thành Nhà Cung Cấp'
+            : 'Đơn Đăng Ký đã bị Admin từ chối, họ sẽ không thể trở thành Nhà Cung Cấp',
           status: 'success',
           duration: 3000,
           isClosable: true,
@@ -47,8 +49,8 @@ const CompanyList = (props) => {
       } else {
         toast({
           position: 'top-right',
-          title: 'Fail ! Try Again.',
-          description: 'Fail ! Try Again. ',
+          title: 'Thất Bại !!! Vui Lòng Thử Lại.',
+          description: 'Thất Bại !!! Vui Lòng Thử Lại. ',
           status: 'error',
           duration: 3000,
           isClosable: true,
