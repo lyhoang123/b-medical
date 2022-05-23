@@ -85,7 +85,7 @@ const ProductField = (props) => {
     if (!productImage) {
       toast({
         position: 'top-right',
-        title: 'Please choose Image of Product ',
+        title: 'Vui lòng chọn ảnh của Sản phẩm !!!',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -95,7 +95,7 @@ const ProductField = (props) => {
     if (!quantity) {
       toast({
         position: 'top-right',
-        title: 'Product quantity is required, please try again ',
+        title: 'Vui lòng nhập số lượng của Sản phẩm mà bạn cung cấp !!!',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -110,8 +110,8 @@ const ProductField = (props) => {
       if (result) {
         toast({
           position: 'top-right',
-          title: 'Post Product Successfully !!!.',
-          description: 'Information of the product will be sent to Censors ',
+          title: 'Đăng sản phẩm thành công !!!.',
+          description: 'Thông tin sản phẩm đã được gửi lên cho những Người phê duyệt ',
           status: 'success',
           duration: 3000,
           isClosable: true,

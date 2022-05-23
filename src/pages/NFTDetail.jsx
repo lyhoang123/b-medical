@@ -115,8 +115,8 @@ const NFTDetail = () => {
       await buyMarketplace(library, account, nftId, amount);
       toast({
         position: 'top-right',
-        title: 'Buy Product Successfully !!!.',
-        description: 'Buy Product Successfully, It will be added to your purchase history. ',
+        title: 'Mua sản phẩm thành công !!!.',
+        description: 'Sản phẩm sẽ được thêm vào lịch sử mua hàng của bạn. ',
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -129,7 +129,7 @@ const NFTDetail = () => {
         toast({
           position: 'top-right',
           title: error.data.message,
-          description: 'Buy product fail !!! Please try again . ',
+          description: 'Mua sản phẩm thất bại, vui lòng thử lại. ',
           status: 'error',
           duration: 3000,
           isClosable: true,

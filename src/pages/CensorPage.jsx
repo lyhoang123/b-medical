@@ -34,8 +34,8 @@ const CensorList = (props) => {
       setReviewing(false);
       toast({
         position: 'top-right',
-        title: 'Review Product Successfully !!!.',
-        description: 'Product will be approved/rejected. ',
+        title: 'Sản phẩm đã được xem xét bởi Người kiểm duyệt !!!.',
+        description: 'Vui lòng đợi những Người kiểm duyệt khác !!!. ',
         status: 'success',
         duration: 3000,
         isClosable: true,

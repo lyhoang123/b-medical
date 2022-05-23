@@ -45,7 +45,7 @@ export const routes = [
     exact: true,
   },
   {
-    path: '*',
+    path: '/NotFound',
     component: NotFound,
   },
 ];

@@ -12,7 +12,7 @@ import {
   Progress,
   Text,
   useToast,
-  VStack
+  VStack,
 } from '@chakra-ui/react';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useState } from 'react';
@@ -86,8 +86,8 @@ const Register = () => {
     if (result) {
       toast({
         position: 'top-right',
-        title: 'Submission of Registration Successfully.',
-        description: 'Submission of Registration Successfully.',
+        title: 'Nộp đơn đăng ký trở thànH Nhà cung cấp thành công !!!.',
+        description: 'Thông tin đăng ký sẽ được gửi lên cho Admin.',
         status: 'success',
         duration: 3000,
         isClosable: true,

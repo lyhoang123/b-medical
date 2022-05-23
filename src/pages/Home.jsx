@@ -53,7 +53,7 @@ const NFTList = ({ product }) => {
             </Box>
           </Center>
           <Box>
-            <Text color={'#1890ff'} mb={'8px'} h={'40px'}>
+            <Text color={'#1890ff'} mb={'8px'} h={'40px'} fontSize={'16px'}>
               <b>
                 {product.productType} : {product.productName}
               </b>
@@ -130,6 +130,7 @@ const Home = () => {
     }
   }, [products, page]);
   // console.log('currentPage', currentPage);
+  console.log(products);
 
   return (
     <Box>

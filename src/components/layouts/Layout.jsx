@@ -96,7 +96,6 @@ export const Layout = ({ children }) => {
           {children}
         </Box>
       )}
-
       {/* FOOTER */}
       <Box w="100%" h="300px" bgColor={'#262626'} mt={'34px'}>
         <HStack w={'80%'} margin="0 auto" padding={'28px 16px'} display="flex">
